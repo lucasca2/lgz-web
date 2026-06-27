@@ -235,39 +235,9 @@
     "login": {
       "title": "Sign in",
       "subtitle": "Access your Wave account.",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "goSignup": "Create account",
-      "invalid": "Invalid credentials.",
       "google": "Sign in with Google",
-      "or": "or",
       "googleError": "Couldn't sign in with Google. Please try again.",
       "calendarScopeError": "You must allow access to your Google Calendar to continue."
-    },
-    "signup": {
-      "title": "Create account",
-      "subtitle": "Get started with Wave.",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "goLogin": "Sign in",
-      "emailTaken": "This email is already registered."
-    },
-    "fields": {
-      "name": "Name",
-      "namePlaceholder": "Your name",
-      "email": "Email",
-      "emailPlaceholder": "you@email.com",
-      "password": "Password",
-      "passwordPlaceholder": "••••••••"
-    },
-    "errors": {
-      "nameMin": "Enter at least 2 characters.",
-      "emailInvalid": "Enter a valid email.",
-      "passwordMin": "Password must be at least 8 characters.",
-      "passwordLetter": "Include at least one letter.",
-      "passwordNumber": "Include at least one number.",
-      "required": "Required field.",
-      "generic": "Something went wrong. Please try again."
     }
   },
   "Scheduling": {

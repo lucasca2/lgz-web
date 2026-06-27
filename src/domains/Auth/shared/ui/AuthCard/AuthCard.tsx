@@ -1,11 +1,10 @@
-import type { FormEventHandler, ReactNode } from "react";
+import type { ReactNode } from "react";
 import styles from "./AuthCard.module.css";
 
 type AuthCardProps = {
   title: string;
   subtitle?: string;
   error?: string;
-  onSubmit: FormEventHandler<HTMLFormElement>;
   children: ReactNode;
   footer?: ReactNode;
 };
@@ -14,7 +13,6 @@ export function AuthCard({
   title,
   subtitle,
   error,
-  onSubmit,
   children,
   footer,
 }: AuthCardProps) {
@@ -31,9 +29,7 @@ export function AuthCard({
         </div>
       ) : null}
 
-      <form className={styles.form} onSubmit={onSubmit} noValidate>
-        {children}
-      </form>
+      <div className={styles.form}>{children}</div>
 
       {footer ? <div className={styles.footer}>{footer}</div> : null}
     </div>
