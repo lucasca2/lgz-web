@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE = "session";
 
-const PUBLIC_PATHS = ["/login", "/signup"];
+// /convite/<id> é a tela pública do candidato (sem login, link single-use).
+// /oauth/callback é o retorno do OAuth do Google (usuário ainda sem sessão).
+const PUBLIC_PATHS = ["/login", "/signup", "/convite", "/oauth/callback"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
