@@ -20,9 +20,9 @@ const TERMINAL: Record<string, string> = {
 
 const COL_W = 164;
 const COL_GAP = 88;
-const CHART_H = 420;
-const NODE_MIN_H = 48;
-const NODE_GAP = 8;
+const CHART_H = 600;
+const NODE_MIN_H = 72;
+const NODE_GAP = 12;
 
 function nodeColor(id: string): string {
   return TERMINAL[id] ?? "var(--wave-accent)";
