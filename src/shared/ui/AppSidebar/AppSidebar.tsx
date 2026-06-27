@@ -77,15 +77,27 @@ export function AppSidebar() {
           >
             {t("jobs")}
           </SidebarNavItem>
-          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedin()}>
-            {t("logout")}
-          </Button>
-          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedinUser()}>
-            LK User
-          </Button>
-          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedinSearch()}>
-            LK Search
-          </Button>
+          <SidebarNavItem
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin")}
+            onClick={handleClickLinkedin}
+          >
+            {"linkedin"}
+          </SidebarNavItem>
+          <SidebarNavItem
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin/user")}
+            onClick={handleClickLinkedinUser}
+          >
+            {"linkedin-user"}
+          </SidebarNavItem>
+          <SidebarNavItem
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin/search")}
+            onClick={handleClickLinkedinSearch}
+          >
+            {"linkedin-search"}
+          </SidebarNavItem>
         </SidebarNav>
       </SidebarContent>
 
