@@ -27,6 +27,16 @@
   --wave-level-especialista-soft: #fcf4d6;
   --wave-level-especialista-text: #8e6a00;
 
+  /* Cores por etapa do board (kanban) — acento usado em dot/borda/avatar */
+  --wave-stage-triagem: #5d6c7b;
+  --wave-stage-fit: #0072c3;
+  --wave-stage-people: #8a3ffc;
+  --wave-stage-tecnica: #0f62fe;
+  --wave-stage-cultural: #d02670;
+  --wave-stage-proposta: #b28600;
+  --wave-stage-contratacao: #0e6027;
+  --wave-stage-rejeicao: #a51c12;
+
   /* Espaçamento — grid de 8px (com meios-passos de 4px). Use SEMPRE estes
      tokens para gap / padding / margin. O número é o multiplicador da base 8px. */
   --space-0_5: 4px;
@@ -98,6 +108,17 @@
   --wave-level-senior-text: #be95ff;
   --wave-level-especialista-soft: #352a12;
   --wave-level-especialista-text: #f1c21b;
+
+  /* Cores por etapa do board — variantes escuras */
+  --wave-stage-triagem: #9aa6b2;
+  --wave-stage-fit: #33b1ff;
+  --wave-stage-people: #be95ff;
+  --wave-stage-tecnica: #4589ff;
+  --wave-stage-cultural: #ff7eb6;
+  --wave-stage-proposta: #f1c21b;
+  --wave-stage-contratacao: #6fdc8c;
+  --wave-stage-rejeicao: #ff8389;
+
   --wave-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
     0 12px 32px -12px rgba(0, 0, 0, 0.6);
 }

@@ -20,6 +20,7 @@ import { useBoardCards, useSaveBoardOrder } from "../../hooks";
 import type { BoardCardDTO } from "../../types";
 import { BoardColumn } from "../BoardColumn";
 import { CandidateCardView } from "../CandidateCard";
+import { CandidateModal } from "../CandidateModal";
 import styles from "./CandidateBoard.module.css";
 
 function isStage(id: string): id is BoardStage {
@@ -43,6 +44,8 @@ export function CandidateBoard() {
   // (evita "piscar" pro estado antigo enquanto a atualização otimista propaga).
   const [items, setItems] = useState<BoardCardDTO[] | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  // Card aberto no modal de detalhes (null = fechado).
+  const [selected, setSelected] = useState<BoardCardDTO | null>(null);
 
   useEffect(() => {
     setItems((prev) => (prev === null && data ? data : prev));
@@ -126,25 +129,30 @@ export function CandidateBoard() {
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCorners}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
-    >
-      <div className={styles.board}>
-        {BOARD_STAGES.map((stage) => (
-          <BoardColumn
-            key={stage}
-            stage={stage}
-            cards={cards.filter((card) => card.stage === stage)}
-          />
-        ))}
-      </div>
-      <DragOverlay>
-        {activeCard ? <CandidateCardView card={activeCard} overlay /> : null}
-      </DragOverlay>
-    </DndContext>
+    <>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <div className={styles.board}>
+          {BOARD_STAGES.map((stage) => (
+            <BoardColumn
+              key={stage}
+              stage={stage}
+              cards={cards.filter((card) => card.stage === stage)}
+              onSelect={setSelected}
+            />
+          ))}
+        </div>
+        <DragOverlay>
+          {activeCard ? <CandidateCardView card={activeCard} overlay /> : null}
+        </DragOverlay>
+      </DndContext>
+
+      <CandidateModal card={selected} onClose={() => setSelected(null)} />
+    </>
   );
 }

@@ -1,12 +1,13 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useTranslations } from "next-intl";
-import type { BoardStage } from "../../constants/stages";
+import { STAGE_ACCENT, type BoardStage } from "../../constants/stages";
 import type { BoardCardDTO } from "../../types";
 import { CandidateCard } from "../CandidateCard";
 import styles from "./BoardColumn.module.css";
@@ -14,9 +15,10 @@ import styles from "./BoardColumn.module.css";
 type BoardColumnProps = {
   stage: BoardStage;
   cards: BoardCardDTO[];
+  onSelect: (card: BoardCardDTO) => void;
 };
 
-export function BoardColumn({ stage, cards }: BoardColumnProps) {
+export function BoardColumn({ stage, cards, onSelect }: BoardColumnProps) {
   const t = useTranslations("Dashboard");
   // Droppable da coluna inteira — recebe o card quando a coluna está vazia.
   const { setNodeRef, isOver } = useDroppable({ id: stage });
@@ -30,11 +32,20 @@ export function BoardColumn({ stage, cards }: BoardColumnProps) {
     .join(" ");
 
   const label = t(`stages.${stage}`);
+  const accentStyle = { "--stage-accent": STAGE_ACCENT[stage] } as CSSProperties;
 
   return (
-    <section ref={setNodeRef} className={className} aria-label={label}>
+    <section
+      ref={setNodeRef}
+      className={className}
+      style={accentStyle}
+      aria-label={label}
+    >
       <header className={styles.header}>
-        <span className={styles.title}>{label}</span>
+        <span className={styles.titleGroup}>
+          <span className={styles.dot} aria-hidden="true" />
+          <span className={styles.title}>{label}</span>
+        </span>
         <span className={styles.count}>{cards.length}</span>
       </header>
       <SortableContext
@@ -45,7 +56,9 @@ export function BoardColumn({ stage, cards }: BoardColumnProps) {
           {cards.length === 0 ? (
             <p className={styles.empty}>{t("emptyColumn")}</p>
           ) : (
-            cards.map((card) => <CandidateCard key={card.id} card={card} />)
+            cards.map((card) => (
+              <CandidateCard key={card.id} card={card} onSelect={onSelect} />
+            ))
           )}
         </div>
       </SortableContext>
