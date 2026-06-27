@@ -3,9 +3,14 @@
 import { useTranslations } from "next-intl";
 import { useProjects } from "../../hooks";
 import { ProjectCard } from "../ProjectCard";
+import type { ProjectDTO } from "../../types";
 import styles from "./ProjectList.module.css";
 
-export function ProjectList() {
+type ProjectListProps = {
+  onEdit: (project: ProjectDTO) => void;
+};
+
+export function ProjectList({ onEdit }: ProjectListProps) {
   const t = useTranslations("Projects");
   const { data: projects, isPending, isError } = useProjects();
 
@@ -22,21 +27,10 @@ export function ProjectList() {
   }
 
   return (
-    <div className={styles.tableWrap}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.th}>{t("fields.name")}</th>
-            <th className={styles.th}>{t("fields.expectation")}</th>
-            <th className={styles.th}>{t("createdAtLabel")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.list}>
+      {projects.map((project) => (
+        <ProjectCard key={project.id} project={project} onEdit={onEdit} />
+      ))}
     </div>
   );
 }

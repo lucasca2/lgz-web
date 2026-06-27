@@ -1,68 +1,86 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { TextField } from "@/shared/ui/TextField";
 import { Textarea } from "@/shared/ui/Textarea";
 import { Modal } from "@/shared/ui/Modal";
-import { useCreateProject } from "../../hooks";
+import { useCreateProject, useUpdateProject } from "../../hooks";
+import type { ProjectDTO } from "../../types";
 import styles from "./CreateProjectModal.module.css";
 
-type FieldErrors = { name?: string; expectation?: string };
+type FieldErrors = { name?: string };
 
 type CreateProjectModalProps = {
   open: boolean;
   onClose: () => void;
+  /** Quando presente, o modal entra em modo de edição. */
+  project?: ProjectDTO | null;
 };
 
-export function CreateProjectModal({ open, onClose }: CreateProjectModalProps) {
+export function CreateProjectModal({
+  open,
+  onClose,
+  project,
+}: CreateProjectModalProps) {
   const t = useTranslations("Projects");
   const createProject = useCreateProject();
+  const updateProject = useUpdateProject();
+  const isEdit = Boolean(project);
+  const mutation = isEdit ? updateProject : createProject;
 
   const [name, setName] = useState("");
   const [expectation, setExpectation] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
 
-  function reset() {
-    setName("");
-    setExpectation("");
+  // Sincroniza os campos ao abrir (pré-preenche na edição, limpa na criação).
+  useEffect(() => {
+    if (!open) return;
+    setName(project?.name ?? "");
+    setExpectation(project?.expectation ?? "");
     setErrors({});
     createProject.reset();
-  }
+    updateProject.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, project]);
 
   function handleClose() {
-    if (createProject.isPending) return;
-    reset();
+    if (mutation.isPending) return;
     onClose();
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (createProject.isPending) return;
+    if (mutation.isPending) return;
 
-    const next: FieldErrors = {};
-    if (!name.trim()) next.name = t("errors.required");
-    if (!expectation.trim()) next.expectation = t("errors.required");
+    // Só o nome é obrigatório; o contexto é opcional.
+    if (!name.trim()) {
+      setErrors({ name: t("errors.required") });
+      return;
+    }
+    setErrors({});
 
-    setErrors(next);
-    if (Object.keys(next).length > 0) return;
+    const payload = { name: name.trim(), expectation: expectation.trim() };
 
-    createProject.mutate(
-      { name: name.trim(), expectation: expectation.trim() },
-      {
-        onSuccess: () => {
-          reset();
-          onClose();
-        },
-      },
-    );
+    if (isEdit && project) {
+      updateProject.mutate(
+        { id: project.id, ...payload },
+        { onSuccess: onClose },
+      );
+    } else {
+      createProject.mutate(payload, { onSuccess: onClose });
+    }
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title={t("form.title")}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      title={isEdit ? t("form.editTitle") : t("form.title")}
+    >
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
-        {createProject.isError ? (
+        {mutation.isError ? (
           <p className={styles.banner} role="alert">
             {t("errors.generic")}
           </p>
@@ -82,7 +100,6 @@ export function CreateProjectModal({ open, onClose }: CreateProjectModalProps) {
           placeholder={t("fields.expectationPlaceholder")}
           value={expectation}
           onChange={(event) => setExpectation(event.target.value)}
-          error={errors.expectation}
           rows={5}
         />
 
@@ -91,12 +108,12 @@ export function CreateProjectModal({ open, onClose }: CreateProjectModalProps) {
             type="button"
             variant="ghost"
             onClick={handleClose}
-            disabled={createProject.isPending}
+            disabled={mutation.isPending}
           >
             {t("form.cancel")}
           </Button>
-          <Button type="submit" loading={createProject.isPending}>
-            {t("form.submit")}
+          <Button type="submit" loading={mutation.isPending}>
+            {isEdit ? t("form.save") : t("form.submit")}
           </Button>
         </div>
       </form>

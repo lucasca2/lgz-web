@@ -119,6 +119,18 @@ model posicoes {
   @@index([nivel], map: "idx_posicoes_nivel")
 }
 
+/// Catálogo de projetos/contas (ex.: "TIM", "Sabesp"). Contexto é opcional e
+/// preenchido manualmente; alimenta o cadastro de vagas.
+model projetos {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome       String   @db.VarChar(200)
+  contexto   String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([nome], map: "uq_projetos_nome")
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model processos_seletivos {
   id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid

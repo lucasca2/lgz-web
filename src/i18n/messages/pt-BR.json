@@ -74,6 +74,7 @@
     "loading": "Carregando posições…",
     "loadError": "Não foi possível carregar as posições.",
     "edit": "Editar",
+    "levelCount": "{count, plural, one {# nível} other {# níveis}}",
     "createdAtLabel": "Criada em",
     "form": {
       "title": "Nova posição",
@@ -107,17 +108,21 @@
     "empty": "Nenhum projeto cadastrado ainda.",
     "loading": "Carregando projetos…",
     "loadError": "Não foi possível carregar os projetos.",
+    "edit": "Editar",
+    "emptyContext": "Sem contexto ainda.",
     "createdAtLabel": "Criado em",
     "form": {
       "title": "Novo projeto",
+      "editTitle": "Editar projeto",
       "submit": "Criar projeto",
+      "save": "Salvar",
       "cancel": "Cancelar"
     },
     "fields": {
       "name": "Nome",
       "namePlaceholder": "Ex.: App Algar",
-      "expectation": "Expectativa",
-      "expectationPlaceholder": "Contexto do projeto e experiências extras desejadas."
+      "expectation": "Contexto",
+      "expectationPlaceholder": "Contexto do projeto (você pode preencher depois)."
     },
     "errors": {
       "required": "Campo obrigatório.",
