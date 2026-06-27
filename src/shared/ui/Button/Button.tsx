@@ -3,14 +3,12 @@ import styles from "./Button.module.css";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "ghost";
-  size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
   loading?: boolean;
 };
 
 export function Button({
   variant = "primary",
-  size = "lg",
   fullWidth = false,
   loading = false,
   className,
@@ -21,7 +19,6 @@ export function Button({
   const classes = [
     styles.button,
     styles[variant],
-    styles[size],
     fullWidth && styles.fullWidth,
     className,
   ]

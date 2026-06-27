@@ -1,1 +1,0 @@
-export { RecruiterScreen } from "./screens";

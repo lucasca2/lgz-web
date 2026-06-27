@@ -1,15 +1,8 @@
 export type { IconProps } from "./types";
 export { BriefcaseIcon } from "./BriefcaseIcon";
-export { PlusIcon } from "./PlusIcon";
-export { ChevronDownIcon } from "./ChevronDownIcon";
-export { CheckIcon } from "./CheckIcon";
-export { FolderIcon } from "./FolderIcon";
-export { LayersIcon } from "./LayersIcon";
-export { PencilIcon } from "./PencilIcon";
 export { SettingsIcon } from "./SettingsIcon";
 export { LogOutIcon } from "./LogOutIcon";
 export { DashboardIcon } from "./DashboardIcon";
-export { CalendarIcon } from "./CalendarIcon";
 export { SunIcon } from "./SunIcon";
 export { MoonIcon } from "./MoonIcon";
 export { UsersIcon } from "./UsersIcon";

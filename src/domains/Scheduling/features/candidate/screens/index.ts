@@ -1,1 +1,0 @@
-export { CandidateScreen } from "./CandidateScreen";

@@ -7,129 +7,22 @@
     "secondary": "Account",
     "dashboard": "Dashboard",
     "jobs": "Jobs",
-    "scheduler": "Schedule",
-    "positions": "Positions",
-    "projects": "Projects",
-    "candidates": "Candidates",
-    "funil": "Funnel",
     "settings": "Settings",
     "logout": "Sign out",
     "themeDark": "Switch to dark mode",
     "themeLight": "Switch to light mode"
   },
   "Dashboard": {
-    "title": "Candidate board",
-    "subtitle": "Track candidates by pipeline stage.",
-    "loading": "Loading candidates…",
-    "loadError": "Could not load the board.",
-    "emptyColumn": "No candidates",
-    "stages": {
-      "Triagem": "Screening",
-      "Fit Cultural": "Culture Fit",
-      "People": "People",
-      "Entrevista Técnica": "Technical Interview",
-      "Entrevista Cultural": "Cultural Interview",
-      "Proposta": "Offer",
-      "Contratação": "Hired",
-      "Rejeição": "Rejected"
-    }
+    "title": "Dashboard",
+    "subtitle": "Overview of your account."
   },
   "Jobs": {
     "title": "Jobs",
-    "subtitle": "Manage your job postings.",
-    "create": "New job",
-    "empty": "No jobs created yet.",
-    "loading": "Loading jobs…",
-    "loadError": "Could not load jobs.",
-    "openedAtLabel": "Opened on",
-    "form": {
-      "title": "New job",
-      "submit": "Create job",
-      "cancel": "Cancel"
-    },
-    "fields": {
-      "position": "Position",
-      "project": "Project",
-      "status": "Status",
-      "selectPlaceholder": "Select…"
-    },
-    "status": {
-      "Aberta": "Open",
-      "Fechada": "Closed",
-      "Stand-by": "Stand-by",
-      "Cancelada": "Canceled"
-    },
-    "errors": {
-      "required": "Required field.",
-      "generic": "Something went wrong. Please try again."
-    }
+    "subtitle": "Manage your job postings."
   },
   "Settings": {
     "title": "Settings",
     "subtitle": "Manage your account preferences."
-  },
-  "Positions": {
-    "title": "Positions",
-    "subtitle": "Register positions and what we expect at each level.",
-    "create": "New position",
-    "empty": "No positions registered yet.",
-    "loading": "Loading positions…",
-    "loadError": "Could not load positions.",
-    "edit": "Edit",
-    "levelCount": "{count, plural, one {# level} other {# levels}}",
-    "createdAtLabel": "Created at",
-    "form": {
-      "title": "New position",
-      "editTitle": "Edit position",
-      "submit": "Create position",
-      "save": "Save",
-      "cancel": "Cancel"
-    },
-    "fields": {
-      "name": "Name",
-      "namePlaceholder": "e.g., Backend",
-      "level": "Level",
-      "descricao": "Description",
-      "descricaoPlaceholder": "What do we expect from someone at this level?"
-    },
-    "levels": {
-      "Junior": "Junior",
-      "Pleno": "Mid-level",
-      "Senior": "Senior",
-      "Especialista": "Specialist"
-    },
-    "errors": {
-      "required": "Required field.",
-      "generic": "Something went wrong. Please try again."
-    }
-  },
-  "Projects": {
-    "title": "Projects",
-    "subtitle": "Register projects and the context of each one.",
-    "create": "New project",
-    "empty": "No projects registered yet.",
-    "loading": "Loading projects…",
-    "loadError": "Could not load projects.",
-    "edit": "Edit",
-    "emptyContext": "No context yet.",
-    "createdAtLabel": "Created at",
-    "form": {
-      "title": "New project",
-      "editTitle": "Edit project",
-      "submit": "Create project",
-      "save": "Save",
-      "cancel": "Cancel"
-    },
-    "fields": {
-      "name": "Name",
-      "namePlaceholder": "e.g., App Algar",
-      "expectation": "Context",
-      "expectationPlaceholder": "Project context (you can fill it in later)."
-    },
-    "errors": {
-      "required": "Required field.",
-      "generic": "Something went wrong. Please try again."
-    }
   },
   "HomePage": {
     "title": "Wave by Bemobi",
@@ -229,11 +122,7 @@
       "submit": "Sign in",
       "noAccount": "Don't have an account?",
       "goSignup": "Create account",
-      "invalid": "Invalid credentials.",
-      "google": "Sign in with Google",
-      "or": "or",
-      "googleError": "Couldn't sign in with Google. Please try again.",
-      "calendarScopeError": "You must allow access to your Google Calendar to continue."
+      "invalid": "Invalid credentials."
     },
     "signup": {
       "title": "Create account",

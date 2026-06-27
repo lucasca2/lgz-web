@@ -14,9 +14,6 @@ import {
 import {
   DashboardIcon,
   BriefcaseIcon,
-  CalendarIcon,
-  FolderIcon,
-  LayersIcon,
   SettingsIcon,
   LogOutIcon,
   UsersIcon,
@@ -26,6 +23,7 @@ import { ThemeToggle } from "@/shared/ui/ThemeToggle";
 import { LocaleSwitcher } from "@/shared/ui/LocaleSwitcher";
 import { useLogout } from "@/domains/Auth/shared/hooks";
 import styles from "./AppSidebar.module.css";
+import { Button } from "../Button";
 
 // Sidebar da área autenticada: navegação + controles (tema/idioma) + logout,
 // estilizada com os tokens do sistema.
@@ -43,6 +41,22 @@ export function AppSidebar() {
     logout.mutate(undefined, { onSuccess: () => router.refresh() });
   }
 
+  async function handleClickLinkedin() {
+    const res = await fetch("/api/linkedin/auth/login", { method: "POST" })
+  }
+  function handleClickLinkedinUser() {
+    fetch("/api/linkedin/profile/henrique-tsugiyama")
+  }
+
+  function handleClickLinkedinSearch() {
+    fetch(
+      '/api/linkedin/search?' + new URLSearchParams({
+        keywords: 'software engineer',
+        location: 'San Francisco',
+        page: String(0),              // ← or just '0'
+      })
+    );
+  }
   return (
     <Sidebar>
       <SidebarHeader>
@@ -66,25 +80,25 @@ export function AppSidebar() {
             {t("jobs")}
           </SidebarNavItem>
           <SidebarNavItem
-            href="/agendar"
-            icon={<CalendarIcon />}
-            active={isActive("/agendar")}
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin")}
+            onClick={handleClickLinkedin}
           >
-            {t("scheduler")}
+            {"linkedin"}
           </SidebarNavItem>
           <SidebarNavItem
-            href="/positions"
-            icon={<LayersIcon />}
-            active={isActive("/positions")}
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin/user")}
+            onClick={handleClickLinkedinUser}
           >
-            {t("positions")}
+            {"linkedin-user"}
           </SidebarNavItem>
           <SidebarNavItem
-            href="/projects"
-            icon={<FolderIcon />}
-            active={isActive("/projects")}
+            icon={<BriefcaseIcon />}
+            active={isActive("/linkedin/search")}
+            onClick={handleClickLinkedinSearch}
           >
-            {t("projects")}
+            {"linkedin-search"}
           </SidebarNavItem>
           <SidebarNavItem
             href="/funil"
