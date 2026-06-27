@@ -232,6 +232,7 @@ export async function isSlotStillFree(
 type EmitInviteOpts = {
   refreshToken: string;
   title: string;
+  description?: string;
   startIso: string;
   durationMin: number;
   attendees: string[];
@@ -246,15 +247,17 @@ export async function emitInvite(opts: EmitInviteOpts): Promise<InsertedEvent> {
   const endIso = slotEndIso(opts.startIso, opts.durationMin);
 
   let title = opts.title;
-  let description: string | undefined;
+  // Base: descrição digitada pelo recrutador (se houver).
+  let description = opts.description?.trim() || undefined;
   let colorId: string | undefined;
 
   if (opts.urgent && opts.conflicts.length > 0) {
     title = `🔴 [URGENTE] ${opts.title}`;
     colorId = "11";
-    description =
+    const urgentNote =
       "Agendado em modo urgente. Opcionais ignorados (em conflito): " +
       opts.conflicts.join(", ");
+    description = description ? `${description}\n\n${urgentNote}` : urgentNote;
   }
 
   // requestId único por evento (atrela à sala criada). Determinístico pelo slot

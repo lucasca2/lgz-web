@@ -194,6 +194,7 @@ model convites_agendamento {
   organizador_email String   @db.VarChar(255) // denormalizado: e-mail do organizador
 
   titulo      String  @db.VarChar(255)
+  descricao   String? // descrição do evento (digitada pelo recrutador)
   duracao_min Int     @db.SmallInt
   urgente     Boolean @default(false)
 

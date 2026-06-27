@@ -36,9 +36,12 @@ export function CandidateModal({ card, onClose }: CandidateModalProps) {
 
   function scheduleMeeting() {
     if (!card) return;
-    router.push(
-      `/agendar?candidate=${encodeURIComponent(card.candidateName)}&candidateId=${encodeURIComponent(card.id)}`,
-    );
+    const params = new URLSearchParams({
+      candidate: card.candidateName,
+      candidateId: card.id,
+      position: card.position,
+    });
+    router.push(`/agendar?${params.toString()}`);
   }
 
   const data = invite.data;

@@ -34,6 +34,8 @@ export const createLinkSchema = z.object({
   duration: z.number().int().min(5).max(480),
   slots: z.array(z.string().min(1)).min(1), // horários ISO ofertados
   title: z.string().trim().min(1).max(255).optional(),
+  // Descrição do evento (digitada pelo recrutador) — opcional.
+  description: z.string().trim().max(2000).optional(),
   // Candidato do board (id do card) a quem o link se destina — opcional.
   candidateId: z.string().trim().min(1).max(64).optional(),
 });

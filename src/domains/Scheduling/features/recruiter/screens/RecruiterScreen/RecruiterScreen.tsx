@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { TextField } from "@/shared/ui/TextField";
+import { Textarea } from "@/shared/ui/Textarea";
 import {
   useCreateLink,
   useSchedulingConfig,
@@ -27,9 +28,11 @@ function dayLabel(date: string): string {
 export function RecruiterScreen({
   candidate,
   candidateId,
+  position,
 }: {
   candidate?: string;
   candidateId?: string;
+  position?: string;
 }) {
   const t = useTranslations("Scheduling.recruiter");
 
@@ -51,7 +54,12 @@ export function RecruiterScreen({
   const [linkUrl, setLinkUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
-  // Inicializa participantes + duração a partir do config (uma vez).
+  // Detalhes do evento (viram título/descrição do invite no Google).
+  // Título padrão = "Entrevista (posição do candidato)" quando vier do board.
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  // Inicializa participantes + duração + título a partir do config (uma vez).
   if (configQuery.data && !initialized) {
     setParticipants(
       configQuery.data.employees.map((e) => ({
@@ -61,6 +69,9 @@ export function RecruiterScreen({
       })),
     );
     setDuration(configQuery.data.defaultDurationMin);
+    setTitle(
+      position ? `Entrevista (${position})` : configQuery.data.eventTitle,
+    );
     setInitialized(true);
   }
 
@@ -154,7 +165,8 @@ export function RecruiterScreen({
       urgent,
       duration,
       slots: [...selected],
-      title: configQuery.data?.eventTitle,
+      title: title.trim() || configQuery.data?.eventTitle,
+      description: description.trim() || undefined,
       candidateId,
     });
     setLinkUrl(res.url);
@@ -185,6 +197,25 @@ export function RecruiterScreen({
           </p>
         ) : null}
       </header>
+
+      <section className={styles.panel}>
+        <h2 className={styles.panelTitle}>{t("eventDetails")}</h2>
+        <TextField
+          label={t("eventTitleLabel")}
+          name="event-title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder={t("eventTitlePlaceholder")}
+        />
+        <Textarea
+          label={t("descriptionLabel")}
+          name="event-description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder={t("descriptionPlaceholder")}
+          rows={3}
+        />
+      </section>
 
       <section className={styles.panel}>
         <h2 className={styles.panelTitle}>{t("participants")}</h2>

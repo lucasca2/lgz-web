@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       organizador_id: user.id,
       organizador_email: user.email,
       titulo: parsed.data.title ?? schedulingConfig.eventTitle,
+      descricao: parsed.data.description,
       duracao_min: parsed.data.duration,
       urgente: parsed.data.urgent,
       incluidos: parsed.data.included,

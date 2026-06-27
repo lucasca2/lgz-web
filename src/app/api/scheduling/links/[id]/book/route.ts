@@ -83,6 +83,7 @@ export async function POST(
   const event = await emitInvite({
     refreshToken,
     title: link.titulo,
+    description: link.descricao ?? undefined,
     startIso: start,
     durationMin: link.duracao_min,
     attendees,
