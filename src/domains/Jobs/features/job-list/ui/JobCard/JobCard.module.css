@@ -7,6 +7,18 @@
   border: 1px solid var(--wave-border);
   border-radius: var(--wave-radius-md);
   box-shadow: var(--wave-shadow);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Realce ao passar o cursor: eleva o card, acentua a borda e a sombra. */
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--wave-accent);
+  box-shadow: var(--wave-shadow-hover);
 }
 
 .header {
@@ -27,6 +39,18 @@
   margin: 0;
   font-size: var(--text-sm);
   color: var(--wave-ink-soft);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--wave-slate);
+  /* Limita a 3 linhas para manter os cards alinhados. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .meta {

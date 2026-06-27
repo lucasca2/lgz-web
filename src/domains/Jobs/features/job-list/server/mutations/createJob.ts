@@ -11,6 +11,7 @@ export async function createJob(input: CreateJobInput): Promise<JobDTO> {
     data: {
       titulo: input.title,
       projeto: input.project,
+      descricao: input.description ?? null,
       status: toDbStatus(input.status),
       palavras_chave: [],
     },
@@ -18,6 +19,7 @@ export async function createJob(input: CreateJobInput): Promise<JobDTO> {
       id: true,
       titulo: true,
       projeto: true,
+      descricao: true,
       status: true,
       data_abertura: true,
       created_at: true,

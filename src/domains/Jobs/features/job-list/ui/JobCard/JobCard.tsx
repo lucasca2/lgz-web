@@ -35,6 +35,9 @@ export function JobCard({ job }: JobCardProps) {
         </span>
       </div>
       <p className={styles.project}>{job.project}</p>
+      {job.description ? (
+        <p className={styles.description}>{job.description}</p>
+      ) : null}
       <p className={styles.meta}>
         {t("openedAtLabel")}: {openedAt}
       </p>

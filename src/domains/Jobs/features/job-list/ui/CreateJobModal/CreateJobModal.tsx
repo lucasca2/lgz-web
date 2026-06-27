@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { Select } from "@/shared/ui/Select";
+import { Textarea } from "@/shared/ui/Textarea";
 import { Modal } from "@/shared/ui/Modal";
 import { usePositions } from "@/domains/Positions/features/position-list/hooks";
 import { useProjects } from "@/domains/Projects/features/project-list/hooks";
@@ -33,12 +34,14 @@ export function CreateJobModal({ open, onClose }: CreateJobModalProps) {
 
   const [position, setPosition] = useState("");
   const [project, setProject] = useState("");
+  const [description, setDescription] = useState("");
   const [status, setStatus] = useState<JobStatus>("Aberta");
   const [errors, setErrors] = useState<FieldErrors>({});
 
   function reset() {
     setPosition("");
     setProject("");
+    setDescription("");
     setStatus("Aberta");
     setErrors({});
     createJob.reset();
@@ -61,9 +64,10 @@ export function CreateJobModal({ open, onClose }: CreateJobModalProps) {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
-    // Sem mexer no banco: guardamos o nome da posição como `title` da vaga.
+    // Guardamos o nome da posição como `title` da vaga. Descrição é opcional:
+    // string vazia vira `undefined` (o schema/back-end trata como ausente).
     createJob.mutate(
-      { title: position, project, status },
+      { title: position, project, status, description: description.trim() || undefined },
       {
         onSuccess: () => {
           reset();
@@ -116,6 +120,14 @@ export function CreateJobModal({ open, onClose }: CreateJobModalProps) {
             label: t(`status.${value}`),
             icon: <span className={`${styles.dot} ${dotClass[value]}`} />,
           }))}
+        />
+        <Textarea
+          label={t("fields.description")}
+          name="description"
+          placeholder={t("fields.descriptionPlaceholder")}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+          rows={5}
         />
 
         <div className={styles.actions}>

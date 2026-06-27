@@ -12,6 +12,7 @@ export async function getJobs(): Promise<JobDTO[]> {
       id: true,
       titulo: true,
       projeto: true,
+      descricao: true,
       status: true,
       data_abertura: true,
       created_at: true,
