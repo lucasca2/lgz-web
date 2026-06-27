@@ -20,7 +20,6 @@ import {
   LayersIcon,
   SettingsIcon,
   LogOutIcon,
-  UsersIcon,
   TrendingUpIcon,
 } from "@/shared/ui/icons";
 import { ThemeToggle } from "@/shared/ui/ThemeToggle";
