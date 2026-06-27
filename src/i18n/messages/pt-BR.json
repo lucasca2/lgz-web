@@ -27,6 +27,9 @@
     "modalPosition": "Vaga",
     "scheduleMeeting": "Agendar meeting",
     "alreadyScheduled": "Usuário já tem agendamento",
+    "checking": "Verificando agendamento…",
+    "scheduledFor": "Agendado para {datetime}",
+    "openMeet": "Abrir no Meet",
     "stages": {
       "Triagem": "Triagem",
       "Fit Cultural": "Fit Cultural",

@@ -95,12 +95,14 @@ export async function POST(
     data: {
       google_event_id: event.id,
       google_event_link: event.htmlLink,
+      google_meet_link: event.meetLink,
     },
   });
 
   return Response.json({
     ok: true,
     htmlLink: event.htmlLink,
+    meetLink: event.meetLink,
     organizer: link.organizador_email,
   } satisfies BookResponse);
 }

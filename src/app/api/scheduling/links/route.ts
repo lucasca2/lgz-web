@@ -33,6 +33,7 @@ export async function POST(request: Request) {
       incluidos: parsed.data.included,
       obrigatorios: parsed.data.required,
       slots: parsed.data.slots,
+      candidato_ref: parsed.data.candidateId,
     },
   });
 

@@ -27,6 +27,9 @@
     "modalPosition": "Vacante",
     "scheduleMeeting": "Agendar reunión",
     "alreadyScheduled": "El usuario ya tiene una reunión agendada",
+    "checking": "Verificando agenda…",
+    "scheduledFor": "Agendado para {datetime}",
+    "openMeet": "Abrir en Meet",
     "stages": {
       "Triagem": "Cribado",
       "Fit Cultural": "Ajuste cultural",

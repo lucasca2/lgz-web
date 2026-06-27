@@ -108,19 +108,38 @@ type InsertEventParams = {
   timeZone: string;
   attendees: string[];
   colorId?: string;
+  // requestId único por evento — exigido pelo Google para criar a sala do Meet.
+  meetRequestId: string;
+};
+
+type ConferenceEntryPoint = {
+  entryPointType?: string;
+  uri?: string;
 };
 
 type InsertEventResponse = {
   id?: string;
   htmlLink?: string;
+  hangoutLink?: string;
+  conferenceData?: {
+    entryPoints?: ConferenceEntryPoint[];
+  };
 };
 
-// Cria o evento na agenda primária do organizador e envia os convites (sendUpdates=all).
+export type InsertedEvent = {
+  id: string | null;
+  htmlLink: string | null;
+  meetLink: string | null;
+};
+
+// Cria o evento na agenda primária do organizador, gera a sala do Meet e envia
+// os convites (sendUpdates=all). Para o Google criar/retornar a conferência é
+// obrigatório conferenceDataVersion=1 + conferenceData.createRequest.
 export async function insertEvent(
   accessToken: string,
   params: InsertEventParams,
-): Promise<{ id: string | null; htmlLink: string | null }> {
-  const url = `${CALENDAR_BASE}/primary/events?sendUpdates=all`;
+): Promise<InsertedEvent> {
+  const url = `${CALENDAR_BASE}/primary/events?sendUpdates=all&conferenceDataVersion=1`;
 
   const body = {
     summary: params.title,
@@ -129,6 +148,12 @@ export async function insertEvent(
     end: { dateTime: params.endIso, timeZone: params.timeZone },
     attendees: params.attendees.map((email) => ({ email })),
     colorId: params.colorId,
+    conferenceData: {
+      createRequest: {
+        requestId: params.meetRequestId,
+        conferenceSolutionKey: { type: "hangoutsMeet" },
+      },
+    },
   };
 
   const res = await fetch(url, {
@@ -146,5 +171,18 @@ export async function insertEvent(
   }
 
   const json = (await res.json()) as InsertEventResponse;
-  return { id: json.id ?? null, htmlLink: json.htmlLink ?? null };
+
+  // hangoutLink é o atalho direto; cai no entryPoint de vídeo se não vier.
+  const meetLink =
+    json.hangoutLink ??
+    json.conferenceData?.entryPoints?.find(
+      (e) => e.entryPointType === "video",
+    )?.uri ??
+    null;
+
+  return {
+    id: json.id ?? null,
+    htmlLink: json.htmlLink ?? null,
+    meetLink,
+  };
 }

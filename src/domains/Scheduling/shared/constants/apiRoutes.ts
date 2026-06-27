@@ -5,4 +5,6 @@ export const schedulingApiRoutes = {
   links: "/api/scheduling/links",
   linkSlots: (id: string) => `/api/scheduling/links/${id}/slots`,
   book: (id: string) => `/api/scheduling/links/${id}/book`,
+  candidateInvite: (candidateId: string) =>
+    `/api/scheduling/candidate-invite?candidateId=${encodeURIComponent(candidateId)}`,
 } as const;

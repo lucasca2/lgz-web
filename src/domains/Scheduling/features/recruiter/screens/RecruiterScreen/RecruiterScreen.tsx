@@ -24,7 +24,13 @@ function dayLabel(date: string): string {
   return `${day}/${month}`;
 }
 
-export function RecruiterScreen({ candidate }: { candidate?: string }) {
+export function RecruiterScreen({
+  candidate,
+  candidateId,
+}: {
+  candidate?: string;
+  candidateId?: string;
+}) {
   const t = useTranslations("Scheduling.recruiter");
 
   const configQuery = useSchedulingConfig();
@@ -149,6 +155,7 @@ export function RecruiterScreen({ candidate }: { candidate?: string }) {
       duration,
       slots: [...selected],
       title: configQuery.data?.eventTitle,
+      candidateId,
     });
     setLinkUrl(res.url);
   }

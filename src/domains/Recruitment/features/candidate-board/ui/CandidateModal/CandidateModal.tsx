@@ -6,33 +6,33 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { Modal } from "@/shared/ui/Modal";
 import { STAGE_ACCENT } from "../../constants/stages";
+import { useCandidateInvite } from "../../hooks";
 import type { BoardCardDTO } from "../../types";
 import { initials } from "../../utils";
 import styles from "./CandidateModal.module.css";
 
-// Fase 2: quando o candidato já tiver um convite salvo, passamos os dados aqui
-// para exibir o link do Meet. Enquanto isso, a presença de `scheduling` apenas
-// troca o botão por "usuário já tem agendamento".
-type Scheduling = { meetLink: string | null };
-
 type CandidateModalProps = {
   card: BoardCardDTO | null;
-  scheduling?: Scheduling | null;
   onClose: () => void;
 };
 
-export function CandidateModal({
-  card,
-  scheduling,
-  onClose,
-}: CandidateModalProps) {
+// ISO "YYYY-MM-DDTHH:MM:SS-03:00" → "DD/MM HH:MM" (lendo as strings, sem fuso).
+function humanDateTime(iso: string): string {
+  const [, month, day] = iso.slice(0, 10).split("-");
+  return `${day}/${month} ${iso.slice(11, 16)}`;
+}
+
+export function CandidateModal({ card, onClose }: CandidateModalProps) {
   const t = useTranslations("Dashboard");
   const tStages = useTranslations("Dashboard.stages");
   const router = useRouter();
+  const invite = useCandidateInvite(card?.id ?? null);
 
   if (!card) return null;
 
-  const accentStyle = { "--stage-accent": STAGE_ACCENT[card.stage] } as CSSProperties;
+  const accentStyle = {
+    "--stage-accent": STAGE_ACCENT[card.stage],
+  } as CSSProperties;
 
   function scheduleMeeting() {
     if (!card) return;
@@ -40,6 +40,8 @@ export function CandidateModal({
       `/agendar?candidate=${encodeURIComponent(card.candidateName)}&candidateId=${encodeURIComponent(card.id)}`,
     );
   }
+
+  const data = invite.data;
 
   return (
     <Modal open onClose={onClose} title={t("candidateModalTitle")}>
@@ -66,8 +68,28 @@ export function CandidateModal({
         </dl>
 
         <div className={styles.footer}>
-          {scheduling ? (
-            <p className={styles.scheduled}>{t("alreadyScheduled")}</p>
+          {invite.isLoading ? (
+            <p className={styles.checking}>{t("checking")}</p>
+          ) : data?.hasInvite ? (
+            <div className={styles.scheduledBox}>
+              <p className={styles.scheduled}>{t("alreadyScheduled")}</p>
+              {data.slot ? (
+                <p className={styles.scheduledMeta}>
+                  {t("scheduledFor", { datetime: humanDateTime(data.slot) })}
+                  {data.candidateEmail ? ` · ${data.candidateEmail}` : ""}
+                </p>
+              ) : null}
+              {data.meetLink ? (
+                <a
+                  className={styles.meetLink}
+                  href={data.meetLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t("openMeet")}
+                </a>
+              ) : null}
+            </div>
           ) : (
             <Button fullWidth onClick={scheduleMeeting}>
               {t("scheduleMeeting")}

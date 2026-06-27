@@ -27,6 +27,9 @@
     "modalPosition": "Position",
     "scheduleMeeting": "Schedule meeting",
     "alreadyScheduled": "User already has a meeting scheduled",
+    "checking": "Checking schedule…",
+    "scheduledFor": "Scheduled for {datetime}",
+    "openMeet": "Open in Meet",
     "stages": {
       "Triagem": "Screening",
       "Fit Cultural": "Culture Fit",

@@ -55,7 +55,20 @@ export type LinkSlotsResponse = {
 export type BookResponse = {
   ok: true;
   htmlLink: string | null; // link "ver evento" no Google Calendar
+  meetLink: string | null; // link da sala do Meet
   organizer: string;
+};
+
+// Resposta de GET /api/scheduling/candidate-invite?candidateId=... (board).
+// Reflete o convite mais recente atrelado ao candidato (null se não houver).
+export type CandidateInviteResponse = {
+  hasInvite: boolean;
+  status: string | null; // ACTIVE | CONSUMED
+  inviteUrl: string | null; // <base>/convite/<id> (quando ainda ACTIVE)
+  meetLink: string | null; // sala do Meet (após o candidato agendar)
+  eventLink: string | null; // "ver evento" no Calendar
+  slot: string | null; // horário ISO agendado
+  candidateEmail: string | null; // e-mail informado pelo candidato
 };
 
 // ── Google ──

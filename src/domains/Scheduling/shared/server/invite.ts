@@ -13,7 +13,11 @@ import type {
   CandidateSlot,
   SlotsResponse,
 } from "@/domains/Scheduling/shared/types";
-import { fetchBusy, insertEvent } from "@/shared/lib/google/calendar";
+import {
+  fetchBusy,
+  insertEvent,
+  type InsertedEvent,
+} from "@/shared/lib/google/calendar";
 import { refreshAccessToken } from "@/shared/lib/google/oauth";
 
 // Resolve um access_token a partir do refresh_token do organizador.
@@ -235,10 +239,9 @@ type EmitInviteOpts = {
   conflicts: string[];
 };
 
-// Cria o evento no Calendar do organizador (com marcação de urgência se aplicável).
-export async function emitInvite(
-  opts: EmitInviteOpts,
-): Promise<{ id: string | null; htmlLink: string | null }> {
+// Cria o evento no Calendar do organizador (com sala do Meet e marcação de
+// urgência se aplicável). Retorna id do evento, link do Calendar e link do Meet.
+export async function emitInvite(opts: EmitInviteOpts): Promise<InsertedEvent> {
   const accessToken = await getOrganizerAccessToken(opts.refreshToken);
   const endIso = slotEndIso(opts.startIso, opts.durationMin);
 
@@ -254,6 +257,12 @@ export async function emitInvite(
       opts.conflicts.join(", ");
   }
 
+  // requestId único por evento (atrela à sala criada). Determinístico pelo slot
+  // + entropia curta para evitar colisão em reuso do mesmo horário.
+  const meetRequestId = `meet-${Date.parse(opts.startIso)}-${Math.random()
+    .toString(36)
+    .slice(2, 8)}`;
+
   return insertEvent(accessToken, {
     title,
     description,
@@ -262,5 +271,6 @@ export async function emitInvite(
     timeZone: schedulingConfig.timeZone,
     attendees: opts.attendees,
     colorId,
+    meetRequestId,
   });
 }
