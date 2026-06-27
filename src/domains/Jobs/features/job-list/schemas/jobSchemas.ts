@@ -23,3 +23,9 @@ export const createJobSchema = z.object({
 });
 
 export type CreateJobInput = z.infer<typeof createJobSchema>;
+
+export const updateJobStatusSchema = z.object({
+  status: z.enum(JOB_STATUSES),
+});
+
+export type UpdateJobStatusInput = z.infer<typeof updateJobStatusSchema>;

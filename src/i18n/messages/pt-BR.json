@@ -50,6 +50,7 @@
     "loading": "Carregando vagas…",
     "loadError": "Não foi possível carregar as vagas.",
     "openedAtLabel": "Aberta em",
+    "changeStatus": "Alterar status",
     "form": {
       "title": "Nova vaga",
       "submit": "Criar vaga",
