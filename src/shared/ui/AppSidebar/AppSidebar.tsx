@@ -14,6 +14,8 @@ import {
 import {
   DashboardIcon,
   BriefcaseIcon,
+  FolderIcon,
+  LayersIcon,
   SettingsIcon,
   LogOutIcon,
 } from "@/shared/ui/icons";
@@ -59,6 +61,20 @@ export function AppSidebar() {
             active={isActive("/jobs")}
           >
             {t("jobs")}
+          </SidebarNavItem>
+          <SidebarNavItem
+            href="/positions"
+            icon={<LayersIcon />}
+            active={isActive("/positions")}
+          >
+            {t("positions")}
+          </SidebarNavItem>
+          <SidebarNavItem
+            href="/projects"
+            icon={<FolderIcon />}
+            active={isActive("/projects")}
+          >
+            {t("projects")}
           </SidebarNavItem>
         </SidebarNav>
       </SidebarContent>

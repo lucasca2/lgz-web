@@ -1,0 +1,35 @@
+.row {
+  border-bottom: 1px solid var(--wave-border);
+  transition: background-color 0.15s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: color-mix(in srgb, var(--wave-slate) 10%, transparent);
+}
+
+.nameCell {
+  padding: var(--space-2);
+  font-weight: 500;
+  color: var(--wave-ink);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.expectationCell {
+  padding: var(--space-2);
+  color: var(--wave-ink-soft);
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.dateCell {
+  padding: var(--space-2);
+  color: var(--wave-slate);
+  white-space: nowrap;
+  text-align: right;
+  vertical-align: middle;
+}
