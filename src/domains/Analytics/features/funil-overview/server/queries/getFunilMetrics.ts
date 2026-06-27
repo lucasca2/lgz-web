@@ -222,11 +222,11 @@ function computeTransicoes(processos: Processo[]) {
   });
 }
 
-function computeVagasAbertas(processos: Processo[], today: Date) {
+function computeVagasAbertas(processos: Processo[], vagas: Vaga[], today: Date) {
   const countByVaga = new Map<string, number>();
   for (const p of processos) countByVaga.set(p.vaga_id, (countByVaga.get(p.vaga_id) ?? 0) + 1);
 
-  return VAGAS.filter((v) => v.status === "Aberta" || v.status === "Stand_by").map((v) => {
+  return vagas.filter((v) => v.status === "Aberta" || v.status === "Stand_by").map((v) => {
     const abertura = new Date(v.data_abertura);
     const diasAberta = Math.round((today.getTime() - abertura.getTime()) / 86_400_000);
     return {
@@ -244,9 +244,13 @@ function computeVagasAbertas(processos: Processo[], today: Date) {
 // Exported query
 // ─────────────────────────────────────────────────────────────────────────────
 
-export async function getFunilMetrics(): Promise<FunilMetrics> {
+export async function getFunilMetrics(projeto?: string | null): Promise<FunilMetrics> {
   const today = new Date("2026-06-27");
-  const processos = buildProcessos();
+
+  const vagasFiltradas = projeto ? VAGAS.filter((v) => v.projeto === projeto) : VAGAS;
+  const vagasIds = new Set(vagasFiltradas.map((v) => v.id));
+  const processos = buildProcessos().filter((p) => vagasIds.has(p.vaga_id));
+
   const slaEtapas = computeSlaEtapas(processos);
 
   const total = processos.length;
@@ -254,28 +258,32 @@ export async function getFunilMetrics(): Promise<FunilMetrics> {
   const ativos = processos.filter((p) => p.status_atual === "Em_andamento").length;
 
   // Average total process duration per candidato
-  const slaMedioDias = Math.round(
-    processos.reduce(
-      (sum, p) =>
-        sum + p.etapas.filter((e) => e.status === "Executada").reduce((s, e) => s + e.dias, 0),
-      0,
-    ) / total,
-  );
+  const slaMedioDias =
+    total > 0
+      ? Math.round(
+          processos.reduce(
+            (sum, p) =>
+              sum + p.etapas.filter((e) => e.status === "Executada").reduce((s, e) => s + e.dias, 0),
+            0,
+          ) / total,
+        )
+      : 0;
 
   return {
+    projetos: Array.from(new Set(VAGAS.map((v) => v.projeto))).sort(),
     kpis: {
       totalCandidatos: total,
       candidatosAtivos: ativos,
-      taxaConversaoGeral: Math.round((aprovados / total) * 1000) / 10,
+      taxaConversaoGeral: total > 0 ? Math.round((aprovados / total) * 1000) / 10 : 0,
       slaMedioDias,
-      vagasAbertas: VAGAS.filter((v) => v.status === "Aberta" || v.status === "Stand_by").length,
+      vagasAbertas: vagasFiltradas.filter((v) => v.status === "Aberta" || v.status === "Stand_by").length,
     },
     etapasFunil: computeEtapasFunil(processos),
     statusBreakdown: computeStatusBreakdown(processos),
     origemBreakdown: computeOrigemBreakdown(processos),
     motivosReprovacao: computeMotivosReprovacao(processos),
     slaEtapas,
-    vagasAbertas: computeVagasAbertas(processos, today),
+    vagasAbertas: computeVagasAbertas(processos, vagasFiltradas, today),
     transicoes: computeTransicoes(processos),
   };
 }

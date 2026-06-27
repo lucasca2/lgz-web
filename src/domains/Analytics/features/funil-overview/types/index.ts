@@ -47,6 +47,7 @@ export type FlowTransition = {
 };
 
 export type FunilMetrics = {
+  projetos: string[];
   kpis: {
     totalCandidatos: number;
     candidatosAtivos: number;

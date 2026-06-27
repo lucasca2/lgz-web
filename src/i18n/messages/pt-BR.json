@@ -385,6 +385,10 @@
       "status": "Status",
       "candidatos": "Candidatos",
       "diasAberta": "Dias em aberto"
+    },
+    "filtro": {
+      "projeto": "Projeto",
+      "todos": "Todos os projetos"
     }
   },
   "Auth": {
