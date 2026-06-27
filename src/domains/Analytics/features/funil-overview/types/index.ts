@@ -2,7 +2,6 @@ export type EtapaFunil =
   | "Entrevista People"
   | "Entrevista Técnica"
   | "Teste Técnico"
-  | "Cultural"
   | "Liderança"
   | "Proposta";
 
@@ -13,7 +12,7 @@ export type FunilEtapa = {
 };
 
 export type StatusBreakdown = {
-  status: "Em_andamento" | "Aprovado" | "Reprovado" | "Base_de_Talentos";
+  status: "Em_andamento" | "Aprovado" | "Reprovado";
   count: number;
 };
 
