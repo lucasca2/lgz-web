@@ -454,7 +454,8 @@
       "cancel": "Cancelar",
       "booked": "Agendado!",
       "viewEvent": "Ver evento",
-      "consumed": "Este link já foi utilizado e não está mais disponível.",
+      "consumed": "Este link já expirou",
+      "consumedHint": "Não se preocupe: em breve um Waver entrará em contato com você para combinar os próximos passos.",
       "notFound": "Convite não encontrado.",
       "emailRequired": "Informe um e-mail válido antes de escolher um horário.",
       "error": "Não foi possível agendar. Tente novamente."

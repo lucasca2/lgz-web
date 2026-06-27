@@ -88,6 +88,7 @@ export function CandidateScreen({ id }: { id: string }) {
       <div className={styles.shell}>
         <div className={styles.card}>
           <h1 className={styles.title}>{t("consumed")}</h1>
+          <p className={styles.subtitle}>{t("consumedHint")}</p>
         </div>
       </div>
     );

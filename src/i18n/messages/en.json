@@ -454,7 +454,8 @@
       "cancel": "Cancel",
       "booked": "Booked!",
       "viewEvent": "View event",
-      "consumed": "This link has already been used and is no longer available.",
+      "consumed": "This link has expired",
+      "consumedHint": "No worries — a Waver will reach out to you soon to arrange the next steps.",
       "notFound": "Invite not found.",
       "emailRequired": "Enter a valid email before picking a time.",
       "error": "Couldn't book. Please try again."
