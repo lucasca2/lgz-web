@@ -81,7 +81,5 @@ export function getBaseUrl(request: Request): string {
 // Redirect URI do callback de OAuth. Precisa bater EXATAMENTE com um URI
 // cadastrado no OAuth client do GCP.
 export function getRedirectUri(baseUrl: string): string {
-  return (
-    process.env.GOOGLE_OAUTH_REDIRECT ?? `${baseUrl}/api/auth/google/callback`
-  );
+  return process.env.GOOGLE_OAUTH_REDIRECT ?? `${baseUrl}/oauth/callback`;
 }

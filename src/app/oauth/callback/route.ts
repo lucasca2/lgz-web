@@ -8,6 +8,8 @@ import {
 import { upsertGoogleUser } from "@/domains/Auth/shared/server/googleUser";
 import { createSession } from "@/domains/Auth/shared/server/session";
 
+// Callback do OAuth do Google. Path /oauth/callback para casar com os redirect
+// URIs já cadastrados no OAuth client (local e produção).
 export async function GET(request: Request) {
   const baseUrl = getBaseUrl(request);
   const { searchParams } = new URL(request.url);
