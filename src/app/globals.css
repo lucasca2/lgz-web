@@ -17,6 +17,26 @@
   --wave-danger-soft: #ffdede;
   --wave-placeholder: #6b7785;
 
+  /* Cores por nível de senioridade (badges) — soft = fundo, text = texto */
+  --wave-level-junior-soft: #defbe6;
+  --wave-level-junior-text: #0e6027;
+  --wave-level-pleno-soft: #edf5ff;
+  --wave-level-pleno-text: #0f62fe;
+  --wave-level-senior-soft: #f6f2ff;
+  --wave-level-senior-text: #6929c4;
+  --wave-level-especialista-soft: #fcf4d6;
+  --wave-level-especialista-text: #8e6a00;
+
+  /* Cores por etapa do board (kanban) — acento usado em dot/borda/avatar */
+  --wave-stage-triagem: #5d6c7b;
+  --wave-stage-fit: #0072c3;
+  --wave-stage-people: #8a3ffc;
+  --wave-stage-tecnica: #0f62fe;
+  --wave-stage-cultural: #d02670;
+  --wave-stage-proposta: #b28600;
+  --wave-stage-contratacao: #0e6027;
+  --wave-stage-rejeicao: #a51c12;
+
   /* Espaçamento — grid de 8px (com meios-passos de 4px). Use SEMPRE estes
      tokens para gap / padding / margin. O número é o multiplicador da base 8px. */
   --space-0_5: 4px;
@@ -78,6 +98,27 @@
   --wave-danger-strong: #ff8389;
   --wave-danger-soft: #3a1a1d;
   --wave-placeholder: #8d99a6;
+
+  /* Cores por nível de senioridade (badges) — variantes escuras */
+  --wave-level-junior-soft: #16301f;
+  --wave-level-junior-text: #6fdc8c;
+  --wave-level-pleno-soft: #1b2a45;
+  --wave-level-pleno-text: #6ea1ff;
+  --wave-level-senior-soft: #2a2142;
+  --wave-level-senior-text: #be95ff;
+  --wave-level-especialista-soft: #352a12;
+  --wave-level-especialista-text: #f1c21b;
+
+  /* Cores por etapa do board — variantes escuras */
+  --wave-stage-triagem: #9aa6b2;
+  --wave-stage-fit: #33b1ff;
+  --wave-stage-people: #be95ff;
+  --wave-stage-tecnica: #4589ff;
+  --wave-stage-cultural: #ff7eb6;
+  --wave-stage-proposta: #f1c21b;
+  --wave-stage-contratacao: #6fdc8c;
+  --wave-stage-rejeicao: #ff8389;
+
   --wave-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
     0 12px 32px -12px rgba(0, 0, 0, 0.6);
 }

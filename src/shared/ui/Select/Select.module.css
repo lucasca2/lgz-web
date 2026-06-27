@@ -1,0 +1,172 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--wave-ink);
+}
+
+/* acessível para leitores de tela, invisível visualmente */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.control {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  width: 100%;
+  height: var(--space-6);
+  padding: 0 var(--space-2);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  color: var(--wave-ink);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+@media (pointer: coarse) {
+  .trigger {
+    font-size: var(--text-md);
+  }
+}
+
+.trigger:focus-visible {
+  outline: none;
+  border-color: var(--wave-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wave-accent) 18%, transparent);
+}
+
+.triggerOpen,
+.triggerOpen:focus-visible {
+  border-color: var(--wave-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wave-accent) 18%, transparent);
+}
+
+.triggerError {
+  border-color: var(--wave-danger);
+}
+
+.triggerError.triggerOpen {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wave-danger) 18%, transparent);
+}
+
+.value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--wave-ink);
+}
+
+.placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--wave-placeholder);
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--wave-slate);
+  transition: transform 0.15s ease;
+}
+
+.triggerOpen .chevron {
+  transform: rotate(180deg);
+}
+
+/* Portalizado no body: posição (top/left/width) vem inline via JS.
+   z-index acima do overlay da modal (50) para "sair" dela. */
+.menu {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: var(--space-0_5);
+  list-style: none;
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  box-shadow: var(--wave-shadow);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-1_5);
+  font-size: var(--text-sm);
+  color: var(--wave-ink);
+  border-radius: var(--wave-radius);
+  cursor: pointer;
+}
+
+.optionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionActive {
+  background: var(--wave-accent-soft);
+}
+
+.optionSelected {
+  font-weight: 600;
+  color: var(--wave-accent);
+}
+
+.optionIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--wave-accent);
+}
+
+.error {
+  font-size: var(--text-xs);
+  color: var(--wave-danger);
+}

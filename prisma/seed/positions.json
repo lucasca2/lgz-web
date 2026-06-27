@@ -1,0 +1,152 @@
+[
+  {
+    "name": "React Native",
+    "nivel": "Junior",
+    "descricao": "Experiência: 0 ~ 3 anos com React Native (Expo/CLI) ou React.js/Next.js\n\nResponsabilidades:\n- Entender como funciona a navegação, estado e ciclo de vida básico do React\n- Desenvolver features de baixa a média complexidade com ou sem orientação\n- Corrigir bugs no geral com ou sem orientação\n- Consumir/integrar com APIs REST já existentes\n- Escrever testes unitários de componentes simples\n- Seguir padrões e arquiteturas já definidos pelo time\n\nNão esperado:\n- Tomar decisões arquiteturais\n- Definir padrões globais\n- Resolver problemas altamente complexos sozinho"
+  },
+  {
+    "name": "React Native",
+    "nivel": "Pleno",
+    "descricao": "Experiência: 2 ~ 5 anos com React Native (Expo/CLI) ou pelo menos 4 anos com React.js/Next.js\n\nResponsabilidades:\n- Boa compreensão de arquitetura de React (modularização, separação de responsabilidades)\n- Desenvolver features de média a alta complexidade com autonomia\n- Corrigir bugs no geral com autonomia\n- Quebrar requisitos em tarefas técnicas\n- Propor melhorias pontuais nos padrões e na arquitetura\n- Identificar/corrigir problemas de performance\n- Escrever testes unitários com boa coverage\n- Participar ativamente de code reviews\n- Garantir alta fidelidade na implementação de layouts conforme design aprovado\n\nDiferenciais:\n- Entender como funciona o build (Android/iOS), CI/CD"
+  },
+  {
+    "name": "React Native",
+    "nivel": "Senior",
+    "descricao": "Experiência: 4+ anos com React Native (Expo/CLI)\n\nResponsabilidades:\n- Forte entendimento de React internals, performance, re-render, memorização\n- Desenvolver/liderar features/iniciativas complexas\n- Tomar decisões arquiteturais e padrões\n- Liderar a resolução de problemas críticos (problemas em produção, problemas nativos complexos, conflitos de dependência)\n- Discutir trade-offs técnicos com backend, produto e design\n- Escrever e ser capaz de definir padrões para testes unitários\n- Participar ativamente de code reviews\n- Garantir alta fidelidade na implementação de layouts conforme design aprovado"
+  },
+  {
+    "name": "React Native",
+    "nivel": "Especialista",
+    "descricao": "Experiência: 6+ anos com React Native (Expo/CLI)\n\nResponsabilidades:\n- Domínio profundo de React Native + fundamentos do React\n- Conhecimento/entendimento de arquitetura mobile nativa\n- Desenvolver/liderar features/iniciativas complexas\n- Definir visão técnica de médio/longo prazo do app\n- Ser autoridade em performance, escalabilidade e estabilidade\n- Resolver problemas estruturais (ex: estratégias de modularização, microfrontends, etc)\n- Avaliar novas tecnologias e definir adoção\n- Antecipar riscos técnicos"
+  },
+  {
+    "name": "Android",
+    "nivel": "Junior",
+    "descricao": "Responsabilidades:\n- Desenvolver telas utilizando Jetpack Compose e/ou Views tradicionais\n- Implementar funcionalidades simples seguindo arquitetura já definida (ex: MVVM)\n- Consumir APIs REST usando Retrofit\n- Trabalhar com persistência usando Room\n- Utilizar Kotlin de forma funcional (coroutines básicas, null safety, data classes)\n- Escrever testes unitários simples\n- Corrigir bugs de baixa e média complexidade\n- Trabalhar com controle de versão usando Git"
+  },
+  {
+    "name": "Android",
+    "nivel": "Pleno",
+    "descricao": "Responsabilidades:\n- Implementar fluxos completos\n- Estruturar camadas de domínio e dados\n- Trabalhar com Coroutines avançadas (Flow, cancelamento, concorrência)\n- Trabalhar com WorkManager\n- Criar modularização básica\n- Criar abstrações reutilizáveis\n- Garantir cobertura de testes unitários adequada\n- Trabalhar com ciclo de vida\n- Integrar SDKs de terceiros\n- Refatorar código legado\n- Avaliar trade-offs técnicos\n- Diagnosticar problemas de performance simples\n- Implementar fluxos de pipeline no CI/CD"
+  },
+  {
+    "name": "Android",
+    "nivel": "Senior",
+    "descricao": "Responsabilidades:\n- Definir e evoluir arquitetura (ex: Clean Architecture, modularização multi-módulo)\n- Definir integração entre componentes nativos e híbridos\n- Projetar sistemas resilientes offline-first\n- Dominar concorrência e paralelismo\n- Diagnosticar ANRs, crashes e problemas complexos de performance\n- Escrever bibliotecas e SDKs internos e externos\n- Criar estratégias de versionamento e compatibilidade\n- Definir padrões de observabilidade (logs estruturados, tracing)\n- Evoluir arquitetura levando em conta a retrocompatibilidade"
+  },
+  {
+    "name": "Android",
+    "nivel": "Especialista",
+    "descricao": "Responsabilidades:\n- Definir guidelines arquiteturais para todo o time\n- Diagnosticar problemas envolvendo Garbage Collector, Thread scheduling e Start-up time\n- Arquiteturar soluções internas complexas, como observabilidade (crash + ANR customizado)\n- Avaliar impacto de mudanças do Android OS a cada nova versão\n- Projetar estratégias de segurança (obfuscation, anti-tampering)\n- Entender funcionamento interno do Android (Looper, Handler, ActivityThread)\n- Atuar em problemas onde documentação pública é insuficiente"
+  },
+  {
+    "name": "iOS",
+    "nivel": "Junior",
+    "descricao": "Responsabilidades:\n- Desenvolver telas com SwiftUI ou UIKit\n- Implementar funcionalidades simples seguindo arquitetura já definida (ex: MVC/MVVM/MVP)\n- Consumir APIs REST\n- Trabalhar com persistência básica (UserDefaults, CoreData simples)\n- Escrever testes unitários simples\n- Corrigir bugs de baixa e média complexidade\n- Trabalhar com controle de versão usando Git\n- Entender a diferença entre ViewCode, Xib e Storyboard\n- Trabalhar com o ciclo de vida"
+  },
+  {
+    "name": "iOS",
+    "nivel": "Pleno",
+    "descricao": "Responsabilidades:\n- Implementar fluxos completos\n- Trabalhar com Combine ou async/await\n- Gerenciar concorrência (GCD, structured concurrency)\n- Diagnosticar retain cycles\n- Trabalhar com background tasks\n- Criar modularização básica\n- Criar abstrações reutilizáveis\n- Garantir cobertura de testes unitários adequada\n- Integrar SDKs externos\n- Avaliar trade-offs técnicos\n- Diagnosticar problemas de performance simples\n- Trabalhar com UserDefaults e Keychain\n- Entender ferramentas de gerenciamento de dependências (SPM, CocoaPods)\n- Implementar fluxos de pipeline no CI/CD"
+  },
+  {
+    "name": "iOS",
+    "nivel": "Senior",
+    "descricao": "Responsabilidades:\n- Definir e evoluir arquitetura (ex: Clean Architecture, modularização multi-módulo)\n- Definir integração entre componentes nativos e híbridos\n- Definir estratégias de cache e sincronização offline\n- Projetar apps com múltiplos targets\n- Trabalhar com performance tuning (Instruments)\n- Diagnosticar problemas de memória e performance\n- Escrever bibliotecas e SDKs internos e externos via Swift Package Manager\n- Trabalhar com interoperabilidade Objective-C / Swift\n- Evoluir arquitetura levando em conta a retrocompatibilidade\n- Trabalhar com State, Binding e ObservableObject\n- Entender a diferença entre async/await e completion handler"
+  },
+  {
+    "name": "iOS",
+    "nivel": "Especialista",
+    "descricao": "Responsabilidades:\n- Entender profundamente o runtime do iOS\n- Trabalhar com Method Swizzling\n- Definir guidelines arquiteturais para todo o time\n- Diagnosticar problemas de baixo nível (runloop, rendering pipeline)\n- Trabalhar com segurança avançada (certificate pinning, runtime protection)\n- Avaliar impacto de mudanças do iOS a cada nova versão\n- Atuar em problemas onde documentação pública é insuficiente"
+  },
+  {
+    "name": "Frontend",
+    "nivel": "Junior",
+    "descricao": "Responsabilidades:\n- Desenvolver funcionalidades de baixa a média complexidade utilizando React e TypeScript\n- Implementar interfaces a partir de especificações claras de Design e Produto\n- Utilizar/criar componentes já existentes no design system\n- Realizar integrações simples com APIs REST\n- Corrigir bugs e realizar ajustes pontuais na base de código\n- Escrever testes unitários básicos para as funcionalidades desenvolvidas\n- Participar de code reviews aplicando feedback técnico recebido"
+  },
+  {
+    "name": "Frontend",
+    "nivel": "Pleno",
+    "descricao": "Responsabilidades:\n- Desenvolver e manter funcionalidades de média a alta complexidade com React e TypeScript\n- Implementar soluções seguindo padrões arquiteturais definidos\n- Criar componentes reutilizáveis aderentes ao design system\n- Trabalhar com estratégias de data-fetching (cache, invalidação, estados de loading/erro)\n- Garantir qualidade e performance básica nas entregas\n- Escrever testes unitários e testes de integração para as funcionalidades desenvolvidas\n- Participar de code reviews contribuindo tecnicamente nas discussões"
+  },
+  {
+    "name": "Frontend",
+    "nivel": "Senior",
+    "descricao": "Responsabilidades:\n- Projetar e desenvolver funcionalidades complexas com impacto arquitetural\n- Definir padrões técnicos de implementação\n- Evoluir arquitetura frontend (state management, data-fetching, modularização)\n- Criar e manter design systems escaláveis\n- Implementar estratégias de performance (code splitting, memoization, otimização de render)\n- Garantir qualidade técnica da base (testabilidade, legibilidade, escalabilidade)\n- Atuar em decisões técnicas envolvendo integrações e contratos de API"
+  },
+  {
+    "name": "Frontend",
+    "nivel": "Especialista",
+    "descricao": "Responsabilidades:\n- Definir diretrizes arquiteturais de frontend para múltiplos projetos\n- Projetar e manter bibliotecas internas e SDKs compartilhadas\n- Estruturar design systems escaláveis\n- Definir padrões de performance, build, bundle e observabilidade\n- Atuar em decisões de alto impacto envolvendo integração entre frontend e backend\n- Projetar soluções para escalabilidade técnica (multi-tenant, white-label, theming)\n- Conduzir provas de conceito para novas tecnologias"
+  },
+  {
+    "name": "Backend",
+    "nivel": "Junior",
+    "descricao": "Executar implementações com qualidade, seguindo padrões definidos e evoluindo consistência técnica\n\nTipo de problema: implementação · Nível de impacto: feature\n\nResponsabilidades:\n- Implementar endpoints e integrações seguindo padrões definidos\n- Escrever código limpo, tipado (TypeScript) e testável\n- Aplicar boas práticas básicas de arquitetura\n- Utilizar TDD no dia a dia\n- Consumir APIs e serviços externos com segurança\n- Conhecimento básico de SQL\n- Entendimento básico de migrations e estrutura relacional\n- Containerização básica (Docker/Podman)\n- Noções de CI/CD\n- Conseguir rodar e configurar ambiente local\n\nDiferenciais:\n- Domínio maior da stack (Node.js / TypeScript)\n- Conhecimento básico de cloud (AWS, GCP, OCI)\n- Noções iniciais de infraestrutura como código\n- Utilizar LLMs como ferramenta de aprendizado e produtividade\n- Gerar testes e documentação com apoio de IA"
+  },
+  {
+    "name": "Backend",
+    "nivel": "Pleno",
+    "descricao": "Projetar e implementar soluções com autonomia técnica, garantindo organização arquitetural e qualidade sistêmica\n\nTipo de problema: design local · Nível de impacto: serviço\n\nResponsabilidades (inclui todas as do nível anterior):\n- Definir estrutura de módulos e organização de serviços\n- Projetar entidades e contratos entre serviços\n- Garantir idempotência e versionamento de APIs\n- Aplicar padrões (Clean Architecture, Hexagonal, DDD simplificado)\n- Conhecimento sólido em SQL / Dados (modelagem de dados, índices, query tuning, cache)\n- Fundamentos de arquitetura (storages/buckets, filas (Pub/Sub, Task Queue, DLQ), vaults, DBs (SQL, NoSQL))\n- Conhecimento sólido sobre o ciclo de desenvolvimento e CI/CD\n- Usar LLMs e agents como ferramenta de aprendizado / produtividade\n- Documentação integrada no dia a dia\n\nDiferenciais:\n- Conhecimento de IaC (Pulumi, Terraform, Ansible) e provisionamento de recursos na nuvem\n- Conhecimento sólido sobre / experiência com monitoramento e observabilidade\n- Noções básicas de segurança\n- Mentoria de desenvolvedores juniores e compartilhamento de conhecimento"
+  },
+  {
+    "name": "Backend",
+    "nivel": "Senior",
+    "descricao": "Garantir que o sistema seja escalável, resiliente, seguro e sustentável em termos técnicos e financeiros\n\nTipo de problema: arquitetura sistêmica · Nível de impacto: produto\n\nResponsabilidades (inclui todas as do nível anterior):\n- Conhecimento sólido de arquitetura (bons fundamentos, decisões baseadas em trade-offs, resiliência e escalabilidade, estratégias de rollback e recovery, definir estratégia de comunicação entre serviços)\n- Conhecimento sólido/suficiente de infraestrutura (analisar gargalos e latência, dimensionar recursos, planejamento de custos, gestão de secrets e permissões, CI/CD (Canary, green/blue), modelagem modular de infraestrutura)\n- Conhecimento sólido/suficiente de IaC\n- Conhecimento sobre segurança (estratégia de autenticação entre serviços, SQL/Prompt Injection, OWASP, etc)\n- Usar LLM como ferramenta para aumentar produtividade e automatizar fluxo de desenvolvimento\n\nDiferenciais:\n- Experiência com multi-tenant ou arquiteturas distribuídas complexas\n- Definição de SLOs/SLA"
+  },
+  {
+    "name": "Backend",
+    "nivel": "Especialista",
+    "descricao": "Definir direção tecnológica da companhia e estruturar padrões organizacionais escaláveis\n\nTipo de problema: estratégia tecnológica · Nível de impacto: organização\n\nResponsabilidades (inclui todas as do nível anterior):\n- Participação em decisões estratégicas de produtos\n- Foco em melhoria de developer experience (DX) do time e de produtos Wave\n- Responsabilidade sobre a arquitetura organizacional (definir padrões para a companhia, criação de boilerplates e templates, convenções de IaC/arquitetura/infra, criação de guidelines e boas práticas técnicas, definir baseline de segurança organizacional, avaliação e adoção de novas tecnologias organizacionais)\n- Responsabilidade de arquitetura e infraestrutura extra-projetos (estruturar disaster recovery e backup, arquiteturas de plataformas organizacionais, arquiteturas de produtos multi-plataformas (single/multi-tenant), definição de baselines e boas práticas de segurança, análise e dimensionamento do custo total de um produto/plataforma)\n- Referência sobre observabilidade e monitoramento junto ao time de Tech Ops (definição de SLOs e SLAs, garantia de tracing distribuído, telemetria orientada ao negócio)\n- Impulsionar o uso de IA como capacidade/skill organizacional (definir estratégias de uso de IA, governança, sugestão de soluções com IA para melhoria do ciclo de desenvolvimento)\n\nDiferenciais:\n- Representação técnica externa (Tech Talks, Artigos)"
+  },
+  {
+    "name": "Design",
+    "nivel": "Junior",
+    "descricao": "Profissional que desenvolve soluções de design com direcionamento claro, construindo domínio técnico fundamental e contribuindo de forma consistente dentro dos projetos.\n\nTipo de problema: execução orientada\n\nResponsabilidades:\n- Desenvolver telas e fluxos com base em direcionamento claro, aplicando padrões existentes e boas práticas de usabilidade\n- Resolver estados básicos de interface (erro, vazio, carregamento) e organizar entregas de forma consistente\n- Utilizar corretamente componentes, padrões e diretrizes do design system, mantendo consistência nas entregas\n- Documentar decisões e realizar handoff seguindo processos estabelecidos\n- Participar de pesquisas e levantamentos com orientação, apoiando entrevistas, testes e análises básicas\n- Organizar dados de pesquisa e registrar aprendizados de forma estruturada\n- Compreender o contexto do que está sendo desenvolvido e executar soluções alinhadas ao direcionamento definido\n- Demonstrar interesse em entender objetivos e métricas relacionadas ao projeto\n- Colaborar de forma ativa nas discussões do time, comunicando decisões com clareza e mantendo abertura para feedback\n\nDiferenciais:\n- Demonstrar curiosidade e buscar compreender o contexto antes de propor soluções\n- Familiaridade com ferramentas de prototipação e teste de usabilidade\n- Noções de acessibilidade digital"
+  },
+  {
+    "name": "Design",
+    "nivel": "Pleno",
+    "descricao": "Profissional autônomo que define fluxos ponta a ponta, identifica padrões e propõe melhorias com base em dados. Amplia sua responsabilidade sobre pesquisa, sistemas e discussões de produto.\n\nTipo de problema: design de solução\n\nResponsabilidades (inclui todas as do nível anterior):\n- Definir fluxos ponta a ponta para problemas bem delimitados, considerando diferentes cenários de uso e restrições técnicas\n- Equilibrar clareza, viabilidade e objetivos do projeto, propondo alternativas fundamentadas\n- Conduzir pesquisas de baixa a média complexidade com autonomia, interpretando dados qualitativos e quantitativos\n- Identificar padrões em dados de pesquisa e conectar descobertas com decisões de experiência\n- Questionar suposições e validar hipóteses com método\n- Identificar recorrências e propor organização de padrões em componentes e documentação\n- Atuar com atenção à consistência entre fluxos e módulos relacionados\n- Propor melhorias com base em dados, feedbacks e aprendizados de uso\n- Considerar impacto nas métricas ao tomar decisões de experiência\n- Participar ativamente das discussões de priorização\n- Conduzir discussões e alinhamentos em projetos sob sua responsabilidade\n- Organizar workshops ou rituais quando necessário, contribuindo para reduzir ambiguidades\n\nDiferenciais:\n- Experiência com design de plataformas B2B ou produtos SaaS\n- Capacidade de facilitar design critiques e reviews estruturados\n- Familiaridade com métricas de produto e analytics"
+  },
+  {
+    "name": "Design",
+    "nivel": "Senior",
+    "descricao": "Profissional referência técnica que influencia decisões de experiência, produto e sistemas. Eleva o padrão coletivo, apoia outros designers e representa o design em fóruns interdisciplinares.\n\nTipo de problema: arquitetura de experiência\n\nResponsabilidades (inclui todas as do nível anterior):\n- Atuar como referência técnica em decisões de experiência, identificando inconsistências e antecipando impactos sistêmicos\n- Melhorar coerência entre fluxos e elevar a qualidade das soluções do time\n- Apoiar outros designers em decisões complexas\n- Definir abordagens adequadas de descoberta para cada problema, conectando insights a direcionamentos de produto\n- Priorizar hipóteses com base em impacto e viabilidade\n- Apoiar outros designers na estruturação de pesquisas e sínteses\n- Organizar sistemas reutilizáveis de forma intencional, antecipando impactos técnicos e de consistência entre produtos\n- Atuar como referência na integração entre design e engenharia\n- Conectar decisões de design a objetivos estratégicos e indicadores de negócio\n- Estruturar argumentos com base em impacto e viabilidade\n- Influenciar discussões de roadmap com clareza técnica e visão de produto\n- Representar o design em fóruns interdisciplinares e contribuir para decisões mais amplas\n- Apoiar o desenvolvimento de outros designers do time\n\nDiferenciais:\n- Experiência com design de serviço e mapeamento de jornadas complexas\n- Capacidade de estruturar e facilitar design sprints\n- Experiência com produtos multi-tenant ou white-label\n- Mentoria formal de designers mais juniores"
+  },
+  {
+    "name": "Design",
+    "nivel": "Especialista",
+    "descricao": "Profissional com liderança consolidada, técnica e/ou organizacional, que impacta decisões estruturais da empresa. Define padrões de qualidade, influencia cultura e posicionamento do design na organização.\n\nTipo de problema: estratégia de design\n\nResponsabilidades (inclui todas as do nível anterior):\n- Definir padrões de qualidade para a experiência nos produtos da Wave\n- Orientar decisões estruturais e garantir coerência entre múltiplos contextos e produtos\n- Influenciar a forma como o time constrói soluções\n- Estabelecer direcionamento estratégico de descoberta a partir de evidências consolidadas\n- Estruturar práticas e critérios de investigação recorrentes\n- Conectar pesquisa, métricas e contexto de mercado para fundamentar decisões relevantes\n- Definir diretrizes estruturais para sistemas e padrões na Wave\n- Garantir coerência entre múltiplos produtos e contextos\n- Influenciar decisões arquiteturais e estabelecer bases duráveis para evolução do design\n- Atuar como liderança na definição de prioridades e caminhos estratégicos\n- Orientar decisões estruturais com base em impacto organizacional\n- Garantir alinhamento entre design, produto e objetivos da empresa\n- Exercer liderança consolidada, técnica e/ou de pessoas\n- Representar o design em decisões estratégicas\n- Influenciar cultura, práticas e posicionamento do design dentro da organização\n\nDiferenciais:\n- Representação técnica externa (talks, artigos, comunidade)\n- Experiência definindo estratégia de design para múltiplos produtos simultâneos\n- Capacidade de definir e evoluir design systems escaláveis cross-produto"
+  },
+  {
+    "name": "QA",
+    "nivel": "Junior",
+    "descricao": "Profissional responsável por garantir a qualidade funcional das entregas do time através de execução de testes, documentação clara de defeitos e apoio às atividades de automação iniciante. Ideal para quem quer aprender práticas de qualidade em times ágeis.\n\nResponsabilidades:\n- Executar casos de teste manuais (funcionais, regressão) com base em critérios de aceite\n- Realizar testes exploratórios guiados e checklist-driven\n- Reportar bugs com passos de reprodução, evidências (prints/vídeo) e prioridade sugerida\n- Apoiar a execução de suítes automatizadas existentes (rodar, analisar falhas simples)\n- Testar endpoints básicos de API com Postman/Insomnia\n- Participar de refinamentos e dailies, esclarecendo critérios de aceitação\n- Manter rastreabilidade entre histórias, casos de teste e bugs"
+  },
+  {
+    "name": "QA",
+    "nivel": "Pleno",
+    "descricao": "Profissional autônomo tecnicamente, capaz de planejar cobertura de testes, implementar automações confiáveis e atuar como referência operacional dentro do squad.\n\nResponsabilidades:\n- Elaborar estratégia de testes por feature (casos manuais, automação e testes de API)\n- Projetar e manter suítes de automação confiáveis (E2E, integração quando aplicável)\n- Criar e executar testes de integração e contratos de API; validar dados com SQL\n- Integrar testes ao pipeline de CI/CD e analisar causas de falhas\n- Conduzir sessões de testes exploratórios com foco em riscos do produto\n- Apoiar refinamentos técnicos e revisão de critérios de aceite"
+  },
+  {
+    "name": "QA",
+    "nivel": "Senior",
+    "descricao": "Profissional com visão técnica e de negócio que lidera a estratégia de qualidade de domínios complexos, influencia arquitetura para testabilidade e eleva padrões de entrega.\n\nResponsabilidades:\n- Desenvolver e coordenar estratégias de teste por produto/domínio (unit, integração, contratos, E2E, testes exploratórios)\n- Projetar arquitetura de automação e definir padrões (frameworks, políticas de flakiness, paralelização)\n- Trabalhar com equipes de engenharia em design-for-testability e revisão arquitetural\n- Implementar e manter políticas de qualidade em pipelines CI/CD (gates, quality checks, testes de contrato)\n- Liderar iniciativas de shift-left e automação de pipelines\n- Mentorar QAs plenos e júniores; promover revisões de código de testes"
+  },
+  {
+    "name": "Sustentação",
+    "nivel": "Junior",
+    "descricao": "Responsabilidades:\n- Conhecimento básico em alguma linguagem de programação preferencialmente back-end\n- Capacidade de executar queries simples no banco de dados\n- Capacidade de interpretação de logs\n- Conhecimento básico em API\n- Capacidade de documentação técnica"
+  },
+  {
+    "name": "Sustentação",
+    "nivel": "Pleno",
+    "descricao": "Responsabilidades:\n- Domínio de pelo menos uma linguagem de programação preferencialmente back-end\n- Capacidade de executar queries intermediárias e avançadas\n- Domínio de análise de logs\n- Conhecimento em GCP\n- Capacidade de atuar em salas de crise\n- Noção de infraestrutura\n- Capacidade em resolução de incidentes de maior complexidade\n- Conhecimento baseado em observabilidade (New Relic)\n- Capacidade de propor melhorias e resolução de bugs pontuais"
+  },
+  {
+    "name": "Sustentação",
+    "nivel": "Senior",
+    "descricao": "Responsabilidades:\n- Conhecimento avançado em banco de dados\n- Experiência com incidentes em aplicações de alta complexidade\n- Forte capacidade em análise de problemas e reestruturação do funcionamento do sistema\n- Conhecimento avançado em arquitetura/infraestrutura\n- Conhecimento avançado em linguagens de programação tanto back-end quanto front-end\n- Conhecimento de iOS e Android\n- Conhecimento de indicadores de sustentação\n- Capacidade de propor melhorias e resolução de bugs estruturados"
+  }
+]

@@ -7,22 +7,137 @@
     "secondary": "Conta",
     "dashboard": "Dashboard",
     "jobs": "Vagas",
+    "scheduler": "Agendar",
+    "interviews": "Entrevistas",
+    "positions": "Posições",
+    "projects": "Projetos",
     "settings": "Configurações",
     "logout": "Sair",
     "themeDark": "Ativar modo escuro",
     "themeLight": "Ativar modo claro"
   },
   "Dashboard": {
-    "title": "Dashboard",
-    "subtitle": "Visão geral da sua conta."
+    "title": "Board de candidatos",
+    "subtitle": "Acompanhe os candidatos por etapa do processo.",
+    "loading": "Carregando candidatos…",
+    "loadError": "Não foi possível carregar o board.",
+    "emptyColumn": "Sem candidatos",
+    "candidateModalTitle": "Detalhes do candidato",
+    "modalProject": "Projeto",
+    "modalPosition": "Vaga",
+    "scheduleMeeting": "Agendar meeting",
+    "alreadyScheduled": "Usuário já tem agendamento",
+    "stages": {
+      "Triagem": "Triagem",
+      "Fit Cultural": "Fit Cultural",
+      "People": "People",
+      "Entrevista Técnica": "Entrevista Técnica",
+      "Entrevista Cultural": "Entrevista Cultural",
+      "Proposta": "Proposta",
+      "Contratação": "Contratação",
+      "Rejeição": "Rejeição"
+    }
   },
   "Jobs": {
     "title": "Vagas",
-    "subtitle": "Gerencie suas vagas."
+    "subtitle": "Gerencie suas vagas.",
+    "create": "Nova vaga",
+    "empty": "Nenhuma vaga criada ainda.",
+    "loading": "Carregando vagas…",
+    "loadError": "Não foi possível carregar as vagas.",
+    "openedAtLabel": "Aberta em",
+    "form": {
+      "title": "Nova vaga",
+      "submit": "Criar vaga",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "position": "Posição",
+      "project": "Projeto",
+      "status": "Status",
+      "selectPlaceholder": "Selecione…"
+    },
+    "status": {
+      "Aberta": "Aberta",
+      "Fechada": "Fechada",
+      "Stand-by": "Stand-by",
+      "Cancelada": "Cancelada"
+    },
+    "errors": {
+      "required": "Campo obrigatório.",
+      "generic": "Algo deu errado. Tente novamente."
+    }
   },
   "Settings": {
     "title": "Configurações",
     "subtitle": "Gerencie as preferências da sua conta."
+  },
+  "Interviews": {
+    "title": "Entrevistas",
+    "subtitle": "Acompanhe e gerencie as entrevistas agendadas."
+  },
+  "Positions": {
+    "title": "Posições",
+    "subtitle": "Cadastre as posições e o que esperamos de cada nível.",
+    "create": "Nova posição",
+    "empty": "Nenhuma posição cadastrada ainda.",
+    "loading": "Carregando posições…",
+    "loadError": "Não foi possível carregar as posições.",
+    "edit": "Editar",
+    "levelCount": "{count, plural, one {# nível} other {# níveis}}",
+    "createdAtLabel": "Criada em",
+    "form": {
+      "title": "Nova posição",
+      "editTitle": "Editar posição",
+      "submit": "Criar posição",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Ex.: Backend",
+      "level": "Nível",
+      "descricao": "Descrição",
+      "descricaoPlaceholder": "O que esperamos de alguém neste nível?"
+    },
+    "levels": {
+      "Junior": "Júnior",
+      "Pleno": "Pleno",
+      "Senior": "Sênior",
+      "Especialista": "Especialista"
+    },
+    "errors": {
+      "required": "Campo obrigatório.",
+      "generic": "Algo deu errado. Tente novamente."
+    }
+  },
+  "Projects": {
+    "title": "Projetos",
+    "subtitle": "Cadastre os projetos e o contexto de cada um.",
+    "create": "Novo projeto",
+    "empty": "Nenhum projeto cadastrado ainda.",
+    "loading": "Carregando projetos…",
+    "loadError": "Não foi possível carregar os projetos.",
+    "edit": "Editar",
+    "emptyContext": "Sem contexto ainda.",
+    "createdAtLabel": "Criado em",
+    "form": {
+      "title": "Novo projeto",
+      "editTitle": "Editar projeto",
+      "submit": "Criar projeto",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Ex.: App Algar",
+      "expectation": "Contexto",
+      "expectationPlaceholder": "Contexto do projeto (você pode preencher depois)."
+    },
+    "errors": {
+      "required": "Campo obrigatório.",
+      "generic": "Algo deu errado. Tente novamente."
+    }
   },
   "HomePage": {
     "title": "Wave by Bemobi",
@@ -122,7 +237,11 @@
       "submit": "Entrar",
       "noAccount": "Não tem uma conta?",
       "goSignup": "Criar conta",
-      "invalid": "Credenciais inválidas."
+      "invalid": "Credenciais inválidas.",
+      "google": "Entrar com Google",
+      "or": "ou",
+      "googleError": "Não foi possível entrar com o Google. Tente novamente.",
+      "calendarScopeError": "Você precisa permitir o acesso à Agenda do Google para continuar."
     },
     "signup": {
       "title": "Criar conta",

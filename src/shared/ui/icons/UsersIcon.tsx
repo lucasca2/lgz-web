@@ -1,5 +1,6 @@
 import type { IconProps } from "./types";
 
+// Ícone "pessoas" (entrevistas). Usa currentColor — defina a cor via CSS `color`.
 export function UsersIcon({ className }: IconProps) {
   return (
     <svg
