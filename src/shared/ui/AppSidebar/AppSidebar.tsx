@@ -21,6 +21,7 @@ import { ThemeToggle } from "@/shared/ui/ThemeToggle";
 import { LocaleSwitcher } from "@/shared/ui/LocaleSwitcher";
 import { useLogout } from "@/domains/Auth/shared/hooks";
 import styles from "./AppSidebar.module.css";
+import { Button } from "../Button";
 
 // Sidebar da área autenticada: navegação + controles (tema/idioma) + logout,
 // estilizada com os tokens do sistema.
@@ -38,6 +39,22 @@ export function AppSidebar() {
     logout.mutate(undefined, { onSuccess: () => router.refresh() });
   }
 
+  async function handleClickLinkedin() {
+    const res = await fetch("/api/linkedin/auth/login", { method: "POST" })
+  }
+  function handleClickLinkedinUser() {
+    fetch("/api/linkedin/profile/henrique-tsugiyama")
+  }
+
+  function handleClickLinkedinSearch() {
+    fetch(
+      '/api/linkedin/search?' + new URLSearchParams({
+        keywords: 'software engineer',
+        location: 'San Francisco',
+        page: String(0),              // ← or just '0'
+      })
+    );
+  }
   return (
     <Sidebar>
       <SidebarHeader>
@@ -60,6 +77,15 @@ export function AppSidebar() {
           >
             {t("jobs")}
           </SidebarNavItem>
+          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedin()}>
+            {t("logout")}
+          </Button>
+          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedinUser()}>
+            LK User
+          </Button>
+          <Button variant="primary" className={styles.link} onClick={() => handleClickLinkedinSearch()}>
+            LK Search
+          </Button>
         </SidebarNav>
       </SidebarContent>
 
