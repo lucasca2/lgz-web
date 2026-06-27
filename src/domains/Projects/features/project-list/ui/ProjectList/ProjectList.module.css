@@ -1,0 +1,43 @@
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  background: transparent;
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.th {
+  height: var(--space-6);
+  padding: 0 var(--space-2);
+  text-align: left;
+  font-weight: 500;
+  color: var(--wave-slate);
+  border-bottom: 1px solid var(--wave-border);
+  white-space: nowrap;
+}
+
+.th:last-child {
+  text-align: right;
+}
+
+.state {
+  margin: 0;
+  padding: var(--space-4) 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+}
+
+.stateError {
+  margin: 0;
+  padding: var(--space-4) 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--wave-danger);
+}

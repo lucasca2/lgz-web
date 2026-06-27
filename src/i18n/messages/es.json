@@ -8,24 +8,121 @@
     "dashboard": "Panel",
     "jobs": "Vacantes",
     "scheduler": "Agendar",
+    "positions": "Posiciones",
+    "projects": "Proyectos",
     "settings": "Configuración",
     "logout": "Salir",
     "themeDark": "Activar modo oscuro",
     "themeLight": "Activar modo claro"
   },
   "Dashboard": {
-    "title": "Panel",
-    "subtitle": "Resumen de tu cuenta.",
-    "scheduleCta": "Agendar reunión",
-    "scheduleCtaHint": "Elige participantes y horarios y genera un enlace de invitación."
+    "title": "Tablero de candidatos",
+    "subtitle": "Sigue a los candidatos por etapa del proceso.",
+    "loading": "Cargando candidatos…",
+    "loadError": "No se pudo cargar el tablero.",
+    "emptyColumn": "Sin candidatos",
+    "stages": {
+      "Triagem": "Cribado",
+      "Fit Cultural": "Ajuste cultural",
+      "People": "People",
+      "Entrevista Técnica": "Entrevista técnica",
+      "Entrevista Cultural": "Entrevista cultural",
+      "Proposta": "Oferta",
+      "Contratação": "Contratación",
+      "Rejeição": "Rechazo"
+    }
   },
   "Jobs": {
     "title": "Vacantes",
-    "subtitle": "Gestiona tus vacantes."
+    "subtitle": "Gestiona tus vacantes.",
+    "create": "Nueva vacante",
+    "empty": "Aún no hay vacantes creadas.",
+    "loading": "Cargando vacantes…",
+    "loadError": "No se pudieron cargar las vacantes.",
+    "openedAtLabel": "Abierta el",
+    "form": {
+      "title": "Nueva vacante",
+      "submit": "Crear vacante",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "position": "Posición",
+      "project": "Proyecto",
+      "status": "Estado",
+      "selectPlaceholder": "Selecciona…"
+    },
+    "status": {
+      "Aberta": "Abierta",
+      "Fechada": "Cerrada",
+      "Stand-by": "Stand-by",
+      "Cancelada": "Cancelada"
+    },
+    "errors": {
+      "required": "Campo obligatorio.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
   },
   "Settings": {
     "title": "Configuración",
     "subtitle": "Gestiona las preferencias de tu cuenta."
+  },
+  "Positions": {
+    "title": "Posiciones",
+    "subtitle": "Registra las posiciones y lo que esperamos en cada nivel.",
+    "create": "Nueva posición",
+    "empty": "Aún no hay posiciones registradas.",
+    "loading": "Cargando posiciones…",
+    "loadError": "No se pudieron cargar las posiciones.",
+    "edit": "Editar",
+    "createdAtLabel": "Creada el",
+    "form": {
+      "title": "Nueva posición",
+      "editTitle": "Editar posición",
+      "submit": "Crear posición",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej.: Backend",
+      "level": "Nivel",
+      "descricao": "Descripción",
+      "descricaoPlaceholder": "¿Qué esperamos de alguien en este nivel?"
+    },
+    "levels": {
+      "Junior": "Junior",
+      "Pleno": "Semi-senior",
+      "Senior": "Senior",
+      "Especialista": "Especialista"
+    },
+    "errors": {
+      "required": "Campo obligatorio.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
+  },
+  "Projects": {
+    "title": "Proyectos",
+    "subtitle": "Registra los proyectos y el contexto de cada uno.",
+    "create": "Nuevo proyecto",
+    "empty": "Aún no hay proyectos registrados.",
+    "loading": "Cargando proyectos…",
+    "loadError": "No se pudieron cargar los proyectos.",
+    "createdAtLabel": "Creado el",
+    "form": {
+      "title": "Nuevo proyecto",
+      "submit": "Crear proyecto",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej.: App Algar",
+      "expectation": "Expectativa",
+      "expectationPlaceholder": "Contexto del proyecto y experiencia extra deseada."
+    },
+    "errors": {
+      "required": "Campo obligatorio.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
   },
   "HomePage": {
     "title": "Wave by Bemobi",

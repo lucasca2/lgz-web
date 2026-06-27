@@ -5,10 +5,7 @@
   gap: var(--space-1);
   font: inherit;
   font-weight: 600;
-  font-size: var(--text-sm);
   line-height: 1;
-  height: var(--space-6);
-  padding: 0 var(--space-2_5);
   border: 1px solid transparent;
   border-radius: var(--wave-radius-pill);
   cursor: pointer;
@@ -16,6 +13,31 @@
     background-color 0.15s ease,
     border-color 0.15s ease,
     color 0.15s ease;
+}
+
+.button svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* Tamanhos */
+.sm {
+  height: var(--space-4);
+  padding: 0 var(--space-1_5);
+  font-size: var(--text-xs);
+}
+
+.md {
+  height: var(--space-5);
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.lg {
+  height: var(--space-6);
+  padding: 0 var(--space-2_5);
+  font-size: var(--text-sm);
 }
 
 .button:focus-visible {
@@ -52,8 +74,8 @@
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
+  width: 1em;
+  height: 1em;
   border: 2px solid color-mix(in srgb, currentColor 30%, transparent);
   border-top-color: currentColor;
   border-radius: 50%;
