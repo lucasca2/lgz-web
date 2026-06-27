@@ -7,6 +7,7 @@
     "secondary": "Cuenta",
     "dashboard": "Panel",
     "jobs": "Vacantes",
+    "scheduler": "Agendar",
     "settings": "Configuración",
     "logout": "Salir",
     "themeDark": "Activar modo oscuro",
@@ -14,7 +15,9 @@
   },
   "Dashboard": {
     "title": "Panel",
-    "subtitle": "Resumen de tu cuenta."
+    "subtitle": "Resumen de tu cuenta.",
+    "scheduleCta": "Agendar reunión",
+    "scheduleCtaHint": "Elige participantes y horarios y genera un enlace de invitación."
   },
   "Jobs": {
     "title": "Vacantes",
@@ -41,7 +44,11 @@
       "submit": "Entrar",
       "noAccount": "¿No tienes una cuenta?",
       "goSignup": "Crear cuenta",
-      "invalid": "Credenciales inválidas."
+      "invalid": "Credenciales inválidas.",
+      "google": "Entrar con Google",
+      "or": "o",
+      "googleError": "No se pudo entrar con Google. Inténtalo de nuevo.",
+      "calendarScopeError": "Debes permitir el acceso a tu Google Calendar para continuar."
     },
     "signup": {
       "title": "Crear cuenta",
@@ -67,6 +74,59 @@
       "passwordNumber": "Incluye al menos un número.",
       "required": "Campo obligatorio.",
       "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
+  },
+  "Scheduling": {
+    "recruiter": {
+      "title": "Agendar reunión",
+      "subtitle": "Elige participantes y horarios y genera un enlace de invitación.",
+      "participants": "Participantes",
+      "include": "Incluir",
+      "required": "Oblig.",
+      "duration": "Duración (min)",
+      "urgent": "Urgencia (ignora opcionales)",
+      "search": "Buscar horarios",
+      "searching": "Buscando...",
+      "prevWeek": "Semana anterior",
+      "nextWeek": "Semana siguiente",
+      "week": "Semana {n}",
+      "legendFree": "Libre para todos",
+      "legendUrgent": "Solo ignorando opcionales",
+      "legendSelected": "Seleccionado",
+      "selectedCount": "{count} seleccionado(s)",
+      "generate": "Generar enlace",
+      "generating": "Generando...",
+      "copy": "Copiar",
+      "copied": "¡Copiado!",
+      "clear": "Limpiar selección",
+      "linkLabel": "Enlace generado",
+      "noSlots": "No se encontraron horarios para esta semana.",
+      "addParticipant": "Agregar correo",
+      "addParticipantPlaceholder": "persona@bemobi.com",
+      "add": "Agregar",
+      "reloginNeeded": "Tu permiso de Google Calendar expiró. Sal y vuelve a entrar.",
+      "error": "No se pudieron cargar los horarios. Inténtalo de nuevo."
+    },
+    "candidate": {
+      "title": "Elige un horario",
+      "subtitle": "{title} · {duration} min",
+      "availableCount": "{available} horario(s) disponible(s)",
+      "removedNote": "{count} horario(s) dejaron de estar disponibles y se eliminaron.",
+      "emailLabel": "Tu correo",
+      "emailPlaceholder": "tu@correo.com",
+      "pick": "Seleccionar",
+      "noSlots": "No hay horarios disponibles en este momento.",
+      "confirmTitle": "Confirmar reserva",
+      "confirmBody": "¿Confirmar {datetime} para {email}?",
+      "confirm": "Confirmar",
+      "booking": "Reservando...",
+      "cancel": "Cancelar",
+      "booked": "¡Agendado!",
+      "viewEvent": "Ver evento",
+      "consumed": "Este enlace ya fue utilizado y ya no está disponible.",
+      "notFound": "Invitación no encontrada.",
+      "emailRequired": "Ingresa un correo válido antes de elegir un horario.",
+      "error": "No se pudo agendar. Inténtalo de nuevo."
     }
   }
 }

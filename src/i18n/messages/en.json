@@ -7,6 +7,7 @@
     "secondary": "Account",
     "dashboard": "Dashboard",
     "jobs": "Jobs",
+    "scheduler": "Schedule",
     "settings": "Settings",
     "logout": "Sign out",
     "themeDark": "Switch to dark mode",
@@ -14,7 +15,9 @@
   },
   "Dashboard": {
     "title": "Dashboard",
-    "subtitle": "Overview of your account."
+    "subtitle": "Overview of your account.",
+    "scheduleCta": "Schedule a meeting",
+    "scheduleCtaHint": "Pick participants and time slots and generate an invite link."
   },
   "Jobs": {
     "title": "Jobs",
@@ -41,7 +44,11 @@
       "submit": "Sign in",
       "noAccount": "Don't have an account?",
       "goSignup": "Create account",
-      "invalid": "Invalid credentials."
+      "invalid": "Invalid credentials.",
+      "google": "Sign in with Google",
+      "or": "or",
+      "googleError": "Couldn't sign in with Google. Please try again.",
+      "calendarScopeError": "You must allow access to your Google Calendar to continue."
     },
     "signup": {
       "title": "Create account",
@@ -67,6 +74,59 @@
       "passwordNumber": "Include at least one number.",
       "required": "Required field.",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "Scheduling": {
+    "recruiter": {
+      "title": "Schedule a meeting",
+      "subtitle": "Pick participants and time slots and generate an invite link.",
+      "participants": "Participants",
+      "include": "Include",
+      "required": "Req.",
+      "duration": "Duration (min)",
+      "urgent": "Urgent (ignore optional)",
+      "search": "Find slots",
+      "searching": "Searching...",
+      "prevWeek": "Previous week",
+      "nextWeek": "Next week",
+      "week": "Week {n}",
+      "legendFree": "Free for everyone",
+      "legendUrgent": "Only ignoring optional",
+      "legendSelected": "Selected",
+      "selectedCount": "{count} selected",
+      "generate": "Generate link",
+      "generating": "Generating...",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "clear": "Clear selection",
+      "linkLabel": "Generated link",
+      "noSlots": "No slots found for this week.",
+      "addParticipant": "Add email",
+      "addParticipantPlaceholder": "person@bemobi.com",
+      "add": "Add",
+      "reloginNeeded": "Your Google Calendar permission expired. Please sign out and back in.",
+      "error": "Couldn't load slots. Please try again."
+    },
+    "candidate": {
+      "title": "Pick a time",
+      "subtitle": "{title} · {duration} min",
+      "availableCount": "{available} slot(s) available",
+      "removedNote": "{count} slot(s) became unavailable and were removed.",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "you@email.com",
+      "pick": "Select",
+      "noSlots": "No slots available right now.",
+      "confirmTitle": "Confirm booking",
+      "confirmBody": "Confirm {datetime} for {email}?",
+      "confirm": "Confirm",
+      "booking": "Booking...",
+      "cancel": "Cancel",
+      "booked": "Booked!",
+      "viewEvent": "View event",
+      "consumed": "This link has already been used and is no longer available.",
+      "notFound": "Invite not found.",
+      "emailRequired": "Enter a valid email before picking a time.",
+      "error": "Couldn't book. Please try again."
     }
   }
 }

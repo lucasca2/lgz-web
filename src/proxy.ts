@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE = "session";
 
-const PUBLIC_PATHS = ["/login", "/signup"];
+// /convite/<id> é a tela pública do candidato (sem login, link single-use).
+const PUBLIC_PATHS = ["/login", "/signup", "/convite"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
