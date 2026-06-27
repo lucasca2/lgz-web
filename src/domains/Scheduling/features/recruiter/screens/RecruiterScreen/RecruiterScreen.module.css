@@ -25,6 +25,17 @@
   color: var(--wave-slate);
 }
 
+.forCandidate {
+  margin: var(--space-0_5) 0 0;
+  align-self: flex-start;
+  padding: var(--space-0_5) var(--space-1_5);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--wave-accent);
+  background: var(--wave-accent-soft);
+  border-radius: var(--wave-radius);
+}
+
 .panel {
   display: flex;
   flex-direction: column;

@@ -182,6 +182,7 @@
     "recruiter": {
       "title": "Schedule a meeting",
       "subtitle": "Pick participants and time slots and generate an invite link.",
+      "forCandidate": "Generating link for {name}",
       "participants": "Participants",
       "include": "Include",
       "required": "Req.",
