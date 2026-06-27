@@ -8,6 +8,7 @@
     "dashboard": "Panel",
     "funil": "Embudo",
     "jobs": "Vacantes",
+    "assessments": "Evaluaciones",
     "scheduler": "Agendar",
     "interviews": "Entrevistas",
     "positions": "Posiciones",
@@ -76,8 +77,122 @@
     }
   },
   "Settings": {
-    "title": "Configuración",
-    "subtitle": "Gestiona las preferencias de tu cuenta."
+    "title": "Configuración de IA",
+    "subtitle": "Configura el modelo y los prompts de la evaluación de entrevistas.",
+    "loading": "Cargando configuración…",
+    "loadError": "No se pudo cargar la configuración.",
+    "model": {
+      "label": "Modelo de Claude",
+      "hint": "Modelo usado para análisis, recomendación y resumen."
+    },
+    "prompts": {
+      "analysis": "Prompt de Análisis de Comportamiento",
+      "summary": "Prompt de Resumen de la Entrevista",
+      "recommendation": "Prompt de Recomendación",
+      "rejection": "Prompt de Plantilla de Rechazo"
+    },
+    "restore": "Restaurar predeterminado",
+    "usingDefault": "usando predeterminado",
+    "save": "Guardar cambios",
+    "saved": "Configuración guardada.",
+    "error": "No se pudo guardar."
+  },
+  "Assessments": {
+    "title": "Evaluación de Entrevistas",
+    "subtitle": "Analiza transcripciones y genera recomendaciones con IA.",
+    "create": "Nueva evaluación",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Buscar por nombre o cargo…",
+    "filters": { "all": "Todas" },
+    "status": {
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "pending": "Analizado",
+      "draft": "Borrador"
+    },
+    "loading": "Cargando evaluaciones…",
+    "loadError": "No se pudieron cargar las evaluaciones.",
+    "notFound": "Evaluación no encontrada.",
+    "empty": "Aún no hay evaluaciones.",
+    "charsCount": "{count, plural, one {# carácter} other {# caracteres}}",
+    "pageInfo": "Página {page} de {total}",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "delete": { "confirm": "¿Eliminar esta evaluación?", "action": "Eliminar" },
+    "levels": {
+      "Junior": "Junior",
+      "Pleno": "Semi-senior",
+      "Senior": "Senior",
+      "Especialista": "Especialista"
+    },
+    "position": {
+      "label": "Especialidad (posición)",
+      "placeholder": "Selecciona la posición…"
+    },
+    "new": {
+      "heading": "Nueva evaluación",
+      "subtitle": "Selecciona la posición y pega la transcripción de la entrevista.",
+      "transcriptLabel": "Transcripción",
+      "transcriptPlaceholder": "Pega aquí la transcripción de la entrevista…",
+      "analyze": "Analizar"
+    },
+    "detail": { "back": "Volver a evaluaciones" },
+    "tabs": {
+      "recommendation": "Recomendación",
+      "analysis": "Análisis",
+      "transcript": "Transcripción"
+    },
+    "analysis": {
+      "summary": "Resumen del perfil",
+      "generalAspects": "Aspectos de comportamiento",
+      "negativeAspects": "Puntos de atención de comportamiento",
+      "noNegatives": "No se identificaron puntos de atención.",
+      "empty": "Sin análisis disponible."
+    },
+    "intensity": { "alta": "Alta", "media": "Media", "baixa": "Baja" },
+    "severity": { "alta": "Alta", "media": "Media", "baixa": "Baja" },
+    "recommendation": {
+      "confidence": "Confianza",
+      "justification": "Justificación",
+      "strengths": "Puntos fuertes",
+      "attention": "Puntos de atención",
+      "similarApproved": "Candidatos similares aprobados",
+      "similarRejected": "Candidatos similares rechazados",
+      "noSimilar": "Ningún candidato similar.",
+      "empty": "Aún no hay recomendación para esta evaluación.",
+      "generate": "Generar recomendación"
+    },
+    "decision": { "APROVAR": "Aprobar", "REPROVAR": "Rechazar" },
+    "decisionControls": {
+      "title": "Decisión manual",
+      "justification": "Justificación (opcional)",
+      "justificationPlaceholder": "¿Por qué estás de acuerdo o en desacuerdo con la recomendación?",
+      "save": "Guardar decisión",
+      "saved": "Decisión guardada."
+    },
+    "actions": {
+      "summary": "Resumen de la entrevista",
+      "rejection": "Plantilla de respuesta"
+    },
+    "summary": {
+      "title": "Resumen de la entrevista",
+      "empty": "Aún no se ha generado un resumen.",
+      "generate": "Generar resumen",
+      "regenerate": "Regenerar"
+    },
+    "rejection": {
+      "title": "Plantilla de rechazo",
+      "message": "Mensaje",
+      "empty": "Genera una devolución amable para el candidato.",
+      "generate": "Generar devolución",
+      "regenerate": "Regenerar"
+    },
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "aiNotConfigured": "IA no configurada. Define ANTHROPIC_API_KEY en el entorno."
+    }
   },
   "Interviews": {
     "title": "Entrevistas",

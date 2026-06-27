@@ -108,12 +108,13 @@ model motivos_reprovacao {
 /// Catálogo de posições/cargos por senioridade (ex.: "Backend" + nível "Pleno").
 /// Fonte de verdade do que se espera de cada nível; alimenta o cadastro de vagas.
 model posicoes {
-  id         String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome       String            @db.VarChar(200)
-  nivel      nivel_senioridade
-  descricao  String
-  created_at DateTime          @default(now()) @db.Timestamptz(6)
-  updated_at DateTime          @default(now()) @db.Timestamptz(6)
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome                  String                  @db.VarChar(200)
+  nivel                 nivel_senioridade
+  descricao             String
+  created_at            DateTime                @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime                @default(now()) @db.Timestamptz(6)
+  avaliacoes_entrevista avaliacoes_entrevista[]
 
   @@unique([nome, nivel], map: "uq_posicoes_nome_nivel")
   @@index([nivel], map: "idx_posicoes_nivel")
@@ -297,6 +298,12 @@ enum nivel_senioridade {
   Especialista
 }
 
+/// Decisão final de uma avaliação de entrevista (migrado do app de origem).
+enum avaliacao_decisao {
+  APROVAR
+  REPROVAR
+}
+
 enum participacao_tipo {
   Obrigatorio
   Opcional
@@ -324,4 +331,46 @@ model sessoes {
   usuarios   usuarios @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
 
   @@index([usuario_id])
+}
+
+// ─────────────────────────────────────────────
+// Avaliação de Entrevistas (migrado do people-interview-assessment-agent)
+// Fluxo: transcrição → análise comportamental (IA) → recomendação (IA) → decisão.
+// A recomendação cruza o candidato atual com o histórico da MESMA posição
+// (especialidade) e com entrevistas anteriores do MESMO candidato.
+// ─────────────────────────────────────────────
+model avaliacoes_entrevista {
+  id                   String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  // Especialidade: vincula a avaliação ao catálogo de posições (posicoes).
+  posicao_id           String?            @db.Uuid
+  candidato_nome       String             @db.VarChar(255)
+  cargo                String?            @db.VarChar(500)
+  transcricao          String
+  // Saídas da IA (JSON) — análise comportamental e recomendação comparativa.
+  analise_json         Json?
+  recomendacao_json    Json?
+  decisao              avaliacao_decisao?
+  justificativa_manual String?
+  resumo_markdown      String?
+  // Id do registro no app de origem — garante idempotência do seed.
+  origem_id            Int?               @unique(map: "uq_avaliacoes_origem")
+  created_at           DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime           @default(now()) @db.Timestamptz(6)
+  posicoes             posicoes?          @relation(fields: [posicao_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([posicao_id], map: "idx_avaliacoes_posicao")
+  @@index([candidato_nome], map: "idx_avaliacoes_candidato")
+  @@index([created_at], map: "idx_avaliacoes_created")
+}
+
+/// Configuração global da IA de avaliação (modelo + prompts). Linha única
+/// (`id = "singleton"`). Valores nulos caem nos defaults definidos em código.
+model configuracoes_avaliacao {
+  id                        String   @id @default("singleton")
+  model                     String?
+  analysis_prompt           String?
+  recommendation_prompt     String?
+  summary_prompt            String?
+  rejection_template_prompt String?
+  updated_at                DateTime @default(now()) @db.Timestamptz(6)
 }

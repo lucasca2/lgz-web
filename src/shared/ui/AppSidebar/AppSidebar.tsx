@@ -16,6 +16,7 @@ import {
   BriefcaseIcon,
   CalendarIcon,
   UsersIcon,
+  ClipboardCheckIcon,
   FolderIcon,
   LayersIcon,
   SettingsIcon,
@@ -81,6 +82,13 @@ export function AppSidebar() {
             active={isActive("/jobs")}
           >
             {t("jobs")}
+          </SidebarNavItem>
+          <SidebarNavItem
+            href="/avaliacoes"
+            icon={<ClipboardCheckIcon />}
+            active={isActive("/avaliacoes")}
+          >
+            {t("assessments")}
           </SidebarNavItem>
           <SidebarNavItem
             href="/agendar"

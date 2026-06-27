@@ -8,6 +8,7 @@
     "dashboard": "Dashboard",
     "funil": "Funnel",
     "jobs": "Jobs",
+    "assessments": "Assessments",
     "scheduler": "Schedule",
     "interviews": "Interviews",
     "positions": "Positions",
@@ -76,8 +77,122 @@
     }
   },
   "Settings": {
-    "title": "Settings",
-    "subtitle": "Manage your account preferences."
+    "title": "AI Settings",
+    "subtitle": "Configure the model and prompts for interview assessment.",
+    "loading": "Loading settings…",
+    "loadError": "Could not load settings.",
+    "model": {
+      "label": "Claude model",
+      "hint": "Model used for analysis, recommendation and summary."
+    },
+    "prompts": {
+      "analysis": "Behavioral Analysis Prompt",
+      "summary": "Interview Summary Prompt",
+      "recommendation": "Recommendation Prompt",
+      "rejection": "Rejection Template Prompt"
+    },
+    "restore": "Restore default",
+    "usingDefault": "using default",
+    "save": "Save changes",
+    "saved": "Settings saved.",
+    "error": "Could not save."
+  },
+  "Assessments": {
+    "title": "Interview Assessment",
+    "subtitle": "Analyze transcripts and generate AI recommendations.",
+    "create": "New assessment",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search by name or role…",
+    "filters": { "all": "All" },
+    "status": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "pending": "Analyzed",
+      "draft": "Draft"
+    },
+    "loading": "Loading assessments…",
+    "loadError": "Could not load assessments.",
+    "notFound": "Assessment not found.",
+    "empty": "No assessments yet.",
+    "charsCount": "{count, plural, one {# character} other {# characters}}",
+    "pageInfo": "Page {page} of {total}",
+    "prev": "Previous",
+    "next": "Next",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "delete": { "confirm": "Delete this assessment?", "action": "Delete" },
+    "levels": {
+      "Junior": "Junior",
+      "Pleno": "Mid-level",
+      "Senior": "Senior",
+      "Especialista": "Specialist"
+    },
+    "position": {
+      "label": "Specialty (position)",
+      "placeholder": "Select a position…"
+    },
+    "new": {
+      "heading": "New assessment",
+      "subtitle": "Select the position and paste the interview transcript.",
+      "transcriptLabel": "Transcript",
+      "transcriptPlaceholder": "Paste the interview transcript here…",
+      "analyze": "Analyze"
+    },
+    "detail": { "back": "Back to assessments" },
+    "tabs": {
+      "recommendation": "Recommendation",
+      "analysis": "Analysis",
+      "transcript": "Transcript"
+    },
+    "analysis": {
+      "summary": "Profile summary",
+      "generalAspects": "Behavioral aspects",
+      "negativeAspects": "Behavioral attention points",
+      "noNegatives": "No attention points identified.",
+      "empty": "No analysis available."
+    },
+    "intensity": { "alta": "High", "media": "Medium", "baixa": "Low" },
+    "severity": { "alta": "High", "media": "Medium", "baixa": "Low" },
+    "recommendation": {
+      "confidence": "Confidence",
+      "justification": "Rationale",
+      "strengths": "Strengths",
+      "attention": "Attention points",
+      "similarApproved": "Similar approved candidates",
+      "similarRejected": "Similar rejected candidates",
+      "noSimilar": "No similar candidates.",
+      "empty": "No recommendation yet for this assessment.",
+      "generate": "Generate recommendation"
+    },
+    "decision": { "APROVAR": "Approve", "REPROVAR": "Reject" },
+    "decisionControls": {
+      "title": "Manual decision",
+      "justification": "Justification (optional)",
+      "justificationPlaceholder": "Why do you agree or disagree with the recommendation?",
+      "save": "Save decision",
+      "saved": "Decision saved."
+    },
+    "actions": {
+      "summary": "Interview summary",
+      "rejection": "Rejection template"
+    },
+    "summary": {
+      "title": "Interview summary",
+      "empty": "No summary generated yet.",
+      "generate": "Generate summary",
+      "regenerate": "Regenerate"
+    },
+    "rejection": {
+      "title": "Rejection template",
+      "message": "Message",
+      "empty": "Generate a kind feedback message for the candidate.",
+      "generate": "Generate feedback",
+      "regenerate": "Regenerate"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "aiNotConfigured": "AI not configured. Set ANTHROPIC_API_KEY in the environment."
+    }
   },
   "Interviews": {
     "title": "Interviews",

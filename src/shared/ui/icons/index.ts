@@ -11,6 +11,7 @@ export { LogOutIcon } from "./LogOutIcon";
 export { DashboardIcon } from "./DashboardIcon";
 export { CalendarIcon } from "./CalendarIcon";
 export { UsersIcon } from "./UsersIcon";
+export { ClipboardCheckIcon } from "./ClipboardCheckIcon";
 export { SunIcon } from "./SunIcon";
 export { MoonIcon } from "./MoonIcon";
 export { TrendingUpIcon } from "./TrendingUpIcon";

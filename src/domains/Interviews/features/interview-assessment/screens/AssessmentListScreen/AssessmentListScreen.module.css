@@ -1,0 +1,175 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.subtitle {
+  margin: var(--space-0_5) 0 0;
+  font-size: var(--text-md);
+  color: var(--wave-slate);
+}
+
+.cta {
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  flex: 1;
+  min-width: 220px;
+  max-width: 360px;
+}
+
+.pills {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--wave-slate);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-pill);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.pill:hover {
+  color: var(--wave-ink);
+}
+
+.pillActive {
+  color: var(--wave-on-ink);
+  background: var(--wave-accent);
+  border-color: var(--wave-accent);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2_5);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+}
+
+.rowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.candidate {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.cargo {
+  font-size: var(--text-sm);
+  color: var(--wave-ink-soft);
+}
+
+.meta {
+  font-size: var(--text-xs);
+  color: var(--wave-slate);
+}
+
+.rowSide {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1_5);
+  flex-shrink: 0;
+}
+
+.delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-3);
+  height: var(--space-3);
+  font-size: var(--text-xl);
+  line-height: 1;
+  color: var(--wave-slate);
+  background: transparent;
+  border: none;
+  border-radius: var(--wave-radius);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.delete:hover {
+  color: var(--wave-danger);
+  background: var(--wave-danger-soft);
+}
+
+.state {
+  margin: var(--space-4) 0;
+  text-align: center;
+  font-size: var(--text-md);
+  color: var(--wave-slate);
+}
+
+.stateError {
+  margin: var(--space-4) 0;
+  text-align: center;
+  font-size: var(--text-md);
+  color: var(--wave-danger);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.pageInfo {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+}

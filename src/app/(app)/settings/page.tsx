@@ -1,8 +1,5 @@
-import { getTranslations } from "next-intl/server";
-import { PagePlaceholder } from "@/shared/ui/PagePlaceholder";
+import { AssessmentSettingsScreen } from "@/domains/Interviews/features/interview-assessment/screens/AssessmentSettingsScreen";
 
-export default async function SettingsPage() {
-  const t = await getTranslations("Settings");
-
-  return <PagePlaceholder title={t("title")} subtitle={t("subtitle")} />;
+export default function SettingsPage() {
+  return <AssessmentSettingsScreen />;
 }
