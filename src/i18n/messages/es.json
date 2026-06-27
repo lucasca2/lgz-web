@@ -9,6 +9,8 @@
     "jobs": "Vacantes",
     "positions": "Posiciones",
     "projects": "Proyectos",
+    "candidates": "Candidatos",
+    "funil": "Embudo",
     "settings": "Configuración",
     "logout": "Salir",
     "themeDark": "Activar modo oscuro",
@@ -131,6 +133,80 @@
     "signIn": "Entrar",
     "createAccount": "Crear cuenta",
     "logout": "Salir"
+  },
+  "Candidatos": {
+    "title": "Candidatos",
+    "empty": "No se encontraron candidatos.",
+    "filters": {
+      "search": "Buscar por nombre o correo",
+      "origem": "Origen",
+      "all": "Todos los orígenes"
+    },
+    "table": {
+      "nome": "Nombre",
+      "email": "Correo",
+      "telefone": "Teléfono",
+      "origem": "Origen",
+      "pretensao": "Pretensión salarial",
+      "dataCadastro": "Registro"
+    },
+    "pagination": {
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "summary": "{count} candidatos · Página {page} de {total}"
+    }
+  },
+  "Funil": {
+    "title": "Embudo de Reclutamiento",
+    "subtitle": "Análisis del pipeline de selección.",
+    "kpis": {
+      "totalCandidatos": "Total de Candidatos",
+      "candidatosAtivos": "Candidatos Activos",
+      "taxaConversao": "Tasa de Conversión",
+      "slaMedio": "SLA Promedio",
+      "vagasAbertas": "Vacantes Abiertas",
+      "dias": "días",
+      "geral": "general",
+      "tooltips": {
+        "totalCandidatos": "Total de candidatos registrados en el pipeline, independientemente de la etapa o estado actual.",
+        "candidatosAtivos": "Candidatos con proceso activo — excluidos rechazados y base de talentos.",
+        "taxaConversao": "Porcentaje de candidatos que llegaron a la etapa de Propuesta del total que entraron al embudo.",
+        "slaMedio": "Promedio de días que un candidato tarda del primer contacto hasta la última etapa completada.",
+        "vagasAbertas": "Posiciones con estado Abierta o Stand by esperando ser cubiertas."
+      }
+    },
+    "funil": {
+      "title": "Embudo de Etapas",
+      "candidatos": "candidatos",
+      "conversao": "conversión"
+    },
+    "status": {
+      "title": "Candidatos por Estado",
+      "Em_andamento": "En progreso",
+      "Aprovado": "Aprobado",
+      "Reprovado": "Rechazado",
+      "Base_de_Talentos": "Base de Talentos"
+    },
+    "origem": {
+      "title": "Candidatos por Origen",
+      "Indicacao": "Referido"
+    },
+    "reprovacao": {
+      "title": "Principales Razones de Rechazo",
+      "casos": "casos"
+    },
+    "sla": {
+      "title": "SLA por Etapa",
+      "mediaDias": "Promedio (días)"
+    },
+    "vagas": {
+      "title": "Vacantes Abiertas",
+      "nome": "Vacante",
+      "projeto": "Proyecto",
+      "status": "Estado",
+      "candidatos": "Candidatos",
+      "diasAberta": "Días abierta"
+    }
   },
   "Auth": {
     "brandTagline": "La primera plataforma nativa digital para telecomunicaciones, transformando los negocios de hoy en los líderes de experiencia del mañana.",

@@ -18,6 +18,8 @@ import {
   LayersIcon,
   SettingsIcon,
   LogOutIcon,
+  UsersIcon,
+  TrendingUpIcon,
 } from "@/shared/ui/icons";
 import { ThemeToggle } from "@/shared/ui/ThemeToggle";
 import { LocaleSwitcher } from "@/shared/ui/LocaleSwitcher";
@@ -75,6 +77,13 @@ export function AppSidebar() {
             active={isActive("/projects")}
           >
             {t("projects")}
+          </SidebarNavItem>
+          <SidebarNavItem
+            href="/funil"
+            icon={<TrendingUpIcon />}
+            active={isActive("/funil")}
+          >
+            {t("funil")}
           </SidebarNavItem>
         </SidebarNav>
       </SidebarContent>

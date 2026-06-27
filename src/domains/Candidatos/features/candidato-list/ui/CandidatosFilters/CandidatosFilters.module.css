@@ -1,0 +1,44 @@
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--wave-ink);
+}
+
+.select {
+  font: inherit;
+  font-size: var(--text-sm);
+  height: var(--space-6);
+  padding: 0 var(--space-2);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  color: var(--wave-ink);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--wave-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wave-accent) 18%, transparent);
+}

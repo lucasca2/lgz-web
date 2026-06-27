@@ -1,0 +1,181 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  max-width: 1200px;
+  transition: opacity 0.15s ease;
+}
+
+.fetching {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+}
+
+.title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--wave-ink);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+  margin: 0;
+}
+
+.kpiRow {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-3);
+}
+
+@media (max-width: 800px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2_5);
+}
+
+.cardFull {
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sectionTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--wave-ink);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Motivos de reprovação */
+.motivosList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.motivoRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+}
+
+.motivoInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.motivoLabel {
+  font-size: var(--text-sm);
+  color: var(--wave-ink);
+}
+
+.motivoCount {
+  font-size: var(--text-xs);
+  color: var(--wave-slate);
+  white-space: nowrap;
+}
+
+.motivoTrack {
+  height: 6px;
+  background: var(--wave-bg);
+  border-radius: var(--wave-radius-pill);
+  overflow: hidden;
+}
+
+.motivoBar {
+  height: 100%;
+  background: #f87171;
+  border-radius: var(--wave-radius-pill);
+  transition: width 0.3s ease;
+}
+
+:root[data-theme="dark"] .motivoBar {
+  background: #ef4444;
+}
+
+/* SLA table */
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.slaTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.slaTh {
+  padding: var(--space-1) var(--space-1_5);
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--wave-slate);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--wave-border);
+}
+
+.slaRow {
+  border-bottom: 1px solid var(--wave-border);
+}
+
+.slaRow:last-child {
+  border-bottom: none;
+}
+
+.slaTd {
+  padding: var(--space-1) var(--space-1_5);
+  color: var(--wave-ink);
+}
+
+.slaValue {
+  font-weight: 600;
+}
+
+/* Loading state */
+.loading {
+  height: 200px;
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
