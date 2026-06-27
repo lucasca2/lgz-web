@@ -2,14 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE = "session";
 
-const PUBLIC_PATHS = ["/login", "/signup"];
+// Rotas acessíveis SEM sessão.
+// /convite/<id> é a tela pública do candidato (link single-use); ela precisa
+// abrir para qualquer um — inclusive um recrutador logado testando o próprio
+// link — então NÃO entra na regra de "desviar quem já está logado".
+// /oauth/callback é o retorno do OAuth do Google (usuário ainda sem sessão).
+const PUBLIC_PATHS = ["/login", "/signup", "/convite", "/oauth/callback"];
+
+// Páginas de autenticação: quem já tem sessão é mandado para a home (não faz
+// sentido ver login/signup logado). Subconjunto de PUBLIC_PATHS.
+const AUTH_PAGES = ["/login", "/signup"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isPublic = PUBLIC_PATHS.some(
-    (p) => pathname === p || pathname.startsWith(p + "/")
-  );
+  const matches = (paths: string[]) =>
+    paths.some((p) => pathname === p || pathname.startsWith(p + "/"));
+
+  const isPublic = matches(PUBLIC_PATHS);
+  const isAuthPage = matches(AUTH_PAGES);
 
   const hasSession = request.cookies.has(SESSION_COOKIE);
 
@@ -19,7 +30,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (hasSession && isPublic) {
+  if (hasSession && isAuthPage) {
     const homeUrl = request.nextUrl.clone();
     homeUrl.pathname = "/jobs";
     return NextResponse.redirect(homeUrl);
