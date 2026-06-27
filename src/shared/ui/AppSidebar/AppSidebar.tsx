@@ -14,7 +14,6 @@ import {
 import {
   DashboardIcon,
   BriefcaseIcon,
-  UsersIcon,
   ClipboardCheckIcon,
   FolderIcon,
   LayersIcon,
@@ -40,23 +39,6 @@ export function AppSidebar() {
   function handleLogout() {
     if (logout.isPending || logout.isSuccess) return;
     logout.mutate(undefined, { onSuccess: () => router.refresh() });
-  }
-
-  async function handleClickLinkedin() {
-    await fetch("/api/linkedin/auth/login", { method: "POST" });
-  }
-  function handleClickLinkedinUser() {
-    fetch("/api/linkedin/profile/henrique-tsugiyama");
-  }
-  function handleClickLinkedinSearch() {
-    fetch(
-      "/api/linkedin/search?" +
-        new URLSearchParams({
-          keywords: "software engineer",
-          location: "San Francisco",
-          page: String(0),
-        }),
-    );
   }
 
   return (
@@ -89,13 +71,6 @@ export function AppSidebar() {
             {t("assessments")}
           </SidebarNavItem>
           <SidebarNavItem
-            href="/entrevistas"
-            icon={<UsersIcon />}
-            active={isActive("/entrevistas")}
-          >
-            {t("interviews")}
-          </SidebarNavItem>
-          <SidebarNavItem
             href="/positions"
             icon={<LayersIcon />}
             active={isActive("/positions")}
@@ -108,27 +83,6 @@ export function AppSidebar() {
             active={isActive("/projects")}
           >
             {t("projects")}
-          </SidebarNavItem>
-          <SidebarNavItem
-            icon={<BriefcaseIcon />}
-            active={isActive("/linkedin")}
-            onClick={handleClickLinkedin}
-          >
-            {"linkedin"}
-          </SidebarNavItem>
-          <SidebarNavItem
-            icon={<BriefcaseIcon />}
-            active={isActive("/linkedin/user")}
-            onClick={handleClickLinkedinUser}
-          >
-            {"linkedin-user"}
-          </SidebarNavItem>
-          <SidebarNavItem
-            icon={<BriefcaseIcon />}
-            active={isActive("/linkedin/search")}
-            onClick={handleClickLinkedinSearch}
-          >
-            {"linkedin-search"}
           </SidebarNavItem>
         </SidebarNav>
       </SidebarContent>
