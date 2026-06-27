@@ -37,7 +37,7 @@ export function LoginForm() {
       { email: email.trim().toLowerCase(), password },
       {
         onSuccess: () => {
-          router.push("/");
+          router.push("/jobs");
           router.refresh();
         },
       },

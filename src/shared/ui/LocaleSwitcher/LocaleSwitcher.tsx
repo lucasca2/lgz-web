@@ -13,7 +13,13 @@ import { setUserLocale } from "@/i18n/locale";
 import { Flag } from "./flags";
 import styles from "./LocaleSwitcher.module.css";
 
-export function LocaleSwitcher() {
+type LocaleSwitcherProps = {
+  // "bottom" (padrão) abre o menu para baixo; "top" abre para cima
+  // (use em rodapés, como na sidebar).
+  placement?: "bottom" | "top";
+};
+
+export function LocaleSwitcher({ placement = "bottom" }: LocaleSwitcherProps) {
   const t = useTranslations("Common");
   const current = useLocale() as Locale;
   const router = useRouter();
@@ -82,7 +88,13 @@ export function LocaleSwitcher() {
       </button>
 
       {open ? (
-        <ul className={styles.menu} role="listbox" aria-label={t("language")}>
+        <ul
+          className={[styles.menu, placement === "top" && styles.menuTop]
+            .filter(Boolean)
+            .join(" ")}
+          role="listbox"
+          aria-label={t("language")}
+        >
           {locales.map((locale) => (
             <li key={locale}>
               <button

@@ -20,9 +20,9 @@ export function proxy(request: NextRequest) {
   }
 
   if (hasSession && isPublic) {
-    const dashboardUrl = request.nextUrl.clone();
-    dashboardUrl.pathname = "/dashboard";
-    return NextResponse.redirect(dashboardUrl);
+    const homeUrl = request.nextUrl.clone();
+    homeUrl.pathname = "/jobs";
+    return NextResponse.redirect(homeUrl);
   }
 
   return NextResponse.next();

@@ -4,7 +4,7 @@ import { SignUpForm } from "@/domains/Auth/features/sign-up/ui";
 
 export default async function SignUpPage() {
   const user = await getCurrentUser();
-  if (user) redirect("/");
+  if (user) redirect("/jobs");
 
   return <SignUpForm />;
 }

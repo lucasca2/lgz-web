@@ -64,6 +64,7 @@
   right: 0;
   top: calc(100% + var(--space-1));
   min-width: 184px;
+  max-width: max-content;
   list-style: none;
   margin: 0;
   padding: var(--space-0_5);
@@ -72,6 +73,13 @@
   border-radius: var(--wave-radius);
   box-shadow: var(--wave-shadow);
   z-index: 20;
+}
+
+.menuTop {
+  top: auto;
+  bottom: calc(100% + var(--space-1));
+  left: 0;
+  right: auto;
 }
 
 .option {

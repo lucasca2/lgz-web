@@ -4,27 +4,6 @@
   background: var(--wave-bg);
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  width: 240px;
-  flex-shrink: 0;
-  background: var(--wave-surface);
-  border-right: 1px solid var(--wave-border);
-  padding: var(--space-3);
-}
-
-.logo {
-  height: 20px;
-  width: auto;
-  color: var(--wave-ink);
-  margin-bottom: var(--space-4);
-}
-
-.sidebarFooter {
-  margin-top: auto;
-}
-
 .main {
   flex: 1;
   display: flex;

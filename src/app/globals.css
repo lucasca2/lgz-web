@@ -1,10 +1,13 @@
 :root {
+  color-scheme: light;
+
   /* Wave by Bemobi — cores */
   --wave-accent: #0f62fe;
   --wave-accent-hover: #0353e9;
   --wave-accent-soft: #edf5ff;
   --wave-ink: #161616;
   --wave-ink-soft: #2c2c2c;
+  --wave-on-ink: #fff;
   --wave-slate: #5d6c7b;
   --wave-bg: #f4f4f4;
   --wave-surface: #ffffff;
@@ -55,6 +58,30 @@
   --wave-font: var(--font-ibm-plex-sans), "IBM Plex Sans", Arial, sans-serif;
 }
 
+/* Dark mode — sobrescreve apenas as cores; espaçamento/tipografia/raio são
+   neutros ao tema. Aplicado via data-theme no <html> (resolvido antes do
+   primeiro paint pelo script inline em layout.tsx). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --wave-accent: #4589ff;
+  --wave-accent-hover: #6ea1ff;
+  --wave-accent-soft: #1b2a45;
+  --wave-ink: #f4f4f4;
+  --wave-ink-soft: #c6c6c6;
+  --wave-on-ink: #161616;
+  --wave-slate: #9aa6b2;
+  --wave-bg: #161616;
+  --wave-surface: #212121;
+  --wave-border: #393939;
+  --wave-danger: #fa4d56;
+  --wave-danger-strong: #ff8389;
+  --wave-danger-soft: #3a1a1d;
+  --wave-placeholder: #8d99a6;
+  --wave-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+    0 12px 32px -12px rgba(0, 0, 0, 0.6);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -68,6 +95,9 @@ body {
   color: var(--wave-ink);
   background: var(--wave-bg);
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 a {

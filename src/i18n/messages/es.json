@@ -2,6 +2,28 @@
   "Common": {
     "language": "Idioma"
   },
+  "Nav": {
+    "primary": "Navegación principal",
+    "secondary": "Cuenta",
+    "dashboard": "Panel",
+    "jobs": "Vacantes",
+    "settings": "Configuración",
+    "logout": "Salir",
+    "themeDark": "Activar modo oscuro",
+    "themeLight": "Activar modo claro"
+  },
+  "Dashboard": {
+    "title": "Panel",
+    "subtitle": "Resumen de tu cuenta."
+  },
+  "Jobs": {
+    "title": "Vacantes",
+    "subtitle": "Gestiona tus vacantes."
+  },
+  "Settings": {
+    "title": "Configuración",
+    "subtitle": "Gestiona las preferencias de tu cuenta."
+  },
   "HomePage": {
     "title": "Wave by Bemobi",
     "guestSubtitle": "La primera plataforma nativa digital para telecomunicaciones.",

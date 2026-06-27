@@ -45,7 +45,7 @@ export function SignUpForm() {
       },
       {
         onSuccess: () => {
-          router.push("/");
+          router.push("/jobs");
           router.refresh();
         },
       },

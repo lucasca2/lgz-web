@@ -2,6 +2,28 @@
   "Common": {
     "language": "Language"
   },
+  "Nav": {
+    "primary": "Main navigation",
+    "secondary": "Account",
+    "dashboard": "Dashboard",
+    "jobs": "Jobs",
+    "settings": "Settings",
+    "logout": "Sign out",
+    "themeDark": "Switch to dark mode",
+    "themeLight": "Switch to light mode"
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your account."
+  },
+  "Jobs": {
+    "title": "Jobs",
+    "subtitle": "Manage your job postings."
+  },
+  "Settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account preferences."
+  },
   "HomePage": {
     "title": "Wave by Bemobi",
     "guestSubtitle": "The first digital-native platform for telecommunications.",

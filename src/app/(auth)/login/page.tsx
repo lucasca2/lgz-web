@@ -4,7 +4,7 @@ import { LoginForm } from "@/domains/Auth/features/login/ui";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
-  if (user) redirect("/");
+  if (user) redirect("/jobs");
 
   return <LoginForm />;
 }

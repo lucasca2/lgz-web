@@ -37,3 +37,101 @@ model Session {
 
   @@index([userId])
 }
+
+// ─────────────────────────────────────────────
+// Recruitment domain (Wave / Bia)
+// ─────────────────────────────────────────────
+
+model Job {
+  id              String    @id @default(uuid(7)) @db.Uuid
+  title           String // titulo
+  project         String // projeto (Tim, Sabesp, ...)
+  status          String // Aberta | Fechada | Stand-by | Cancelada
+  priority        String? // prioridade
+  hiringManager   String? // hiring_manager
+  budget          Decimal?  @db.Decimal(12, 2)
+  openedAt        DateTime  @db.Date // data_abertura (início do SLA global)
+  closedAt        DateTime? @db.Date // data_fechamento
+  projectContext  String? // contexto_projeto (input p/ IA)
+  idealProfile    String? // perfil_ideal
+  rejectedProfile String? // perfil_rejeitado
+  testCriteria    String? // criterios_teste
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  processes SelectionProcess[]
+}
+
+model Candidate {
+  id                String   @id @default(uuid(7)) @db.Uuid
+  name              String // nome
+  email             String?  @unique // chave de integração c/ Calendly
+  phone             String? // telefone (WhatsApp)
+  linkedinUrl       String? // linkedin_url
+  source            String? // origem: Hunting | Gupy | Indicação
+  salaryExpectation Decimal? @db.Decimal(12, 2) // pretensao_salarial
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  processes SelectionProcess[]
+}
+
+model SelectionProcess {
+  id               String    @id @default(uuid(7)) @db.Uuid
+  jobId            String    @db.Uuid
+  candidateId      String    @db.Uuid
+  job              Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate        Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  currentStatus    String // Aprovado | Reprovado | Em andamento | Base de Talentos
+  cultureFitScore  Int? // score_fit_cultural (0–100, gerado pela IA)
+  fitJustification String? // justificativa_fit (output da IA)
+  rejectionReason  String? // motivo_reprovacao (padronizado)
+  rejectionComment String? // comentario_reprovacao
+  feedbackSent     Boolean   @default(false) // devolutiva_enviada
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  stages       StageHistory[]
+  appointments Appointment[]
+
+  @@unique([jobId, candidateId]) // 1 processo por par vaga+candidato
+  @@index([jobId])
+  @@index([candidateId])
+}
+
+model StageHistory {
+  id            String           @id @default(uuid(7)) @db.Uuid
+  processId     String           @db.Uuid
+  process       SelectionProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+  stageName     String // Triagem | People (Bia) | Técnico | Teste | Cultural
+  stageStatus   String // Executada | Pulada | N/A | Em Andamento
+  startedAt     DateTime         @default(now()) // data_inicio
+  endedAt       DateTime? // data_fim
+  pausedSeconds Int              @default(0) // tempo_pausado_seg (botão Pause)
+  transcriptUrl String? // transcricao_url
+  aiInsight     String? // insight_ia
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  appointments Appointment[]
+
+  @@index([processId])
+}
+
+model Appointment {
+  id             String           @id @default(uuid(7)) @db.Uuid
+  processId      String           @db.Uuid
+  stageHistoryId String           @db.Uuid
+  process        SelectionProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+  stageHistory   StageHistory     @relation(fields: [stageHistoryId], references: [id], onDelete: Cascade)
+  startTime      DateTime // data_hora_inicio
+  endTime        DateTime // data_hora_fim
+  interviewers   Json // entrevistadores (jsonb: ["marquinhos@...", ...])
+  inviteStatus   String // Sugerido | Confirmado | Cancelado
+  googleEventId  String? // google_event_id
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([processId])
+  @@index([stageHistoryId])
+}

@@ -34,7 +34,7 @@
 
 .primary {
   background: var(--wave-ink);
-  color: #fff;
+  color: var(--wave-on-ink);
 }
 
 .primary:hover:not(:disabled) {

@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { QueryProvider } from "@/shared/providers";
+import { themeInitScript } from "@/shared/lib/theme";
 import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -24,7 +25,15 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} className={ibmPlexSans.variable}>
+    <html
+      lang={locale}
+      className={ibmPlexSans.variable}
+      data-theme="light"
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <NextIntlClientProvider>
           <QueryProvider>{children}</QueryProvider>
