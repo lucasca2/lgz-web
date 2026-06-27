@@ -32,6 +32,21 @@
   padding: var(--space-0_5) var(--space-1);
 }
 
+.titleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.dot {
+  width: var(--space-1);
+  height: var(--space-1);
+  flex-shrink: 0;
+  background: var(--stage-accent);
+  border-radius: var(--wave-radius-pill);
+}
+
 .title {
   font-size: var(--text-sm);
   font-weight: 600;

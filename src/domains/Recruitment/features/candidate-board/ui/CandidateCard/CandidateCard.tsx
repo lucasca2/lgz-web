@@ -1,9 +1,11 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useRouter } from "next/navigation";
+import { STAGE_ACCENT } from "../../constants/stages";
 import type { BoardCardDTO } from "../../types";
+import { initials } from "../../utils";
 import styles from "./CandidateCard.module.css";
 
 type CandidateCardProps = { card: BoardCardDTO };
@@ -22,19 +24,28 @@ export function CandidateCardView({
     .filter(Boolean)
     .join(" ");
 
+  const accentStyle = { "--stage-accent": STAGE_ACCENT[card.stage] } as CSSProperties;
+
   return (
-    <article className={className}>
-      <p className={styles.name}>{card.candidateName}</p>
-      <p className={styles.role}>
-        {card.project} - {card.position}
-      </p>
+    <article className={className} style={accentStyle}>
+      <span className={styles.avatar} aria-hidden="true">
+        {initials(card.candidateName)}
+      </span>
+      <div className={styles.text}>
+        <p className={styles.name}>{card.candidateName}</p>
+        <p className={styles.role}>
+          {card.project} · {card.position}
+        </p>
+      </div>
     </article>
   );
 }
 
 // Ordenável — usado dentro das colunas (arrasta entre colunas e reordena na mesma).
-export function CandidateCard({ card }: CandidateCardProps) {
-  const router = useRouter();
+export function CandidateCard({
+  card,
+  onSelect,
+}: CandidateCardProps & { onSelect: (card: BoardCardDTO) => void }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: card.id });
 
@@ -43,14 +54,11 @@ export function CandidateCard({ card }: CandidateCardProps) {
     transition,
   };
 
-  // Clicar no card (sem arrastar) abre o fluxo de agendamento para o candidato.
-  // O PointerSensor só inicia o drag após mover 5px, então um clique limpo não
-  // dispara arraste e o onClick segue válido.
+  // Clicar no card (sem arrastar) abre o modal do candidato. O PointerSensor só
+  // inicia o drag após mover 5px, então um clique limpo não dispara arraste.
   function handleClick() {
     if (isDragging) return;
-    router.push(
-      `/agendar?candidate=${encodeURIComponent(card.candidateName)}`,
-    );
+    onSelect(card);
   }
 
   return (

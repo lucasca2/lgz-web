@@ -21,6 +21,11 @@
     "loading": "Carregando candidatos…",
     "loadError": "Não foi possível carregar o board.",
     "emptyColumn": "Sem candidatos",
+    "candidateModalTitle": "Detalhes do candidato",
+    "modalProject": "Projeto",
+    "modalPosition": "Vaga",
+    "scheduleMeeting": "Agendar meeting",
+    "alreadyScheduled": "Usuário já tem agendamento",
     "stages": {
       "Triagem": "Triagem",
       "Fit Cultural": "Fit Cultural",

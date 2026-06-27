@@ -21,6 +21,11 @@
     "loading": "Cargando candidatos…",
     "loadError": "No se pudo cargar el tablero.",
     "emptyColumn": "Sin candidatos",
+    "candidateModalTitle": "Detalles del candidato",
+    "modalProject": "Proyecto",
+    "modalPosition": "Vacante",
+    "scheduleMeeting": "Agendar reunión",
+    "alreadyScheduled": "El usuario ya tiene una reunión agendada",
     "stages": {
       "Triagem": "Cribado",
       "Fit Cultural": "Ajuste cultural",

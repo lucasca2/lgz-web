@@ -21,6 +21,11 @@
     "loading": "Loading candidates…",
     "loadError": "Could not load the board.",
     "emptyColumn": "No candidates",
+    "candidateModalTitle": "Candidate details",
+    "modalProject": "Project",
+    "modalPosition": "Position",
+    "scheduleMeeting": "Schedule meeting",
+    "alreadyScheduled": "User already has a meeting scheduled",
     "stages": {
       "Triagem": "Screening",
       "Fit Cultural": "Culture Fit",
