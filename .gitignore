@@ -42,6 +42,10 @@ next-env.d.ts
 
 /src/generated/prisma
 
+# pnpm — este projeto usa npm (package-lock.json). Mantém local, fora do git.
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
 # Google OAuth — credenciais e tokens (sensíveis, nunca commitar)
 credentials-web.json
 credentials.json
