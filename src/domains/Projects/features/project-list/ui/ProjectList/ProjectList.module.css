@@ -1,29 +1,7 @@
-.tableWrap {
-  width: 100%;
-  overflow-x: auto;
-  background: transparent;
-  border: 1px solid var(--wave-border);
-  border-radius: var(--wave-radius);
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--text-sm);
-}
-
-.th {
-  height: var(--space-6);
-  padding: 0 var(--space-2);
-  text-align: left;
-  font-weight: 500;
-  color: var(--wave-slate);
-  border-bottom: 1px solid var(--wave-border);
-  white-space: nowrap;
-}
-
-.th:last-child {
-  text-align: right;
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1_5);
 }
 
 .state {

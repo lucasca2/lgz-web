@@ -7,6 +7,7 @@
     "secondary": "Conta",
     "dashboard": "Dashboard",
     "jobs": "Vagas",
+    "scheduler": "Agendar",
     "positions": "Posições",
     "projects": "Projetos",
     "candidates": "Candidatos",
@@ -75,6 +76,7 @@
     "loading": "Carregando posições…",
     "loadError": "Não foi possível carregar as posições.",
     "edit": "Editar",
+    "levelCount": "{count, plural, one {# nível} other {# níveis}}",
     "createdAtLabel": "Criada em",
     "form": {
       "title": "Nova posição",
@@ -108,17 +110,21 @@
     "empty": "Nenhum projeto cadastrado ainda.",
     "loading": "Carregando projetos…",
     "loadError": "Não foi possível carregar os projetos.",
+    "edit": "Editar",
+    "emptyContext": "Sem contexto ainda.",
     "createdAtLabel": "Criado em",
     "form": {
       "title": "Novo projeto",
+      "editTitle": "Editar projeto",
       "submit": "Criar projeto",
+      "save": "Salvar",
       "cancel": "Cancelar"
     },
     "fields": {
       "name": "Nome",
       "namePlaceholder": "Ex.: App Algar",
-      "expectation": "Expectativa",
-      "expectationPlaceholder": "Contexto do projeto e experiências extras desejadas."
+      "expectation": "Contexto",
+      "expectationPlaceholder": "Contexto do projeto (você pode preencher depois)."
     },
     "errors": {
       "required": "Campo obrigatório.",
@@ -223,7 +229,11 @@
       "submit": "Entrar",
       "noAccount": "Não tem uma conta?",
       "goSignup": "Criar conta",
-      "invalid": "Credenciais inválidas."
+      "invalid": "Credenciais inválidas.",
+      "google": "Entrar com Google",
+      "or": "ou",
+      "googleError": "Não foi possível entrar com o Google. Tente novamente.",
+      "calendarScopeError": "Você precisa permitir o acesso à Agenda do Google para continuar."
     },
     "signup": {
       "title": "Criar conta",
@@ -249,6 +259,60 @@
       "passwordNumber": "Inclua ao menos um número.",
       "required": "Campo obrigatório.",
       "generic": "Algo deu errado. Tente novamente."
+    }
+  },
+  "Scheduling": {
+    "recruiter": {
+      "title": "Agendar reunião",
+      "subtitle": "Escolha participantes e horários e gere um link de convite.",
+      "forCandidate": "Gerando link para {name}",
+      "participants": "Participantes",
+      "include": "Incluir",
+      "required": "Obrig.",
+      "duration": "Duração (min)",
+      "urgent": "Urgência (ignora opcionais)",
+      "search": "Buscar horários",
+      "searching": "Buscando...",
+      "prevWeek": "Semana anterior",
+      "nextWeek": "Próxima semana",
+      "week": "Semana {n}",
+      "legendFree": "Livre para todos",
+      "legendUrgent": "Só ignorando opcionais",
+      "legendSelected": "Selecionado",
+      "selectedCount": "{count} selecionado(s)",
+      "generate": "Gerar link",
+      "generating": "Gerando...",
+      "copy": "Copiar",
+      "copied": "Copiado!",
+      "clear": "Limpar seleção",
+      "linkLabel": "Link gerado",
+      "noSlots": "Nenhum horário encontrado para esta semana.",
+      "addParticipant": "Adicionar e-mail",
+      "addParticipantPlaceholder": "pessoa@bemobi.com",
+      "add": "Adicionar",
+      "reloginNeeded": "Sua permissão de Agenda do Google expirou. Saia e entre novamente.",
+      "error": "Não foi possível carregar os horários. Tente novamente."
+    },
+    "candidate": {
+      "title": "Escolha um horário",
+      "subtitle": "{title} · {duration} min",
+      "availableCount": "{available} horário(s) disponível(is)",
+      "removedNote": "{count} horário(s) ficaram indisponíveis e foram removidos.",
+      "emailLabel": "Seu e-mail",
+      "emailPlaceholder": "voce@email.com",
+      "pick": "Selecionar",
+      "noSlots": "Nenhum horário disponível no momento.",
+      "confirmTitle": "Confirmar agendamento",
+      "confirmBody": "Confirmar {datetime} para {email}?",
+      "confirm": "Confirmar",
+      "booking": "Agendando...",
+      "cancel": "Cancelar",
+      "booked": "Agendado!",
+      "viewEvent": "Ver evento",
+      "consumed": "Este link já foi utilizado e não está mais disponível.",
+      "notFound": "Convite não encontrado.",
+      "emailRequired": "Informe um e-mail válido antes de escolher um horário.",
+      "error": "Não foi possível agendar. Tente novamente."
     }
   }
 }
