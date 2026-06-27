@@ -2,6 +2,7 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useRouter } from "next/navigation";
 import type { BoardCardDTO } from "../../types";
 import styles from "./CandidateCard.module.css";
 
@@ -33,6 +34,7 @@ export function CandidateCardView({
 
 // Ordenável — usado dentro das colunas (arrasta entre colunas e reordena na mesma).
 export function CandidateCard({ card }: CandidateCardProps) {
+  const router = useRouter();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: card.id });
 
@@ -41,11 +43,22 @@ export function CandidateCard({ card }: CandidateCardProps) {
     transition,
   };
 
+  // Clicar no card (sem arrastar) abre o fluxo de agendamento para o candidato.
+  // O PointerSensor só inicia o drag após mover 5px, então um clique limpo não
+  // dispara arraste e o onClick segue válido.
+  function handleClick() {
+    if (isDragging) return;
+    router.push(
+      `/agendar?candidate=${encodeURIComponent(card.candidateName)}`,
+    );
+  }
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={styles.handle}
+      onClick={handleClick}
       {...listeners}
       {...attributes}
     >

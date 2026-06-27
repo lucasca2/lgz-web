@@ -24,7 +24,7 @@ function dayLabel(date: string): string {
   return `${day}/${month}`;
 }
 
-export function RecruiterScreen() {
+export function RecruiterScreen({ candidate }: { candidate?: string }) {
   const t = useTranslations("Scheduling.recruiter");
 
   const configQuery = useSchedulingConfig();
@@ -172,6 +172,11 @@ export function RecruiterScreen() {
       <header className={styles.header}>
         <h1 className={styles.title}>{t("title")}</h1>
         <p className={styles.subtitle}>{t("subtitle")}</p>
+        {candidate ? (
+          <p className={styles.forCandidate}>
+            {t("forCandidate", { name: candidate })}
+          </p>
+        ) : null}
       </header>
 
       <section className={styles.panel}>

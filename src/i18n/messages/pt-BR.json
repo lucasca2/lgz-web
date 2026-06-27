@@ -182,6 +182,7 @@
     "recruiter": {
       "title": "Agendar reunião",
       "subtitle": "Escolha participantes e horários e gere um link de convite.",
+      "forCandidate": "Gerando link para {name}",
       "participants": "Participantes",
       "include": "Incluir",
       "required": "Obrig.",
