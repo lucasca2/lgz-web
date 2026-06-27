@@ -3,14 +3,9 @@
 import { useLocale, useTranslations } from "next-intl";
 import type { JobDTO } from "../../types";
 import type { JobStatus } from "../../schemas/jobSchemas";
+import { useUpdateJobStatus } from "../../hooks";
+import { JobStatusMenu } from "../JobStatusMenu";
 import styles from "./JobCard.module.css";
-
-const statusClass: Record<JobStatus, string> = {
-  Aberta: styles.statusOpen,
-  Fechada: styles.statusClosed,
-  "Stand-by": styles.statusStandby,
-  Cancelada: styles.statusCanceled,
-};
 
 type JobCardProps = {
   job: JobDTO;
@@ -19,6 +14,7 @@ type JobCardProps = {
 export function JobCard({ job }: JobCardProps) {
   const t = useTranslations("Jobs");
   const locale = useLocale();
+  const updateStatus = useUpdateJobStatus();
 
   const openedAt = new Intl.DateTimeFormat(locale, {
     day: "2-digit",
@@ -30,9 +26,13 @@ export function JobCard({ job }: JobCardProps) {
     <article className={styles.card}>
       <div className={styles.header}>
         <h3 className={styles.title}>{job.title}</h3>
-        <span className={[styles.status, statusClass[job.status]].join(" ")}>
-          {t(`status.${job.status}`)}
-        </span>
+        <JobStatusMenu
+          value={job.status}
+          disabled={updateStatus.isPending}
+          onChange={(status: JobStatus) =>
+            updateStatus.mutate({ id: job.id, status })
+          }
+        />
       </div>
       <p className={styles.project}>{job.project}</p>
       {job.description ? (

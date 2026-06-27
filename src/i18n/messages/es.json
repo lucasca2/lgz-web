@@ -50,6 +50,7 @@
     "loading": "Cargando vacantes…",
     "loadError": "No se pudieron cargar las vacantes.",
     "openedAtLabel": "Abierta el",
+    "changeStatus": "Cambiar estado",
     "form": {
       "title": "Nueva vacante",
       "submit": "Crear vacante",

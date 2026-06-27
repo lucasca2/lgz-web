@@ -1,0 +1,128 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* Trigger: o badge de status, agora clicável. */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-0_5);
+  padding: var(--space-0_5) var(--space-1_5);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wave-radius-pill);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.trigger:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.trigger:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.chevron {
+  width: 12px;
+  height: 12px;
+}
+
+/* Cores do badge — reaproveitam os tokens de status. */
+.statusOpen {
+  background: var(--wave-accent-soft);
+  color: var(--wave-accent);
+}
+
+.statusClosed {
+  background: var(--wave-bg);
+  color: var(--wave-slate);
+}
+
+.statusStandby {
+  background: color-mix(in srgb, var(--wave-accent) 12%, var(--wave-bg));
+  color: var(--wave-ink-soft);
+}
+
+.statusCanceled {
+  background: var(--wave-danger-soft);
+  color: var(--wave-danger-strong);
+}
+
+/* Popover ancorado, alinhado à direita do badge. */
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-0_5));
+  right: 0;
+  z-index: 20;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+  padding: var(--space-0_5);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius);
+  box-shadow: var(--wave-shadow-hover);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-1) var(--space-1_5);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--wave-ink);
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--wave-radius);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.item:hover {
+  background: color-mix(in srgb, var(--wave-slate) 10%, transparent);
+}
+
+.itemLabel {
+  flex: 1;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--wave-radius-pill);
+}
+
+.dotOpen {
+  background: var(--wave-accent);
+}
+
+.dotClosed {
+  background: var(--wave-slate);
+}
+
+.dotStandby {
+  background: color-mix(in srgb, var(--wave-accent) 45%, var(--wave-slate));
+}
+
+.dotCanceled {
+  background: var(--wave-danger);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--wave-accent);
+}

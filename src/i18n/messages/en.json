@@ -50,6 +50,7 @@
     "loading": "Loading jobs…",
     "loadError": "Could not load jobs.",
     "openedAtLabel": "Opened on",
+    "changeStatus": "Change status",
     "form": {
       "title": "New job",
       "submit": "Create job",
