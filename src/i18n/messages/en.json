@@ -6,6 +6,7 @@
     "primary": "Main navigation",
     "secondary": "Account",
     "dashboard": "Dashboard",
+    "funil": "Funnel",
     "jobs": "Jobs",
     "scheduler": "Schedule",
     "interviews": "Interviews",
@@ -147,6 +148,87 @@
     "signIn": "Sign in",
     "createAccount": "Create account",
     "logout": "Sign out"
+  },
+  "Candidatos": {
+    "title": "Candidates",
+    "empty": "No candidates found.",
+    "filters": {
+      "search": "Search by name or email",
+      "origem": "Source",
+      "all": "All sources"
+    },
+    "table": {
+      "nome": "Name",
+      "email": "Email",
+      "telefone": "Phone",
+      "origem": "Source",
+      "pretensao": "Expected salary",
+      "dataCadastro": "Created"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "summary": "{count} candidates · Page {page} of {total}"
+    }
+  },
+  "Funil": {
+    "title": "Recruitment Funnel",
+    "subtitle": "Selection pipeline analysis.",
+    "kpis": {
+      "totalCandidatos": "Total Candidates",
+      "candidatosAtivos": "Active Candidates",
+      "taxaConversao": "Conversion Rate",
+      "slaMedio": "Average SLA",
+      "vagasAbertas": "Open Positions",
+      "dias": "days",
+      "geral": "overall",
+      "tooltips": {
+        "totalCandidatos": "Total candidates registered in the pipeline, regardless of current stage or status.",
+        "candidatosAtivos": "Candidates with an active process — excludes rejected and talent pool entries.",
+        "taxaConversao": "Percentage of candidates who reached the Proposal stage out of all who entered the funnel.",
+        "slaMedio": "Average days a candidate takes from first contact to the last completed stage.",
+        "vagasAbertas": "Positions with status Open or Stand by awaiting a hire."
+      }
+    },
+    "funil": {
+      "title": "Stage Funnel",
+      "candidatos": "candidates",
+      "conversao": "conversion"
+    },
+    "pathFlow": {
+      "title": "Path Analysis",
+      "subtitle": "See where candidates went from each stage.",
+      "startFrom": "Start from",
+      "step": "Step",
+      "ofStart": "of start"
+    },
+    "status": {
+      "title": "Candidates by Status",
+      "Em_andamento": "In progress",
+      "Aprovado": "Approved",
+      "Reprovado": "Rejected",
+      "Base_de_Talentos": "Talent Pool"
+    },
+    "origem": {
+      "title": "Candidates by Source",
+      "Indicacao": "Referral"
+    },
+    "reprovacao": {
+      "title": "Top Rejection Reasons",
+      "casos": "cases"
+    },
+    "sla": {
+      "title": "SLA by Stage",
+      "mediaDias": "Average (days)"
+    },
+    "vagas": {
+      "title": "Open Positions",
+      "nome": "Position",
+      "projeto": "Project",
+      "status": "Status",
+      "candidatos": "Candidates",
+      "diasAberta": "Days open"
+    }
   },
   "Auth": {
     "brandTagline": "The first digital-native platform for telecommunications, turning today's businesses into tomorrow's experience leaders.",

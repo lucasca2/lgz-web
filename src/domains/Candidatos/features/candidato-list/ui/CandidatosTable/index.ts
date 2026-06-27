@@ -1,0 +1,1 @@
+export { CandidatosTable } from "./CandidatosTable";

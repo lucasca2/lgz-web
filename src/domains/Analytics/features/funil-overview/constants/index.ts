@@ -1,0 +1,1 @@
+export { funilApiRoutes } from "./apiRoutes";

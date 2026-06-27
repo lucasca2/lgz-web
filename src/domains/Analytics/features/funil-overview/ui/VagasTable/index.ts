@@ -1,0 +1,1 @@
+export { VagasTable } from "./VagasTable";
