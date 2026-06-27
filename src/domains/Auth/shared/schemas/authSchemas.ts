@@ -4,7 +4,7 @@ import { z } from "zod";
 const email = z.string().trim().toLowerCase().pipe(z.email());
 
 export const signupSchema = z.object({
-  name: z.string().trim().min(2).optional(),
+  name: z.string().trim().min(2),
   email,
   password: z
     .string()

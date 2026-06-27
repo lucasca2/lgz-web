@@ -14,25 +14,35 @@ export class EmailAlreadyInUseError extends Error {
 }
 
 export async function registerUser(input: SignupInput): Promise<CurrentUser> {
-  const existing = await prisma.user.findUnique({
+  const senhaHash = await hashPassword(input.password);
+
+  const existing = await prisma.usuarios.findUnique({
     where: { email: input.email },
   });
-  if (existing) throw new EmailAlreadyInUseError();
 
-  const passwordHash = await hashPassword(input.password);
+  if (existing) {
+    if (existing.senha_hash) throw new EmailAlreadyInUseError();
+
+    const user = await prisma.usuarios.update({
+      where: { id: existing.id },
+      data: { senha_hash: senhaHash, nome: input.name, ativo: true },
+    });
+    await createSession(user.id);
+    return { id: user.id, email: user.email, name: user.nome };
+  }
 
   try {
-    const user = await prisma.user.create({
+    const user = await prisma.usuarios.create({
       data: {
+        nome: input.name,
         email: input.email,
-        passwordHash,
-        name: input.name ?? null,
+        senha_hash: senhaHash,
       },
     });
 
     await createSession(user.id);
 
-    return { id: user.id, email: user.email, name: user.name };
+    return { id: user.id, email: user.email, name: user.nome };
   } catch (err) {
     // Backstop para corrida na constraint @unique do e-mail.
     if (

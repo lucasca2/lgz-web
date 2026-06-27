@@ -21,21 +21,21 @@ function getDummyHash() {
 }
 
 export async function authenticateUser(input: LoginInput): Promise<CurrentUser> {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.usuarios.findUnique({
     where: { email: input.email },
   });
 
   // Mensagem genérica: não revela se o e-mail existe. Quando não existe,
   // ainda fazemos um verify (contra um hash dummy) para o tempo ser constante.
-  if (!user) {
+  if (!user || !user.senha_hash || !user.ativo) {
     await verifyPassword(await getDummyHash(), input.password);
     throw new InvalidCredentialsError();
   }
 
-  const valid = await verifyPassword(user.passwordHash, input.password);
+  const valid = await verifyPassword(user.senha_hash, input.password);
   if (!valid) throw new InvalidCredentialsError();
 
   await createSession(user.id);
 
-  return { id: user.id, email: user.email, name: user.name };
+  return { id: user.id, email: user.email, name: user.nome };
 }

@@ -1,137 +1,241 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model Message {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
+model candidatos {
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome                String                @db.VarChar(255)
+  linkedin_url        String                @unique(map: "uq_candidatos_linkedin", where: raw("(deleted_at IS NULL)")) @db.VarChar(512)
+  email               String?               @unique(map: "uq_candidatos_email", where: raw("((email IS NOT NULL) AND (deleted_at IS NULL))")) @db.VarChar(255)
+  telefone            String?               @db.VarChar(50)
+  origem              origem_candidato?
+  pretensao_salarial  Decimal?              @db.Decimal(12, 2)
+  dados_extraidos     Json?
+  deleted_at          DateTime?             @db.Timestamptz(6)
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  processos_seletivos processos_seletivos[]
 }
 
-model User {
-  id           String    @id @default(cuid())
-  email        String    @unique
-  passwordHash String
-  name         String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  sessions     Session[]
+model entrevista_participantes {
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entrevista_id     String            @db.Uuid
+  usuario_id        String            @db.Uuid
+  tipo_participacao participacao_tipo @default(Obrigatorio)
+  status_convite    convite_status    @default(Sugerido)
+  entrevistas       entrevistas       @relation(fields: [entrevista_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  usuarios          usuarios          @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([entrevista_id, usuario_id])
+  @@index([entrevista_id], map: "idx_participantes_entrevista")
 }
 
-model Session {
-  id        String   @id // SHA-256 do token de sessão (nunca o token cru)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model entrevista_slots {
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entrevista_id    String      @unique(map: "uq_slot_escolhido", where: raw("escolhido")) @db.Uuid
+  data_hora_inicio DateTime    @db.Timestamptz(6)
+  data_hora_fim    DateTime    @db.Timestamptz(6)
+  nivel_prioridade Int         @default(1) @db.SmallInt
+  escolhido        Boolean     @default(false)
+  created_at       DateTime    @default(now()) @db.Timestamptz(6)
+  entrevistas      entrevistas @relation(fields: [entrevista_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@index([userId])
+  @@index([entrevista_id], map: "idx_slots_entrevista")
 }
 
-// ─────────────────────────────────────────────
-// Recruitment domain (Wave / Bia)
-// ─────────────────────────────────────────────
+model entrevistas {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  processo_id              String                     @db.Uuid
+  etapa_historico_id       String?                    @db.Uuid
+  status                   entrevista_status          @default(Aguardando_Escolha)
+  link_token               String                     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  link_expira_em           DateTime?                  @db.Timestamptz(6)
+  data_hora_inicio         DateTime?                  @db.Timestamptz(6)
+  data_hora_fim            DateTime?                  @db.Timestamptz(6)
+  google_event_id          String?                    @db.VarChar(255)
+  created_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  entrevista_participantes entrevista_participantes[]
+  entrevista_slots         entrevista_slots?
+  historico_etapas         historico_etapas?          @relation(fields: [etapa_historico_id], references: [id], onUpdate: NoAction)
+  processos_seletivos      processos_seletivos        @relation(fields: [processo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-model Job {
-  id              String    @id @default(uuid(7)) @db.Uuid
-  title           String // titulo
-  project         String // projeto (Tim, Sabesp, ...)
-  status          String // Aberta | Fechada | Stand-by | Cancelada
-  priority        String? // prioridade
-  hiringManager   String? // hiring_manager
-  budget          Decimal?  @db.Decimal(12, 2)
-  openedAt        DateTime  @db.Date // data_abertura (início do SLA global)
-  closedAt        DateTime? @db.Date // data_fechamento
-  projectContext  String? // contexto_projeto (input p/ IA)
-  idealProfile    String? // perfil_ideal
-  rejectedProfile String? // perfil_rejeitado
-  testCriteria    String? // criterios_teste
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-
-  processes SelectionProcess[]
+  @@index([processo_id], map: "idx_entrevistas_processo")
 }
 
-model Candidate {
-  id                String   @id @default(uuid(7)) @db.Uuid
-  name              String // nome
-  email             String?  @unique // chave de integração c/ Calendly
-  phone             String? // telefone (WhatsApp)
-  linkedinUrl       String? // linkedin_url
-  source            String? // origem: Hunting | Gupy | Indicação
-  salaryExpectation Decimal? @db.Decimal(12, 2) // pretensao_salarial
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  processes SelectionProcess[]
+model etapas_catalogo {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String             @unique @db.VarChar(100)
+  grupo            String?            @db.VarChar(100)
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  historico_etapas historico_etapas[]
+  vaga_etapas      vaga_etapas[]
 }
 
-model SelectionProcess {
-  id               String    @id @default(uuid(7)) @db.Uuid
-  jobId            String    @db.Uuid
-  candidateId      String    @db.Uuid
-  job              Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  candidate        Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  currentStatus    String // Aprovado | Reprovado | Em andamento | Base de Talentos
-  cultureFitScore  Int? // score_fit_cultural (0–100, gerado pela IA)
-  fitJustification String? // justificativa_fit (output da IA)
-  rejectionReason  String? // motivo_reprovacao (padronizado)
-  rejectionComment String? // comentario_reprovacao
-  feedbackSent     Boolean   @default(false) // devolutiva_enviada
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+model historico_etapas {
+  id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  processo_id         String              @db.Uuid
+  etapa_catalogo_id   String              @db.Uuid
+  status_etapa        etapa_status        @default(Em_Andamento)
+  data_inicio         DateTime            @default(now()) @db.Timestamptz(6)
+  data_fim            DateTime?           @db.Timestamptz(6)
+  tempo_pausado_seg   Int                 @default(0)
+  transcricao_url     String?             @db.VarChar(512)
+  insight_ia          String?
+  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+  entrevistas         entrevistas[]
+  etapas_catalogo     etapas_catalogo     @relation(fields: [etapa_catalogo_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  processos_seletivos processos_seletivos @relation(fields: [processo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  stages       StageHistory[]
-  appointments Appointment[]
-
-  @@unique([jobId, candidateId]) // 1 processo por par vaga+candidato
-  @@index([jobId])
-  @@index([candidateId])
+  @@index([etapa_catalogo_id], map: "idx_historico_etapa")
+  @@index([processo_id], map: "idx_historico_processo")
 }
 
-model StageHistory {
-  id            String           @id @default(uuid(7)) @db.Uuid
-  processId     String           @db.Uuid
-  process       SelectionProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
-  stageName     String // Triagem | People (Bia) | Técnico | Teste | Cultural
-  stageStatus   String // Executada | Pulada | N/A | Em Andamento
-  startedAt     DateTime         @default(now()) // data_inicio
-  endedAt       DateTime? // data_fim
-  pausedSeconds Int              @default(0) // tempo_pausado_seg (botão Pause)
-  transcriptUrl String? // transcricao_url
-  aiInsight     String? // insight_ia
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-
-  appointments Appointment[]
-
-  @@index([processId])
+model motivos_reprovacao {
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  descricao           String                @unique @db.VarChar(255)
+  ativo               Boolean               @default(true)
+  processos_seletivos processos_seletivos[]
 }
 
-model Appointment {
-  id             String           @id @default(uuid(7)) @db.Uuid
-  processId      String           @db.Uuid
-  stageHistoryId String           @db.Uuid
-  process        SelectionProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
-  stageHistory   StageHistory     @relation(fields: [stageHistoryId], references: [id], onDelete: Cascade)
-  startTime      DateTime // data_hora_inicio
-  endTime        DateTime // data_hora_fim
-  interviewers   Json // entrevistadores (jsonb: ["marquinhos@...", ...])
-  inviteStatus   String // Sugerido | Confirmado | Cancelado
-  googleEventId  String? // google_event_id
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model processos_seletivos {
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vaga_id               String              @db.Uuid
+  candidato_id          String              @db.Uuid
+  status_atual          processo_status     @default(Em_andamento)
+  score_fit_cultural    Int?                @db.SmallInt
+  justificativa_fit     String?
+  motivo_reprovacao_id  String?             @db.Uuid
+  comentario_reprovacao String?
+  devolutiva_enviada    Boolean             @default(false)
+  tokens_consumidos     Int                 @default(0)
+  custo_estimado_usd    Decimal             @default(0) @db.Decimal(10, 4)
+  created_at            DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime            @default(now()) @db.Timestamptz(6)
+  entrevistas           entrevistas[]
+  historico_etapas      historico_etapas[]
+  candidatos            candidatos          @relation(fields: [candidato_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  motivos_reprovacao    motivos_reprovacao? @relation(fields: [motivo_reprovacao_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vagas                 vagas               @relation(fields: [vaga_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@index([processId])
-  @@index([stageHistoryId])
+  @@unique([vaga_id, candidato_id])
+  @@index([candidato_id], map: "idx_processos_candidato")
+  @@index([status_atual], map: "idx_processos_status")
+  @@index([vaga_id], map: "idx_processos_vaga")
+}
+
+model usuarios {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome                     String                     @db.VarChar(255)
+  email                    String                     @unique @db.VarChar(255)
+  senha_hash               String?
+  ativo                    Boolean                    @default(true)
+  created_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  entrevista_participantes entrevista_participantes[]
+  sessoes                  sessoes[]
+  vagas                    vagas[]
+}
+
+model vaga_etapas {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vaga_id           String          @db.Uuid
+  etapa_catalogo_id String          @db.Uuid
+  ordem_sugerida    Int             @db.SmallInt
+  obrigatoria       Boolean         @default(true)
+  etapas_catalogo   etapas_catalogo @relation(fields: [etapa_catalogo_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vagas             vagas           @relation(fields: [vaga_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([vaga_id, etapa_catalogo_id])
+  @@index([vaga_id], map: "idx_vaga_etapas_vaga")
+}
+
+model vagas {
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  titulo              String                @db.VarChar(255)
+  projeto             String                @db.VarChar(255)
+  status              vaga_status           @default(Aberta)
+  prioridade          Int?                  @db.SmallInt
+  hiring_manager_id   String?               @db.Uuid
+  budget              Decimal?              @db.Decimal(12, 2)
+  data_abertura       DateTime              @default(dbgenerated("CURRENT_DATE")) @db.Date
+  data_fechamento     DateTime?             @db.Date
+  contexto_projeto    Json?
+  perfil_ideal        String?
+  perfil_rejeitado    String?
+  criterios_teste     String?
+  prompt_analise      String?
+  palavras_chave      String[]
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  processos_seletivos processos_seletivos[]
+  vaga_etapas         vaga_etapas[]
+  usuarios            usuarios?             @relation(fields: [hiring_manager_id], references: [id], onUpdate: NoAction)
+
+  @@index([status], map: "idx_vagas_status")
+}
+
+enum convite_status {
+  Sugerido
+  Confirmado
+  Cancelado
+}
+
+enum entrevista_status {
+  Aguardando_Escolha
+  Confirmada
+  Cancelada
+  Realizada
+}
+
+enum etapa_status {
+  Em_Andamento @map("Em Andamento")
+  Executada
+  Pulada
+  N_A          @map("N/A")
+}
+
+enum origem_candidato {
+  Hunting
+  Gupy
+  Indicacao
+  LinkedIn
+  Outro
+}
+
+enum participacao_tipo {
+  Obrigatorio
+  Opcional
+}
+
+enum processo_status {
+  Em_andamento     @map("Em andamento")
+  Aprovado
+  Reprovado
+  Base_de_Talentos @map("Base de Talentos")
+}
+
+enum vaga_status {
+  Aberta
+  Stand_by  @map("Stand-by")
+  Fechada
+  Cancelada
+}
+
+model sessoes {
+  id         String   @id
+  usuario_id String   @db.Uuid
+  expira_em  DateTime @db.Timestamptz(6)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  usuarios   usuarios @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@index([usuario_id])
 }

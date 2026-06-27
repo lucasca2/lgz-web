@@ -26,16 +26,16 @@ function cookieOptions(expiresAt: Date) {
 
 // Cria uma nova sessão para o usuário e seta o cookie httpOnly.
 // Chamar apenas em Route Handlers / Server Actions (contexto que pode escrever cookie).
-export async function createSession(userId: string): Promise<void> {
+export async function createSession(usuarioId: string): Promise<void> {
   const token = randomBytes(32).toString("hex");
-  const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
+  const expiraEm = new Date(Date.now() + SESSION_TTL_MS);
 
-  await prisma.session.create({
-    data: { id: hashToken(token), userId, expiresAt },
+  await prisma.sessoes.create({
+    data: { id: hashToken(token), usuario_id: usuarioId, expira_em: expiraEm },
   });
 
   const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE, token, cookieOptions(expiresAt));
+  cookieStore.set(SESSION_COOKIE, token, cookieOptions(expiraEm));
 }
 
 export async function deleteSession(): Promise<void> {
@@ -43,7 +43,7 @@ export async function deleteSession(): Promise<void> {
   const token = cookieStore.get(SESSION_COOKIE)?.value;
 
   if (token) {
-    await prisma.session.deleteMany({ where: { id: hashToken(token) } });
+    await prisma.sessoes.deleteMany({ where: { id: hashToken(token) } });
   }
 
   cookieStore.delete(SESSION_COOKIE);
@@ -55,22 +55,22 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const token = cookieStore.get(SESSION_COOKIE)?.value;
   if (!token) return null;
 
-  const session = await prisma.session.findUnique({
+  const session = await prisma.sessoes.findUnique({
     where: { id: hashToken(token) },
-    include: { user: true },
+    include: { usuarios: true },
   });
 
   if (!session) return null;
 
-  if (session.expiresAt < new Date()) {
-    await prisma.session.deleteMany({ where: { id: session.id } });
+  if (session.expira_em < new Date()) {
+    await prisma.sessoes.deleteMany({ where: { id: session.id } });
     return null;
   }
 
   return {
-    id: session.user.id,
-    email: session.user.email,
-    name: session.user.name,
+    id: session.usuarios.id,
+    email: session.usuarios.email,
+    name: session.usuarios.nome,
   };
 });
 

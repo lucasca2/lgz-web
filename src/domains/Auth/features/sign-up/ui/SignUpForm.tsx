@@ -29,7 +29,7 @@ export function SignUpForm() {
     if (signup.isPending || signup.isSuccess) return;
 
     const next: FieldErrors = {};
-    if (name.trim() && name.trim().length < 2) next.name = t("errors.nameMin");
+    if (name.trim().length < 2) next.name = t("errors.nameMin");
     if (!EMAIL_RE.test(email.trim())) next.email = t("errors.emailInvalid");
     if (password.length < 8) next.password = t("errors.passwordMin");
     else if (!/[a-zA-Z]/.test(password)) next.password = t("errors.passwordLetter");
@@ -39,7 +39,7 @@ export function SignUpForm() {
 
     signup.mutate(
       {
-        name: name.trim() || undefined,
+        name: name.trim(),
         email: email.trim().toLowerCase(),
         password,
       },
