@@ -13,6 +13,13 @@ export const createJobSchema = z.object({
   title: z.string().trim().min(1).max(200),
   project: z.string().trim().min(1).max(200),
   status: z.enum(JOB_STATUSES),
+  // Descrição livre da vaga — opcional. Texto vazio é tratado como ausente.
+  description: z
+    .string()
+    .trim()
+    .max(2000)
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export type CreateJobInput = z.infer<typeof createJobSchema>;

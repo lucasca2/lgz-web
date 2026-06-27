@@ -29,6 +29,7 @@ type VagaRow = {
   id: string;
   titulo: string;
   projeto: string;
+  descricao: string | null;
   status: DbStatus;
   data_abertura: Date;
   created_at: Date;
@@ -39,6 +40,7 @@ export function vagaToJobDTO(row: VagaRow): JobDTO {
     id: row.id,
     title: row.titulo,
     project: row.projeto,
+    description: row.descricao,
     status: statusFromDb[row.status],
     openedAt: row.data_abertura.toISOString(),
     createdAt: row.created_at.toISOString(),

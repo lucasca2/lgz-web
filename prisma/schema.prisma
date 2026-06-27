@@ -240,6 +240,7 @@ model vagas {
   id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   titulo              String                @db.VarChar(255)
   projeto             String                @db.VarChar(255)
+  descricao           String?
   status              vaga_status           @default(Aberta)
   prioridade          Int?                  @db.SmallInt
   hiring_manager_id   String?               @db.Uuid

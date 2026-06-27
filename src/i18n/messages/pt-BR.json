@@ -59,6 +59,8 @@
       "position": "Posição",
       "project": "Projeto",
       "status": "Status",
+      "description": "Descrição (opcional)",
+      "descriptionPlaceholder": "Detalhe responsabilidades, requisitos e contexto da vaga…",
       "selectPlaceholder": "Selecione…"
     },
     "status": {

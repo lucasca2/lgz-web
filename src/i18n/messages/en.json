@@ -59,6 +59,8 @@
       "position": "Position",
       "project": "Project",
       "status": "Status",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "Describe the responsibilities, requirements and context of the job…",
       "selectPlaceholder": "Select…"
     },
     "status": {

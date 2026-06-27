@@ -5,6 +5,7 @@ export type JobDTO = {
   id: string;
   title: string;
   project: string;
+  description: string | null;
   status: JobStatus;
   openedAt: string;
   createdAt: string;
