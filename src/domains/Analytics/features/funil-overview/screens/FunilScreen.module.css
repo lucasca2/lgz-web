@@ -78,6 +78,13 @@
   letter-spacing: 0.04em;
 }
 
+.sectionSubtitle {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+  margin: 0;
+  margin-top: calc(var(--space-0_5) * -1);
+}
+
 /* Motivos de reprovação */
 .motivosList {
   display: flex;

@@ -180,6 +180,13 @@
       "candidatos": "candidatos",
       "conversao": "conversión"
     },
+    "pathFlow": {
+      "title": "Análisis de Caminos",
+      "subtitle": "Ve por dónde pasaron los candidatos a partir de cada etapa.",
+      "startFrom": "Inicio",
+      "step": "Paso",
+      "ofStart": "del inicio"
+    },
     "status": {
       "title": "Candidatos por Estado",
       "Em_andamento": "En progreso",

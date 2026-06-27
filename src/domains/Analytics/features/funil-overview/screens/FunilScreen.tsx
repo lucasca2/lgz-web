@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useFunilMetrics } from "../hooks";
-import { KpiCard, FunilBar, BreakdownBar, VagasTable } from "../ui";
+import { KpiCard, FunilBar, BreakdownBar, VagasTable, PathFlowChart } from "../ui";
 import styles from "./FunilScreen.module.css";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -33,7 +33,7 @@ export function FunilScreen() {
     );
   }
 
-  const { kpis, etapasFunil, statusBreakdown, origemBreakdown, motivosReprovacao, slaEtapas, vagasAbertas } =
+  const { kpis, etapasFunil, statusBreakdown, origemBreakdown, motivosReprovacao, slaEtapas, vagasAbertas, transicoes } =
     data;
 
   const statusItems = statusBreakdown.map((s) => ({
@@ -88,6 +88,20 @@ export function FunilScreen() {
           tooltip={t("kpis.tooltips.vagasAbertas")}
         />
       </div>
+
+      {/* Path flow */}
+      <section className={styles.card}>
+        <h2 className={styles.sectionTitle}>{t("pathFlow.title")}</h2>
+        <p className={styles.sectionSubtitle}>{t("pathFlow.subtitle")}</p>
+        <PathFlowChart
+          transitions={transicoes}
+          rootStage="Entrevista People"
+          labels={{
+            step: t("pathFlow.step"),
+            ofStart: t("pathFlow.ofStart"),
+          }}
+        />
+      </section>
 
       {/* Funnel + Status */}
       <div className={styles.twoCol}>

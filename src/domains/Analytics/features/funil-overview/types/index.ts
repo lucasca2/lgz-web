@@ -41,6 +41,12 @@ export type VagaAberta = {
   diasAberta: number;
 };
 
+export type FlowTransition = {
+  from: string;
+  to: string;
+  count: number;
+};
+
 export type FunilMetrics = {
   kpis: {
     totalCandidatos: number;
@@ -55,4 +61,5 @@ export type FunilMetrics = {
   motivosReprovacao: MotivoReprovacao[];
   slaEtapas: SlaEtapa[];
   vagasAbertas: VagaAberta[];
+  transicoes: FlowTransition[];
 };

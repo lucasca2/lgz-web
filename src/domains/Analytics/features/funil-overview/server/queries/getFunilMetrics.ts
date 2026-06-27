@@ -7,23 +7,21 @@ export async function getFunilMetrics(): Promise<FunilMetrics> {
     kpis: {
       totalCandidatos: 184,
       candidatosAtivos: 47,
-      taxaConversaoGeral: 8.2,
+      taxaConversaoGeral: 7.6,
       slaMedioDias: 18,
       vagasAbertas: 12,
     },
     etapasFunil: [
       { etapa: "Entrevista People", candidatos: 184, conversao: 100 },
-      { etapa: "Entrevista Técnica", candidatos: 112, conversao: 61 },
-      { etapa: "Teste Técnico", candidatos: 74, conversao: 66 },
-      { etapa: "Cultural", candidatos: 52, conversao: 70 },
-      { etapa: "Liderança", candidatos: 31, conversao: 60 },
-      { etapa: "Proposta", candidatos: 15, conversao: 48 },
+      { etapa: "Entrevista Técnica", candidatos: 112, conversao: 61 }, // 112/184
+      { etapa: "Teste Técnico", candidatos: 62, conversao: 55 },       // 62/112
+      { etapa: "Liderança", candidatos: 31, conversao: 50 },           // 31/62
+      { etapa: "Proposta", candidatos: 14, conversao: 45 },            // 14/31
     ],
     statusBreakdown: [
       { status: "Em_andamento", count: 47 },
       { status: "Aprovado", count: 22 },
-      { status: "Reprovado", count: 98 },
-      { status: "Base_de_Talentos", count: 17 },
+      { status: "Reprovado", count: 115 },
     ],
     origemBreakdown: [
       { origem: "Hunting", count: 62 },
@@ -43,9 +41,26 @@ export async function getFunilMetrics(): Promise<FunilMetrics> {
       { etapa: "Entrevista People", mediaDias: 3 },
       { etapa: "Entrevista Técnica", mediaDias: 5 },
       { etapa: "Teste Técnico", mediaDias: 7 },
-      { etapa: "Cultural", mediaDias: 4 },
       { etapa: "Liderança", mediaDias: 6 },
       { etapa: "Proposta", mediaDias: 4 },
+    ],
+    transicoes: [
+      // Entrevista People → (184 total)
+      { from: "Entrevista People", to: "Entrevista Técnica", count: 112 },
+      { from: "Entrevista People", to: "Reprovado", count: 72 },
+      // Entrevista Técnica → (112 total; 10 pulam Teste Técnico e vão direto para Liderança)
+      { from: "Entrevista Técnica", to: "Teste Técnico", count: 62 },
+      { from: "Entrevista Técnica", to: "Liderança", count: 10 },
+      { from: "Entrevista Técnica", to: "Reprovado", count: 40 },
+      // Teste Técnico → (62 total)
+      { from: "Teste Técnico", to: "Liderança", count: 31 },
+      { from: "Teste Técnico", to: "Reprovado", count: 31 },
+      // Liderança → (41 total: 31 do Teste Técnico + 10 bypass)
+      { from: "Liderança", to: "Proposta", count: 14 },
+      { from: "Liderança", to: "Reprovado", count: 27 },
+      // Proposta → (14 total)
+      { from: "Proposta", to: "Aprovado", count: 7 },
+      { from: "Proposta", to: "Reprovado", count: 7 },
     ],
     vagasAbertas: [
       {

@@ -180,6 +180,13 @@
       "candidatos": "candidates",
       "conversao": "conversion"
     },
+    "pathFlow": {
+      "title": "Path Analysis",
+      "subtitle": "See where candidates went from each stage.",
+      "startFrom": "Start from",
+      "step": "Step",
+      "ofStart": "of start"
+    },
     "status": {
       "title": "Candidates by Status",
       "Em_andamento": "In progress",
