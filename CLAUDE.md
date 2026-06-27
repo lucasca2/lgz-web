@@ -116,6 +116,31 @@ Exemplo completo da fatia vertical: `src/domains/Messages/features/message-list/
 
 ---
 
+## Auth (domínio `Auth`)
+
+Autenticação **própria** (sem lib), seguindo o padrão de back-end acima. Core: signup / login / logout / sessão.
+
+- **Sessão em banco com token opaco** (sem JWT): gera-se token aleatório (`node:crypto`, 32 bytes);
+  no banco grava-se só o **SHA-256** do token (`Session.id`); o cookie `session` carrega o token cru.
+  Revogável (basta apagar a linha) e sem dependência de cripto de JWT.
+- **Cookie `session`**: `httpOnly`, `secure` em produção, `sameSite=lax`, `path=/`, expira em 30d.
+  Setado/limpo nos Route Handlers via `await cookies()` (async no Next 16).
+- **Hash de senha**: `@node-rs/argon2` (argon2id) em `Auth/shared/server/password.ts`. Nunca guardar senha crua.
+- **DAL** (`Auth/shared/server/session.ts`): `getCurrentUser()` (memoizado com `cache()` do React) é a
+  fonte da verdade da sessão no servidor; `requireUser()` para exigir login. Use sempre a DAL para
+  autorização — **não** confie em checagem de cookie no client nem em proxy.
+- **Cliente**: estado de sessão vem do React Query via `useCurrentUser()` (`GET /api/auth/me`);
+  login/signup/logout fazem `setQueryData`/`invalidate` da key `["auth","currentUser"]`. Não há AuthProvider.
+- **Endpoints**: `POST /api/auth/{signup,login,logout}`, `GET /api/auth/me`. Login retorna erro **genérico**
+  (não revela se o e-mail existe).
+
+Arquivos: `src/domains/Auth/{shared,features/sign-up,features/login}/` + `src/app/api/auth/*`.
+
+> **Follow-up (não implementado):** proteção de rota via `proxy.ts` (checagem otimista de cookie +
+> redirect), reset de senha, verificação de e-mail, OAuth, rate-limiting.
+
+---
+
 ## Regras universais
 
 - **Nunca `export default`** — sempre named exports (exceção: `app/**/page.tsx` e
@@ -126,6 +151,15 @@ Exemplo completo da fatia vertical: `src/domains/Messages/features/message-list/
 - **Toda pasta de componente/hook** tem um `index.ts` (barrel export).
 - **`import "server-only"`** no topo de tudo em `server/` — garante que Prisma nunca vaze pro client.
 - **Prisma** sempre via `import { prisma } from "@/shared/lib/prisma"` — nunca `new PrismaClient()` solto.
+- **Design tokens** (em `src/app/globals.css`): use SEMPRE os tokens; nunca px/rem soltos para
+  espaçamento ou fonte, nem hex de cor solto.
+  - Cor: `--wave-*` (`--wave-accent` #0f62fe, `--wave-ink` #161616, etc.).
+  - Espaçamento (gap/padding/margin): `--space-*` no **grid de 8px** com meios-passos de 4px —
+    `--space-0_5` (4px), `--space-1` (8px), `--space-1_5` (12px), `--space-2` (16px) … (o número é o
+    multiplicador da base 8px).
+  - Tipografia: `--text-*` em **passos de 2px**, base/"medium" `--text-md` (16px); `--text-2xs` (10px)
+    é o mínimo e quase nunca usado. Inputs ficam ≥16px (evita zoom automático no iOS).
+  - Literais aceitáveis: dimensões de ícone/borda (1–3px), raio (`--wave-radius`), `#fff` sobre acento.
 
 ---
 

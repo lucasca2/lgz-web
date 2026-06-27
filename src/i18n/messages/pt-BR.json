@@ -1,5 +1,50 @@
 {
+  "Common": {
+    "language": "Idioma"
+  },
   "HomePage": {
-    "hello": "Olá, Mundo"
+    "title": "Wave by Bemobi",
+    "guestSubtitle": "A primeira plataforma nativa digital para telecomunicações.",
+    "welcome": "Olá, {name}",
+    "loggedInAs": "Conectado como {email}",
+    "signIn": "Entrar",
+    "createAccount": "Criar conta",
+    "logout": "Sair"
+  },
+  "Auth": {
+    "brandTagline": "A primeira plataforma nativa digital para telecomunicações, transformando os negócios de hoje nos líderes de experiência de amanhã.",
+    "login": {
+      "title": "Entrar",
+      "subtitle": "Acesse sua conta Wave.",
+      "submit": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "goSignup": "Criar conta",
+      "invalid": "Credenciais inválidas."
+    },
+    "signup": {
+      "title": "Criar conta",
+      "subtitle": "Comece a usar a Wave.",
+      "submit": "Criar conta",
+      "hasAccount": "Já tem uma conta?",
+      "goLogin": "Entrar",
+      "emailTaken": "Este e-mail já está cadastrado."
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Seu nome",
+      "email": "E-mail",
+      "emailPlaceholder": "voce@email.com",
+      "password": "Senha",
+      "passwordPlaceholder": "••••••••"
+    },
+    "errors": {
+      "nameMin": "Informe ao menos 2 caracteres.",
+      "emailInvalid": "Informe um e-mail válido.",
+      "passwordMin": "A senha deve ter ao menos 8 caracteres.",
+      "passwordLetter": "Inclua ao menos uma letra.",
+      "passwordNumber": "Inclua ao menos um número.",
+      "required": "Campo obrigatório.",
+      "generic": "Algo deu errado. Tente novamente."
+    }
   }
 }

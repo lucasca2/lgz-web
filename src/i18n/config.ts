@@ -9,3 +9,10 @@ export const localeLabels: Record<Locale, string> = {
   en: "English",
   es: "Español",
 };
+
+// Sigla do país exibida no seletor de idioma (acompanha a bandeira).
+export const localeShort: Record<Locale, string> = {
+  "pt-BR": "BR",
+  en: "US",
+  es: "ES",
+};

@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { QueryProvider } from "@/shared/providers";
 import "./globals.css";
 
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans",
+});
+
 export const metadata: Metadata = {
-  title: "Web",
-  description: "Hello World app",
+  title: "Wave by Bemobi",
+  description: "Wave by Bemobi — authentication",
 };
 
 export default async function RootLayout({
@@ -17,7 +24,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={ibmPlexSans.variable}>
       <body>
         <NextIntlClientProvider>
           <QueryProvider>{children}</QueryProvider>
