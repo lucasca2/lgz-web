@@ -105,6 +105,32 @@ model motivos_reprovacao {
   processos_seletivos processos_seletivos[]
 }
 
+/// Catálogo de posições/cargos por senioridade (ex.: "Backend" + nível "Pleno").
+/// Fonte de verdade do que se espera de cada nível; alimenta o cadastro de vagas.
+model posicoes {
+  id         String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome       String            @db.VarChar(200)
+  nivel      nivel_senioridade
+  descricao  String
+  created_at DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at DateTime          @default(now()) @db.Timestamptz(6)
+
+  @@unique([nome, nivel], map: "uq_posicoes_nome_nivel")
+  @@index([nivel], map: "idx_posicoes_nivel")
+}
+
+/// Catálogo de projetos/contas (ex.: "TIM", "Sabesp"). Contexto é opcional e
+/// preenchido manualmente; alimenta o cadastro de vagas.
+model projetos {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome       String   @db.VarChar(200)
+  contexto   String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([nome], map: "uq_projetos_nome")
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model processos_seletivos {
   id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -138,11 +164,56 @@ model usuarios {
   email                    String                     @unique @db.VarChar(255)
   senha_hash               String?
   ativo                    Boolean                    @default(true)
+  // ── Perfil Google (login OAuth + agendador) ──
+  google_id                String?                    @unique(map: "uq_usuarios_google_id") @db.VarChar(255)
+  picture                  String?                    @db.VarChar(1024)
+  // Refresh token do recrutador — persistido para "agir como" ele ao revalidar
+  // horários e emitir o convite quando o candidato abre o link de agendamento.
+  google_refresh_token     String?
+  google_scope             String?
   created_at               DateTime                   @default(now()) @db.Timestamptz(6)
   updated_at               DateTime                   @default(now()) @db.Timestamptz(6)
+  convites_agendamento     convites_agendamento[]
   entrevista_participantes entrevista_participantes[]
   sessoes                  sessoes[]
   vagas                    vagas[]
+}
+
+// ─────────────────────────────────────────────
+// Scheduling domain (agendador Google Calendar) — tabela standalone
+// ─────────────────────────────────────────────
+
+// Link de convite de agendamento gerado pelo recrutador e consumido UMA ÚNICA
+// vez pelo candidato. Ao confirmar (book), status vira CONSUMED e o link fica
+// inacessível. Independente do domínio de recrutamento (entrevistas/processos).
+model convites_agendamento {
+  id String @id @db.VarChar(32) // id curto, usado na URL pública /convite/<id>
+
+  organizador_id    String   @db.Uuid
+  organizador       usuarios @relation(fields: [organizador_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  organizador_email String   @db.VarChar(255) // denormalizado: e-mail do organizador
+
+  titulo      String  @db.VarChar(255)
+  duracao_min Int     @db.SmallInt
+  urgente     Boolean @default(false)
+
+  // Listas de e-mails (string[]) e horários ofertados (ISO string[]).
+  incluidos    Json // todos os convidados
+  obrigatorios Json // subconjunto obrigatório (trava disponibilidade)
+  slots        Json // horários ISO ofertados ao candidato
+
+  // Single-use: ACTIVE até o candidato confirmar; depois CONSUMED.
+  status              String    @default("ACTIVE") @db.VarChar(20)
+  consumido_em        DateTime? @db.Timestamptz(6)
+  consumido_por_email String?   @db.VarChar(255) // e-mail informado pelo candidato
+  slot_agendado       String? // horário ISO efetivamente agendado
+  google_event_id     String?   @db.VarChar(255)
+  google_event_link   String?
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([organizador_id], map: "idx_convites_organizador")
 }
 
 model vaga_etapas {
@@ -209,6 +280,13 @@ enum origem_candidato {
   Indicacao
   LinkedIn
   Outro
+}
+
+enum nivel_senioridade {
+  Junior
+  Pleno
+  Senior
+  Especialista
 }
 
 enum participacao_tipo {

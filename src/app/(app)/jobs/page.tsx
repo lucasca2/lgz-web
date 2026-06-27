@@ -1,8 +1,5 @@
-import { getTranslations } from "next-intl/server";
-import { PagePlaceholder } from "@/shared/ui/PagePlaceholder";
+import { JobListScreen } from "@/domains/Jobs/features/job-list/screens/JobListScreen";
 
-export default async function JobsPage() {
-  const t = await getTranslations("Jobs");
-
-  return <PagePlaceholder title={t("title")} subtitle={t("subtitle")} />;
+export default function JobsPage() {
+  return <JobListScreen />;
 }
