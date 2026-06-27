@@ -31,6 +31,35 @@
   margin: 0;
 }
 
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.filterLabel {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+  white-space: nowrap;
+}
+
+.filterSelect {
+  font-size: var(--text-sm);
+  color: var(--wave-ink);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius);
+  padding: var(--space-0_5) var(--space-1_5);
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.filterSelect:focus {
+  outline: 2px solid var(--wave-accent);
+  outline-offset: 2px;
+}
+
 .kpiRow {
   display: flex;
   gap: var(--space-2);

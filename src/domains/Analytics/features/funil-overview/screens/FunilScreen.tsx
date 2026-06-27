@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useFunilMetrics } from "../hooks";
 import { KpiCard, FunilBar, BreakdownBar, VagasTable, PathFlowChart } from "../ui";
@@ -22,7 +23,8 @@ const ORIGEM_COLORS: Record<string, string> = {
 
 export function FunilScreen() {
   const t = useTranslations("Funil");
-  const { data, isFetching } = useFunilMetrics();
+  const [projetoSelecionado, setProjetoSelecionado] = useState<string | null>(null);
+  const { data, isFetching } = useFunilMetrics(projetoSelecionado);
 
   if (!data) {
     return (
@@ -55,6 +57,22 @@ export function FunilScreen() {
       <div className={styles.header}>
         <h1 className={styles.title}>{t("title")}</h1>
         <p className={styles.subtitle}>{t("subtitle")}</p>
+        <div className={styles.filterRow}>
+          <label className={styles.filterLabel} htmlFor="projeto-select">
+            {t("filtro.projeto")}
+          </label>
+          <select
+            id="projeto-select"
+            className={styles.filterSelect}
+            value={projetoSelecionado ?? ""}
+            onChange={(e) => setProjetoSelecionado(e.target.value || null)}
+          >
+            <option value="">{t("filtro.todos")}</option>
+            {data.projetos.map((p) => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* KPI row */}
