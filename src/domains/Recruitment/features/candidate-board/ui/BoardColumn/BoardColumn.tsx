@@ -26,7 +26,7 @@ export function BoardColumn({ stage, cards, onSelect }: BoardColumnProps) {
   const className = [
     styles.column,
     isOver && styles.over,
-    stage === "Rejeição" && styles.rejection,
+    stage === "Recusado" && styles.rejection,
   ]
     .filter(Boolean)
     .join(" ");

@@ -39,12 +39,20 @@ type SourceInterview = {
   job_position_id: number | null;
 };
 
+type SeedEtapa = {
+  nome: string;
+  grupo?: string | null;
+};
+
 const here = dirname(fileURLToPath(import.meta.url));
 const positions: SeedPosition[] = JSON.parse(
   readFileSync(join(here, "seed", "positions.json"), "utf8"),
 );
 const projects: SeedProject[] = JSON.parse(
   readFileSync(join(here, "seed", "projects.json"), "utf8"),
+);
+const etapas: SeedEtapa[] = JSON.parse(
+  readFileSync(join(here, "seed", "etapas.json"), "utf8"),
 );
 
 function readSourceInterviews(): SourceInterview[] {
@@ -201,6 +209,24 @@ async function seedAssessments(pool: pg.Pool) {
   );
 }
 
+async function seedEtapas(pool: pg.Pool) {
+  let inserted = 0;
+  // Catálogo fixo de etapas do pipeline (colunas do kanban). Só garante a
+  // existência dos nomes; NÃO sobrescreve.
+  for (const etapa of etapas) {
+    const result = await pool.query(
+      `INSERT INTO etapas_catalogo (nome, grupo)
+       VALUES ($1, $2)
+       ON CONFLICT (nome) DO NOTHING`,
+      [etapa.nome, etapa.grupo ?? null],
+    );
+    inserted += result.rowCount ?? 0;
+  }
+  console.log(
+    `✅ Seed etapas_catalogo: ${inserted} inseridas, ${etapas.length - inserted} já existentes (total ${etapas.length}).`,
+  );
+}
+
 async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -212,6 +238,7 @@ async function main() {
     await seedPositions(pool);
     await seedProjects(pool);
     await seedAssessments(pool);
+    await seedEtapas(pool);
   } finally {
     await pool.end();
   }

@@ -15,6 +15,10 @@
   --wave-danger: #d92d20;
   --wave-danger-strong: #a51c12;
   --wave-danger-soft: #ffdede;
+  --wave-success: #0e6027;
+  --wave-success-soft: #defbe6;
+  --wave-warning: #8e6a00;
+  --wave-warning-soft: #fcf4d6;
   --wave-placeholder: #6b7785;
 
   /* Cores por nível de senioridade (badges) — soft = fundo, text = texto */
@@ -100,6 +104,10 @@
   --wave-danger: #fa4d56;
   --wave-danger-strong: #ff8389;
   --wave-danger-soft: #3a1a1d;
+  --wave-success: #6fdc8c;
+  --wave-success-soft: #16301f;
+  --wave-warning: #f1c21b;
+  --wave-warning-soft: #352a12;
   --wave-placeholder: #8d99a6;
 
   /* Cores por nível de senioridade (badges) — variantes escuras */

@@ -1,0 +1,42 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  flex: 1;
+  min-height: 0;
+}
+
+.back {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--wave-slate);
+  text-decoration: none;
+  width: fit-content;
+  flex-shrink: 0;
+}
+
+.back:hover {
+  color: var(--wave-accent);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.subtitle {
+  margin: var(--space-0_5) 0 0;
+  font-size: var(--text-md);
+  color: var(--wave-slate);
+}

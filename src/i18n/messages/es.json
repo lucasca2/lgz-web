@@ -32,15 +32,51 @@
     "checking": "Verificando agenda…",
     "scheduledFor": "Agendado para {datetime}",
     "openMeet": "Abrir en Meet",
+    "scorePending": "Pendiente",
+    "hasInterview": "Entrevista agendada",
     "stages": {
       "Triagem": "Cribado",
       "Fit Cultural": "Ajuste cultural",
       "People": "People",
-      "Entrevista Técnica": "Entrevista técnica",
-      "Entrevista Cultural": "Entrevista cultural",
+      "Teste Técnico": "Prueba técnica",
+      "Entrevistas": "Entrevistas",
       "Proposta": "Oferta",
-      "Contratação": "Contratación",
-      "Rejeição": "Rechazo"
+      "Aprovado": "Aprobado",
+      "Recusado": "Rechazado"
+    }
+  },
+  "JobCandidates": {
+    "create": "Registrar candidato",
+    "form": {
+      "title": "Registrar candidato",
+      "submit": "Registrar",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "nome": "Nombre",
+      "nomePlaceholder": "Nombre del candidato",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceholder": "https://linkedin.com/in/…",
+      "email": "Correo",
+      "emailPlaceholder": "candidato@email.com",
+      "telefone": "Teléfono",
+      "telefonePlaceholder": "+34 600 000 000",
+      "origem": "Origen",
+      "selectPlaceholder": "Selecciona…",
+      "pretensao": "Pretensión salarial",
+      "pretensaoPlaceholder": "Ej.: 8000"
+    },
+    "origem": {
+      "Hunting": "Hunting",
+      "Gupy": "Gupy",
+      "Indicacao": "Referido",
+      "LinkedIn": "LinkedIn",
+      "Outro": "Otro"
+    },
+    "errors": {
+      "required": "Campo obligatorio.",
+      "alreadyInJob": "Este candidato ya está en esta vacante.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
     }
   },
   "Jobs": {

@@ -7,6 +7,8 @@
   border: 1px solid var(--wave-border);
   border-radius: var(--wave-radius-md);
   box-shadow: var(--wave-shadow);
+  text-decoration: none;
+  color: inherit;
   cursor: pointer;
   transition:
     transform 0.15s ease,

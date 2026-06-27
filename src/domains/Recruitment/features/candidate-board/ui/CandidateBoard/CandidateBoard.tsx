@@ -34,10 +34,12 @@ function lastIndexOfStage(list: BoardCardDTO[], stage: BoardStage): number {
   return -1;
 }
 
-export function CandidateBoard() {
+type CandidateBoardProps = { vagaId?: string };
+
+export function CandidateBoard({ vagaId }: CandidateBoardProps) {
   const t = useTranslations("Dashboard");
-  const { data, isPending, isError } = useBoardCards();
-  const saveOrder = useSaveBoardOrder();
+  const { data, isPending, isError } = useBoardCards(vagaId);
+  const saveOrder = useSaveBoardOrder(vagaId);
 
   // Cópia de trabalho local: o drag manipula ela na hora e a mutation persiste no servidor.
   // Semeada uma vez a partir do servidor; depois o estado local é a fonte da verdade do board

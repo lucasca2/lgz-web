@@ -1,0 +1,10 @@
+[
+  { "nome": "Triagem", "grupo": "Processo" },
+  { "nome": "Fit Cultural", "grupo": "Processo" },
+  { "nome": "People", "grupo": "Processo" },
+  { "nome": "Teste Técnico", "grupo": "Processo" },
+  { "nome": "Entrevistas", "grupo": "Processo" },
+  { "nome": "Proposta", "grupo": "Processo" },
+  { "nome": "Aprovado", "grupo": "Resultado" },
+  { "nome": "Recusado", "grupo": "Resultado" }
+]

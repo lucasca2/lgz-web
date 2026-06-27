@@ -3,6 +3,8 @@
 import type { CSSProperties } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useTranslations } from "next-intl";
+import { ScoreBadge } from "@/shared/ui/ScoreBadge";
 import { STAGE_ACCENT } from "../../constants/stages";
 import type { BoardCardDTO } from "../../types";
 import { initials } from "../../utils";
@@ -16,6 +18,7 @@ export function CandidateCardView({
   dragging = false,
   overlay = false,
 }: CandidateCardProps & { dragging?: boolean; overlay?: boolean }) {
+  const t = useTranslations("Dashboard");
   const className = [
     styles.card,
     dragging && styles.dragging,
@@ -36,7 +39,15 @@ export function CandidateCardView({
         <p className={styles.role}>
           {card.project} · {card.position}
         </p>
+        {card.interview ? (
+          <p className={styles.interview}>{t("hasInterview")}</p>
+        ) : null}
       </div>
+      <ScoreBadge
+        score={card.score}
+        pendingLabel={t("scorePending")}
+        size="sm"
+      />
     </article>
   );
 }

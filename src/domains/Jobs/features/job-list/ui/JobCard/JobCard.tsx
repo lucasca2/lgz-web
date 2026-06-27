@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import type { JobDTO } from "../../types";
 import type { JobStatus } from "../../schemas/jobSchemas";
@@ -23,7 +24,7 @@ export function JobCard({ job }: JobCardProps) {
   }).format(new Date(job.openedAt));
 
   return (
-    <article className={styles.card}>
+    <Link href={`/jobs/${job.id}`} className={styles.card}>
       <div className={styles.header}>
         <h3 className={styles.title}>{job.title}</h3>
         <JobStatusMenu
@@ -41,6 +42,6 @@ export function JobCard({ job }: JobCardProps) {
       <p className={styles.meta}>
         {t("openedAtLabel")}: {openedAt}
       </p>
-    </article>
+    </Link>
   );
 }
