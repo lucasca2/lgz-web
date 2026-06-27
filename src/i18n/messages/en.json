@@ -8,6 +8,7 @@
     "dashboard": "Dashboard",
     "jobs": "Jobs",
     "scheduler": "Schedule",
+    "interviews": "Interviews",
     "positions": "Positions",
     "projects": "Projects",
     "settings": "Settings",
@@ -70,6 +71,10 @@
   "Settings": {
     "title": "Settings",
     "subtitle": "Manage your account preferences."
+  },
+  "Interviews": {
+    "title": "Interviews",
+    "subtitle": "Track and manage scheduled interviews."
   },
   "Positions": {
     "title": "Positions",

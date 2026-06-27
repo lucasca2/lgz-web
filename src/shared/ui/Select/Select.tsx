@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useId,
   useRef,
@@ -8,6 +9,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDownIcon, CheckIcon } from "@/shared/ui/icons";
 import styles from "./Select.module.css";
 
@@ -16,6 +18,14 @@ export type SelectOption = {
   label: string;
   /** Elemento opcional à esquerda do label (ex.: bolinha de status, ícone). */
   icon?: ReactNode;
+};
+
+// Posição do menu portalizado (coordenadas de viewport, `position: fixed`).
+type MenuPosition = {
+  top: number;
+  left: number;
+  width: number;
+  openUp: boolean;
 };
 
 type SelectProps = {
@@ -52,25 +62,54 @@ export function Select({
   const [activeIndex, setActiveIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
+  const [menuPos, setMenuPos] = useState<MenuPosition | null>(null);
 
   const selected = options.find((option) => option.value === value);
+
+  // Ancora o menu (portalizado no body) no gatilho. Abre pra cima quando não
+  // há espaço suficiente abaixo na viewport.
+  const placeMenu = useCallback(() => {
+    const trigger = buttonRef.current;
+    if (!trigger) return;
+    const rect = trigger.getBoundingClientRect();
+    const GAP = 4; // var(--space-0_5)
+    const MAX_MENU_HEIGHT = 240; // .menu max-height
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUp = spaceBelow < MAX_MENU_HEIGHT + GAP && rect.top > spaceBelow;
+    setMenuPos({
+      top: openUp ? rect.top - GAP : rect.bottom + GAP,
+      left: rect.left,
+      width: rect.width,
+      openUp,
+    });
+  }, []);
 
   useEffect(() => {
     if (!open) return;
 
     function handleOutside(event: MouseEvent) {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
+      const target = event.target as Node;
+      const insideTrigger = rootRef.current?.contains(target);
+      const insideMenu = menuRef.current?.contains(target);
+      if (!insideTrigger && !insideMenu) setOpen(false);
     }
 
+    // O menu vive fora da modal (portal): segue o gatilho ao rolar/redimensionar.
+    window.addEventListener("scroll", placeMenu, true);
+    window.addEventListener("resize", placeMenu);
     document.addEventListener("mousedown", handleOutside);
-    return () => document.removeEventListener("mousedown", handleOutside);
-  }, [open]);
+    return () => {
+      window.removeEventListener("scroll", placeMenu, true);
+      window.removeEventListener("resize", placeMenu);
+      document.removeEventListener("mousedown", handleOutside);
+    };
+  }, [open, placeMenu]);
 
   function openMenu() {
     const current = options.findIndex((option) => option.value === value);
     setActiveIndex(current >= 0 ? current : 0);
+    placeMenu();
     setOpen(true);
   }
 
@@ -169,40 +208,55 @@ export function Select({
           <ChevronDownIcon className={styles.chevron} />
         </button>
 
-        {open ? (
-          <ul className={styles.menu} role="listbox" id={listId} aria-labelledby={labelId}>
-            {options.map((option, index) => (
-              <li
-                key={option.value}
-                id={`${selectId}-opt-${index}`}
-                role="option"
-                aria-selected={option.value === value}
-                className={[
-                  styles.option,
-                  index === activeIndex && styles.optionActive,
-                  option.value === value && styles.optionSelected,
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseDown={(event) => {
-                  event.preventDefault();
-                  commit(index);
+        {open && menuPos
+          ? createPortal(
+              <ul
+                ref={menuRef}
+                className={styles.menu}
+                role="listbox"
+                id={listId}
+                aria-labelledby={labelId}
+                style={{
+                  top: menuPos.top,
+                  left: menuPos.left,
+                  width: menuPos.width,
+                  transform: menuPos.openUp ? "translateY(-100%)" : undefined,
                 }}
               >
-                <span className={styles.optionLabel}>
-                  {option.icon ? (
-                    <span className={styles.optionIcon}>{option.icon}</span>
-                  ) : null}
-                  {option.label}
-                </span>
-                {option.value === value ? (
-                  <CheckIcon className={styles.check} />
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        ) : null}
+                {options.map((option, index) => (
+                  <li
+                    key={option.value}
+                    id={`${selectId}-opt-${index}`}
+                    role="option"
+                    aria-selected={option.value === value}
+                    className={[
+                      styles.option,
+                      index === activeIndex && styles.optionActive,
+                      option.value === value && styles.optionSelected,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onMouseDown={(event) => {
+                      event.preventDefault();
+                      commit(index);
+                    }}
+                  >
+                    <span className={styles.optionLabel}>
+                      {option.icon ? (
+                        <span className={styles.optionIcon}>{option.icon}</span>
+                      ) : null}
+                      {option.label}
+                    </span>
+                    {option.value === value ? (
+                      <CheckIcon className={styles.check} />
+                    ) : null}
+                  </li>
+                ))}
+              </ul>,
+              document.body,
+            )
+          : null}
       </div>
 
       {error ? (

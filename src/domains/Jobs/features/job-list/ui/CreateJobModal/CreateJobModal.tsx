@@ -90,8 +90,8 @@ export function CreateJobModal({ open, onClose }: CreateJobModalProps) {
           onChange={setPosition}
           error={errors.position}
           options={(positions ?? []).map((item) => ({
-            value: item.name,
-            label: item.name,
+            value: `${item.name} - ${item.nivel}`,
+            label: `${item.name} - ${item.nivel}`,
           }))}
         />
         <Select

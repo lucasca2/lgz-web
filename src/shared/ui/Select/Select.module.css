@@ -104,12 +104,11 @@
   transform: rotate(180deg);
 }
 
+/* Portalizado no body: posição (top/left/width) vem inline via JS.
+   z-index acima do overlay da modal (50) para "sair" dela. */
 .menu {
-  position: absolute;
-  top: calc(100% + var(--space-0_5));
-  left: 0;
-  right: 0;
-  z-index: 20;
+  position: fixed;
+  z-index: 60;
   display: flex;
   flex-direction: column;
   gap: 2px;

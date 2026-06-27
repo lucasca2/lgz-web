@@ -8,6 +8,7 @@
     "dashboard": "Dashboard",
     "jobs": "Vagas",
     "scheduler": "Agendar",
+    "interviews": "Entrevistas",
     "positions": "Posições",
     "projects": "Projetos",
     "settings": "Configurações",
@@ -70,6 +71,10 @@
   "Settings": {
     "title": "Configurações",
     "subtitle": "Gerencie as preferências da sua conta."
+  },
+  "Interviews": {
+    "title": "Entrevistas",
+    "subtitle": "Acompanhe e gerencie as entrevistas agendadas."
   },
   "Positions": {
     "title": "Posições",
