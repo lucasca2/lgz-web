@@ -1,0 +1,138 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.headline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-2_5);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+}
+
+.confidence {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+  flex: 1;
+  min-width: 200px;
+}
+
+.confidenceTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.confidenceLabel {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wave-slate);
+}
+
+.confidenceValue {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--wave-ink);
+}
+
+.bar {
+  height: 8px;
+  width: 100%;
+  background: var(--wave-bg);
+  border-radius: var(--wave-radius-pill);
+  overflow: hidden;
+}
+
+.barFillOk {
+  height: 100%;
+  background: var(--wave-accent);
+  border-radius: var(--wave-radius-pill);
+}
+
+.barFillNo {
+  height: 100%;
+  background: var(--wave-danger);
+  border-radius: var(--wave-radius-pill);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.blockTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wave-slate);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--wave-ink-soft);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+}
+
+.list {
+  margin: 0;
+  padding-left: var(--space-2_5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--wave-ink-soft);
+}
+
+.similars {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.similar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-1_5) var(--space-2);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius);
+}
+
+.similarName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.similarText {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--wave-ink-soft);
+}
+
+.muted {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+}

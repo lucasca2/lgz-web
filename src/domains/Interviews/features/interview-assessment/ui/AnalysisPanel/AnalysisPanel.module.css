@@ -1,0 +1,70 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1_5);
+}
+
+.blockTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wave-slate);
+}
+
+.summary {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--wave-ink-soft);
+}
+
+.aspects {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1_5);
+}
+
+.aspect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background: var(--wave-surface);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-md);
+}
+
+.aspectHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1_5);
+}
+
+.aspectName {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.evidence {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--wave-ink-soft);
+}
+
+.muted {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+}

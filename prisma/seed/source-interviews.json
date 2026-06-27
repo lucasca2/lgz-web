@@ -1,0 +1,457 @@
+{
+  "_comment": "Export do people-interview-assessment-agent (GET /api/interviews). Amostra fiel das entrevistas fornecidas; cole o export completo (todas as 113) aqui para popular tudo. O seed (prisma/seed.mts) deriva especialidade (posição) de position/job_position_id e faz upsert por id (origem_id). transcript abreviado e summary omitido nesta amostra; analysis_json/recommendation_json preservam os campos usados pela recomendação.",
+  "interviews": [
+    {
+      "id": 160,
+      "candidate_name": "Fernando Fernandes",
+      "position": "Engenheiro de Sustentação / Analista de Suporte (área de sustentação com viés técnico)",
+      "job_position_id": 12,
+      "final_status": "APROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Fernando, tudo bem? [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Fernando Fernandes",
+        "cargo_pretendido": "Engenheiro de Sustentação / Analista de Suporte (área de sustentação com viés técnico)",
+        "resumo_perfil": "Fernando demonstra um perfil profissional maduro, comunicativo e orientado a resultados, com forte autorresponsabilidade, vontade de aprender e mentalidade de geração de valor. Evoluiu de funções operacionais (call center, suporte N1) para uma posição intermediária entre suporte e engenharia, demonstrando consistência de crescimento e proatividade (criou ferramentas internas, foi multiplicador de sistema). Tem visão estratégica, foco em causa raiz, gosto por colaboração e compartilhamento de conhecimento, além de boa capacidade de lidar com conflitos e pressão. Valoriza cultura organizacional clara, feedbacks frequentes e ambientes com autonomia — o home office é fator decisivo na movimentação. Pontos de atenção: prolixidade, sensibilidade a injustiça, alta autocobrança e expectativa de evolução acelerada.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Autodesenvolvimento e proatividade no aprendizado", "evidencia": "Qualificou-se por conta própria (SENAI, Etec, faculdade de Ciência da Computação): 'quando me dão um desafio, vou atrás e consigo aprender rápido'.", "intensidade": "alta" },
+          { "aspecto": "Autorresponsabilidade", "evidencia": "'Não vai precisar ficar me cobrando, eu tenho essa autorresponsabilidade'. Defende home office baseado em confiança e entrega.", "intensidade": "alta" },
+          { "aspecto": "Visão estratégica e foco em causa raiz", "evidencia": "Diferencia júnior de pleno pela visão estratégica; cita redução de 50 chamados para 1 ou 2 ao resolver na raiz.", "intensidade": "alta" },
+          { "aspecto": "Orientação a geração de valor", "evidencia": "'Eu gosto de gerar valor'; liga propósito ao impacto no cliente final.", "intensidade": "alta" },
+          { "aspecto": "Colaboração e compartilhamento de conhecimento", "evidencia": "Foi multiplicador do sistema de João Pessoa; 'ajudo todas as pessoas que entram, disponho tudo que sei'.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Tendência à prolixidade", "evidencia": "Respostas longas e por vezes repetitivas, dificultando objetividade.", "severidade": "baixa" },
+          { "aspecto": "Sensibilidade a percepção de injustiça", "evidencia": "Cita que injustiças em promoções ou cobranças desequilibradas o desmotivariam.", "severidade": "media" },
+          { "aspecto": "Expectativa de crescimento acelerado", "evidencia": "Acostumado a promoções a cada janela de 9 meses; pode frustrar-se com ciclos mais longos.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "APROVAR",
+        "confianca": 72,
+        "justificativa": "Fernando apresenta perfil comportamental sólido e alinhado a uma vaga de Engenheiro de Sustentação Júnior, com forte convergência com aprovados: autorresponsabilidade, comunicação clara, foco em causa raiz (redução de 50 chamados para 1-2 — ownership real), colaboração e disseminação de conhecimento, orientação a valor e transparência. Trajetória de call center/suporte N1 para posição intermediária suporte/engenharia mostra consistência e protagonismo. Base técnica adequada (SQL, logs, documentação) e autodesenvolvimento ativo. Pontos de atenção (dependência de plano de carreira, sensibilidade a injustiça, expectativa de crescimento acelerado) existem mas em severidade menor, e a vaga júnior reduz a pressão sobre progressão imediata.",
+        "pontos_fortes": [
+          "Ownership real com impacto mensurável (50 chamados → 1-2 ao resolver na causa raiz)",
+          "Visão estratégica e foco em causa raiz alinhados à vaga de sustentação",
+          "Forte autorresponsabilidade e autonomia — alinhado a home office e on-call",
+          "Trajetória consistente de evolução (call center → N1 → suporte/engenharia)",
+          "Multiplicador de conhecimento e colaboração genuína",
+          "Comunicação clara, didática e transparente"
+        ],
+        "pontos_de_atencao": [
+          "Dependência declarada de plano de carreira estruturado e feedbacks",
+          "Sensibilidade a injustiças/tratamento desigual",
+          "Expectativa de crescimento acelerado (promoções a cada ~9 meses)",
+          "Conhecimento de SQL ainda em desenvolvimento para manipulações avançadas"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 156,
+      "candidate_name": "Higor Jason Duarte de Oliveira",
+      "position": "QA (Quality Assurance) - PJ",
+      "job_position_id": 3,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Igor. Tudo bem? [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Higor Jason Duarte de Oliveira",
+        "cargo_pretendido": "QA (Quality Assurance) - PJ",
+        "resumo_perfil": "Higor é um profissional de QA com ~6 anos de experiência, tecnicamente sólido (manual e automação, Java, Python, Postman, Docker, CI/CD), com forte protagonismo, resiliência e iniciativa. Demonstra alto grau de organização, valoriza documentação e disseminação de conhecimento, e cultiva relações empáticas e colaborativas. Coloca cultura, reconhecimento e companheirismo acima de salário. Por outro lado, tende à prolixidade, mistura aspectos pessoais e profissionais, demonstra reatividade quando se sente desvalorizado e baixa tolerância à desorganização. Há sinais de resistência a tecnologias emergentes fora do seu modelo mental de código.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Comunicação aberta e transparente", "evidencia": "Compartilhou de forma espontânea situações pessoais sensíveis e foi direto sobre expectativas.", "intensidade": "alta" },
+          { "aspecto": "Organização e valorização da documentação", "evidencia": "Documenta processos em todas as empresas; criou scripts para análise automatizada de falhas.", "intensidade": "alta" },
+          { "aspecto": "Iniciativa e protagonismo", "evidencia": "Saiu de cidade pequena para construir carreira em TI; foi 'o último a sair' da Ásion após liderar QA.", "intensidade": "alta" },
+          { "aspecto": "Colaboração e trabalho em equipe", "evidencia": "Defende companheirismo entre QA e Dev e disseminação de conhecimento.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Prolixidade e dificuldade em sintetizar", "evidencia": "Respostas longas; a própria recrutadora pontuou que passaram do tempo.", "severidade": "media" },
+          { "aspecto": "Possível reatividade em situações de frustração", "evidencia": "Ultimato ao chefe e aceitação de proposta no dia seguinte.", "severidade": "media" },
+          { "aspecto": "Resistência a tecnologias emergentes (low-code/IA)", "evidencia": "Saiu da Spread pela ferramenta Test Rigor (baseada em IA) por não 'colocar a mão no código'.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 72,
+        "justificativa": "Higor tem pontos fortes reais (6 anos de QA manual+automação, organização, valorização de cultura acima de salário, colaboração), mas o cruzamento com a base revela convergência com reprovados: baixa tolerância à desorganização alheia com frustração quando o time não adere; reatividade emocional com decisões impulsivas; resistência a tecnologias emergentes (saiu por ferramenta de IA); histórico recente de instabilidade; prolixidade acentuada; mistura de assuntos pessoais e profissionais. A combinação configura padrão análogo a reprovados pelos motivos que a Wave declara críticos (flexibilidade, adoção de IA, estabilidade).",
+        "pontos_fortes": [
+          "6 anos de experiência sólida em QA (manual e automação)",
+          "Stack relevante (Java, Python, Postman, Docker, CI/CD)",
+          "Organização e valorização de documentação acima da média",
+          "Forte protagonismo e iniciativa",
+          "Valorização de cultura acima de salário (recusou contraproposta de 30%)"
+        ],
+        "pontos_de_atencao": [
+          "Baixa tolerância à desorganização alheia",
+          "Resistência a low-code/IA — desalinhado com cultura de adoção de IA",
+          "Reatividade emocional / decisões impulsivas",
+          "Histórico recente de instabilidade (freela curto, 3 meses parado)",
+          "Prolixidade acentuada"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 144,
+      "candidate_name": "Danilo Kippes",
+      "position": "Product Owner Sênior",
+      "job_position_id": 4,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Danilo. Boa tarde. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Danilo Kippes",
+        "cargo_pretendido": "Product Owner Sênior",
+        "resumo_perfil": "Danilo é PO/analista de negócios com ~6 anos de experiência (majoritariamente consultorias internacionais), perfil comunicativo, colaborativo e organizado, com forte orientação a processos e metodologias ágeis. É espanhol-fluente (origem argentina) com vivência LATAM, propositivo e com boa capacidade de mediação. Pontos de atenção: baixa tolerância à desorganização interna; motivação ancorada em benefícios contratuais; preferência por CLT; perfil mais orientado a documentação/processos que consultivo; limitação técnica que o deixa dependente do tech lead em temas mais profundos.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Comunicação clara e estruturada", "evidencia": "Apresentou a trajetória de forma cronológica e organizada.", "intensidade": "alta" },
+          { "aspecto": "Transparência e honestidade", "evidencia": "Foi transparente sobre nível de espanhol e preferência por CLT.", "intensidade": "alta" },
+          { "aspecto": "Orientação à organização e metodologias ágeis", "evidencia": "Forte preferência por épicos, features, histórias, prazos e prioridades bem definidas.", "intensidade": "alta" },
+          { "aspecto": "Orientação ao cliente e à solução", "evidencia": "Caso do cliente português com IA: redirecionou para estruturar dados antes do chat.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Baixa tolerância à desorganização", "evidencia": "Desorganização interna o desmotiva; forte apego a Jira/Scrum.", "severidade": "media" },
+          { "aspecto": "Motivação atrelada a benefícios contratuais", "evidencia": "Aceita o range principalmente por VR/férias e questões de imposto.", "severidade": "media" },
+          { "aspecto": "Resistência sutil a posições híbridas/gestão", "evidencia": "Incômodo com acúmulo de funções não combinadas.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 78,
+        "justificativa": "Danilo tem aderência forte a requisitos hard (espanhol fluente nativo, experiência LATAM, disponibilidade para viagens, perfil propositivo, orientação a dados). Contudo, converge com reprovados de PO Sênior: baixa tolerância a repriorização/ambiguidade (a Wave exige flexibilidade por conta dos clientes), forte dependência de estrutura formal (roadmap/onboarding/processos), limitação técnica com dependência do tech lead (a vaga pede navegação técnica autônoma) e motivação parcialmente ancorada em benefícios/insatisfação. A combinação configura padrão de risco para a vaga sênior estratégica.",
+        "pontos_fortes": [
+          "Espanhol avançado nativo + experiência internacional LATAM",
+          "Disponibilidade total para viagens nacionais e internacionais",
+          "Proatividade e autonomia (estruturou área do zero para LATAM)",
+          "Perfil consultivo e orientado ao cliente",
+          "Honestidade e autoconhecimento sobre limitações"
+        ],
+        "pontos_de_atencao": [
+          "Baixa tolerância a mudanças de prioridade sem justificativa",
+          "Forte dependência de estrutura/roadmap/onboarding formais",
+          "Limitação técnica com dependência do tech lead",
+          "Motivação parcialmente ancorada em benefícios contratuais"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 132,
+      "candidate_name": "Brenda",
+      "position": "Desenvolvedora Frontend (React/TypeScript)",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Ei, Brenda, boa tarde. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Brenda",
+        "cargo_pretendido": "Desenvolvedora Frontend (React/TypeScript)",
+        "resumo_perfil": "Brenda demonstra um perfil técnico versátil e colaborativo, com forte capacidade de resolução de problemas e iniciativa, evidenciada por entregas como automação de processos e treinamento de pares. Valoriza fortemente ambientes organizados, com hierarquia clara, escopo bem definido e cultura colaborativa, sendo esses fatores decisivos em sua escolha por novas oportunidades. Comunica-se de forma técnica e didática. Como pontos de atenção, apresenta baixa tolerância à desorganização e a mudanças de escopo não estruturadas, o que pode gerar frustração em contextos de startup com alta volatilidade.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Comunicação técnica clara", "evidencia": "Explica projetos técnicos de forma estruturada, oferecendo-se para detalhar termos.", "intensidade": "alta" },
+          { "aspecto": "Proatividade e iniciativa", "evidencia": "Automatizou processo manual de 3-4 dias para 6 horas; treinou desenvolvedores juniores.", "intensidade": "alta" },
+          { "aspecto": "Colaboração e trabalho em equipe", "evidencia": "Valoriza times colaborativos e debate de soluções.", "intensidade": "alta" },
+          { "aspecto": "Versatilidade técnica", "evidencia": "Atuou em frontend (React/TS), backend (Python), UX, QA, integração de APIs.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Dificuldade em ambientes pouco estruturados", "evidencia": "Incômodo com falta de hierarquia e métricas claras de carreira ('método do horse').", "severidade": "media" },
+          { "aspecto": "Baixa tolerância a mudanças de escopo", "evidencia": "'Demandas que tornam o projeto um Frankenstein... gera frustração absurda'.", "severidade": "media" },
+          { "aspecto": "Postura ligeiramente reativa no início", "evidencia": "Questionou a recrutadora antes de se apresentar.", "severidade": "baixa" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 78,
+        "justificativa": "Brenda tem perfil técnico versátil e colaborativo com pontos fortes reais (React/TS, automação com impacto, treinamento de pares), mas converge criticamente com reprovados de Frontend Pleno: baixa tolerância a mudanças de escopo e ambientes desorganizados (a Wave exige flexibilidade por conta dos clientes), forte valorização de organização/hierarquia/plano de carreira e dificuldade em ambientes pouco estruturados (risco em startup). A combinação configura padrão idêntico a reprovados manualmente por esses motivos.",
+        "pontos_fortes": [
+          "Protagonismo técnico com impacto mensurável (3-4 dias → 6 horas)",
+          "Comunicação técnica clara e didática",
+          "Versatilidade técnica genuína (React/TS, Python, UX, QA)",
+          "Stack alinhada à vaga (React, TypeScript)",
+          "Pretensão salarial alinhada ao range"
+        ],
+        "pontos_de_atencao": [
+          "Baixa tolerância a mudanças de escopo vs. necessidade de flexibilidade da Wave",
+          "Forte valorização de organização e estrutura formal",
+          "Crítica a ambientes pouco estruturados — risco em startup"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 133,
+      "candidate_name": "Lana Marchetti",
+      "position": "Desenvolvedora Frontend (React/TypeScript) - Pleno",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Lana, tudo bem? [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Lana Marchetti",
+        "cargo_pretendido": "Desenvolvedora Frontend (React/TypeScript) - Pleno",
+        "resumo_perfil": "Lana apresenta perfil de profissional madura, autônoma e colaborativa, com clara orientação para crescimento profissional. Demonstra capacidade de assumir responsabilidades desafiadoras (liderou sozinha o front-end de um projeto) e valoriza ambientes com estrutura, clareza, feedback constante e trocas técnicas com pares. Pontos de atenção: postura mais executora do que propositiva em UX/produto, baixa assertividade na cobrança por desenvolvimento e busca forte por plano de carreira estruturado e pares de front-end.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Autonomia e proatividade", "evidencia": "Assumiu sozinha o front-end quando ficou sem par técnico.", "intensidade": "alta" },
+          { "aspecto": "Busca por crescimento profissional", "evidencia": "Movimentações baseadas em busca por estrutura e crescimento.", "intensidade": "alta" },
+          { "aspecto": "Colaboração e trabalho em equipe", "evidencia": "Valoriza code review, troca e pares de diferentes senioridades.", "intensidade": "alta" },
+          { "aspecto": "Comunicação clara", "evidencia": "Articulou bem experiências, motivações e expectativas.", "intensidade": "media" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Postura mais executora que propositiva em UX/produto", "evidencia": "'Geralmente chega pronto ali para executar'.", "severidade": "baixa" },
+          { "aspecto": "Forte dependência de plano de carreira/feedback", "evidencia": "Aponta falta de plano de carreira e feedback como principal incômodo.", "severidade": "media" },
+          { "aspecto": "Busca por pares seniores de referência", "evidencia": "Sente falta de outros fronts para troca/code review.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 78,
+        "justificativa": "Lana tem aderência técnica e pontos comportamentais positivos (autonomia, colaboração, comunicação clara), mas converge com reprovados de Frontend Pleno na Wave: forte valorização de plano de carreira estruturado e feedback ativo (a Wave declara não ter plano tão estruturado); busca por pares/mentoria sênior (risco de novamente ser referência solitária); postura mais executora que propositiva; ausência de evidências concretas de ownership end-to-end com impacto mensurável comparável aos aprovados.",
+        "pontos_fortes": [
+          "Autonomia comprovada (assumiu o front-end sozinha)",
+          "Comunicação clara e estruturada",
+          "Postura colaborativa e abertura a diferentes senioridades",
+          "Adaptabilidade em projetos de diferentes portes",
+          "Flexibilidade na negociação salarial"
+        ],
+        "pontos_de_atencao": [
+          "Dependência de plano de carreira estruturado e feedback ativo",
+          "Busca por pares de front-end/mentoria sênior",
+          "Postura mais executora que propositiva em UX/produto",
+          "Pouca evidência de ownership end-to-end mensurável"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 134,
+      "candidate_name": "Luiz Felipe",
+      "position": "Desenvolvedor Front-end Pleno/Sênior (transição para Sênior)",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Luiz. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Luiz Felipe",
+        "cargo_pretendido": "Desenvolvedor Front-end Pleno/Sênior (transição para Sênior)",
+        "resumo_perfil": "Luiz Felipe é um desenvolvedor frontend em transição para sênior, com perfil técnico sólido e mentalidade voltada à resolução de problemas (herdada da engenharia). Demonstra curiosidade, aprendizado contínuo e interesse crescente por arquitetura. Valoriza ambientes colaborativos, autônomos e com propósito claro de produto. Pontos de atenção: prolixidade com lapsos de raciocínio, baixa tolerância a microgerenciamento e ambientes pouco colaborativos, e desmotivação com rotinas repetitivas/manutenção (sensação de platô).",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Orientação a resolução de problemas", "evidencia": "Gosta de traduzir problemas complexos em soluções (caso dos correios americanos).", "intensidade": "alta" },
+          { "aspecto": "Visão de arquitetura e pensamento sistêmico", "evidencia": "Quer evoluir para nível maior de abstração (engenheiro/arquiteto).", "intensidade": "alta" },
+          { "aspecto": "Foco em experiência do usuário", "evidencia": "Usa IA para liberar tempo e focar em UX e testes.", "intensidade": "alta" },
+          { "aspecto": "Estabilidade profissional", "evidencia": "Quase 5 anos na primeira empresa, com crescimento.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Desmotivação com manutenção/rotina (platô)", "evidencia": "Sente que ficou preso à manutenção sem projetos novos.", "severidade": "media" },
+          { "aspecto": "Baixa tolerância a microgerenciamento", "evidencia": "Ambientes sem colaboração ou com microgerenciamento 'não funcionam' para ele.", "severidade": "baixa" },
+          { "aspecto": "Prolixidade/dispersão", "evidencia": "Lapsos de raciocínio durante a conversa ('me fugiu por um instante').", "severidade": "baixa" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 72,
+        "justificativa": "Luiz tem pontos fortes reais (resolução de problemas, visão de arquitetura, foco em UX, estabilidade), mas converge com reprovados: desmotivação com rotinas/manutenção e sensação de platô (a vaga inclui manutenção da base existente); baixa tolerância a microgerenciamento como rigidez; motivação parcialmente reativa; aspiração a nível de arquitetura acima do escopo de Pleno (risco de overqualification); comunicação prolixa. A combinação configura padrão análogo a reprovados.",
+        "pontos_fortes": [
+          "Forte orientação a resolução de problemas",
+          "Visão de arquitetura e pensamento sistêmico",
+          "Foco genuíno em experiência do usuário",
+          "Estabilidade profissional comprovada (~5 anos)",
+          "Curiosidade e aprendizado contínuo (Next.js, IA)"
+        ],
+        "pontos_de_atencao": [
+          "Desmotivação com manutenção — risco na base existente da vaga",
+          "Baixa tolerância a microgerenciamento (rigidez)",
+          "Aspiração a arquitetura acima do escopo de Pleno",
+          "Comunicação prolixa com lapsos"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 138,
+      "candidate_name": "Thaís Denise (Almeida)",
+      "position": "Desenvolvedora Front-end (Pleno)",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: que agora foi boa. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Thaís Denise (Almeida)",
+        "cargo_pretendido": "Desenvolvedora Front-end (Pleno)",
+        "resumo_perfil": "Thaís é uma profissional de tecnologia em transição de júnior para pleno, com forte perfil técnico em front-end (React, TypeScript, Flutter) e trajetória entre laboratórios acadêmicos (Virtus, VTEX Lab) e a atual experiência no Pitaco. Excelente comunicação, autoconhecimento e engajamento com diversidade (lidera maratona feminina de programação). Pontos de atenção: senioridade ainda em consolidação, pouca exposição a contextos com requisitos ambíguos (90% das demandas chegam prontas) e necessidade de propósito/identificação com o produto.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Comunicação clara e estruturada", "evidencia": "Apresentou a trajetória em linha do tempo, checando compreensão.", "intensidade": "alta" },
+          { "aspecto": "Engajamento com diversidade", "evidencia": "Presidente de maratona feminina latino-americana; ações afirmativas no Pitaco.", "intensidade": "alta" },
+          { "aspecto": "Proatividade e iniciativa", "evidencia": "Sugeriu melhorias de UX; atraiu mulheres para o time.", "intensidade": "alta" },
+          { "aspecto": "Resiliência e adaptabilidade", "evidencia": "Única mulher e única estudante em projeto com seniores.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Pouca exposição a requisitos ambíguos", "evidencia": "Relata que 90% das demandas chegam prontas do design.", "severidade": "media" },
+          { "aspecto": "Senioridade em consolidação", "evidencia": "Estudante em transição júnior-pleno; Pitaco é a 1ª experiência fora do ambiente acadêmico.", "severidade": "baixa" },
+          { "aspecto": "Necessidade de propósito/identificação com produto", "evidencia": "Desmotiva-se quando não se identifica com o produto.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 72,
+        "justificativa": "Thaís tem perfil comportamental positivo (comunicação, autoconhecimento, proatividade, engajamento), mas converge com reprovados de Frontend Pleno: pouca exposição a contextos com requisitos ambíguos (a Wave exige conforto com ambiguidade e arqueologia de negócio), senioridade ainda em consolidação, necessidade de propósito/identificação com produto (risco em clientes enterprise menos inspiradores) e ausência de evidências de ownership end-to-end mensurável.",
+        "pontos_fortes": [
+          "Comunicação clara, estruturada e organizada",
+          "Engajamento genuíno com diversidade",
+          "Proatividade com casos concretos (UX, ações afirmativas)",
+          "Stack alinhada (React) e adaptabilidade técnica",
+          "Resiliência e autoconhecimento"
+        ],
+        "pontos_de_atencao": [
+          "Pouca exposição a requisitos ambíguos (90% vem pronto)",
+          "Senioridade em consolidação (transição júnior-pleno)",
+          "Necessidade de propósito/identificação com produto",
+          "Pouca evidência de ownership end-to-end"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 139,
+      "candidate_name": "Valter Barros",
+      "position": "Desenvolvedor Frontend (Pleno)",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Valter. Bom dia. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Valter Barros",
+        "cargo_pretendido": "Desenvolvedor Frontend (Pleno)",
+        "resumo_perfil": "Valter é um frontend sênior em conhecimento (9 anos), detalhista, cauteloso e orientado à qualidade técnica, com forte valorização de code review, testes e boas práticas. Demonstra boa capacidade de aprendizado e disposição a contribuir em decisões de arquitetura e UX. Pontos de atenção: baixa tolerância à desorganização/mudanças organizacionais frequentes, resistência a código legado, conservadorismo na adoção de novas tecnologias, tendência ao desengajamento quando o time não corresponde ao seu padrão e preferência por CLT (a vaga é PJ).",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Detalhismo e cuidado com qualidade", "evidencia": "Considera-se detalhista; valoriza testes e code review.", "intensidade": "alta" },
+          { "aspecto": "Capacidade de adaptação", "evidencia": "Aprendeu Angular/Ionic do zero; trabalhou em inglês com empresa estrangeira.", "intensidade": "alta" },
+          { "aspecto": "Visão de arquitetura", "evidencia": "Participou da divisão do monolito; implementou PDF.js com economia para a empresa.", "intensidade": "media" },
+          { "aspecto": "Pensamento orientado à experiência do usuário", "evidencia": "Propôs reaproveitar tela existente em vez de modal.", "intensidade": "media" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Tendência ao desengajamento/acomodação", "evidencia": "Parou de corrigir vulnerabilidades porque o time não engajava ('fiquei igual a eles').", "severidade": "alta" },
+          { "aspecto": "Baixa tolerância a mudanças organizacionais", "evidencia": "Incômodo com trocas de gestor e reorganizações de squads.", "severidade": "media" },
+          { "aspecto": "Aversão ao modelo PJ", "evidencia": "'O PJ não é a minha preferência'.", "severidade": "media" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 82,
+        "justificativa": "Valter tem 9 anos de experiência e cuidado com qualidade, mas converge com reprovados: aversão declarada ao modelo PJ (a vaga é PJ); baixa tolerância a mudanças organizacionais e a código legado; tendência ao desengajamento/acomodação (red flag); conservadorismo tecnológico; postura passiva diante de divergências. A combinação configura padrão de risco para a vaga.",
+        "pontos_fortes": [
+          "9 anos de experiência sólida em frontend",
+          "Detalhismo e cuidado genuíno com qualidade (testes, code review)",
+          "Adaptabilidade comprovada (Angular/Ionic do zero, inglês)",
+          "Visão de arquitetura e iniciativas de impacto (PDF.js)",
+          "Stack alinhada (React/TypeScript)"
+        ],
+        "pontos_de_atencao": [
+          "Aversão ao modelo PJ (a vaga é PJ)",
+          "Baixa tolerância a mudanças organizacionais e a código legado",
+          "Tendência ao desengajamento/acomodação",
+          "Conservadorismo tecnológico"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 140,
+      "candidate_name": "Caroline Medeiros (Carol)",
+      "position": "Desenvolvedora Front-end (com flexibilidade para Full Stack)",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Oi, Caroline. [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Caroline Medeiros (Carol)",
+        "cargo_pretendido": "Desenvolvedora Front-end (com flexibilidade para Full Stack)",
+        "resumo_perfil": "Caroline é comunicativa, autoconsciente e com forte protagonismo de carreira (transição da educação para tecnologia, mantendo atuação como instrutora). Demonstra visão sistêmica do produto, preocupação com experiência do usuário e postura questionadora e proativa. Valoriza comunicação clara, feedbacks, plano de carreira definido e diversidade na liderança. Pontos de atenção: baixa tolerância à lentidão organizacional e a lideranças pouco assertivas, resistência a receber demandas sem participar da decisão e postura por vezes combativa em divergências.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Comunicação clara e fluida", "evidencia": "Organiza o raciocínio e contextualiza com exemplos práticos.", "intensidade": "alta" },
+          { "aspecto": "Proatividade e protagonismo", "evidencia": "Transição educação→tech em ~6 meses; atua como instrutora.", "intensidade": "alta" },
+          { "aspecto": "Pensamento centrado no usuário", "evidencia": "Sugeriu paginação no lugar de scroll infinito; reposicionou botão de salvar.", "intensidade": "media" },
+          { "aspecto": "Vocação para ensino e mentoria", "evidencia": "'Uma das questões da minha vida é ensinar'.", "intensidade": "alta" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Baixa tolerância à morosidade organizacional", "evidencia": "Forte frustração com lentidão decisória da empresa atual.", "severidade": "media" },
+          { "aspecto": "Resistência a receber demandas prontas", "evidencia": "Desmotiva-se quando não participa do processo de decisão.", "severidade": "media" },
+          { "aspecto": "Postura combativa em divergências", "evidencia": "'Vou atrás para brigar mesmo' ao falar do designer/sócio.", "severidade": "baixa" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 78,
+        "justificativa": "Carol tem pontos fortes relevantes (comunicação, autoconhecimento, proatividade, vocação para mentoria, visão de produto), mas converge com reprovados: baixa tolerância à morosidade e a receber demandas prontas (a Wave exige flexibilidade com mudanças dos clientes); forte valorização de plano de carreira estruturado e 1:1s; postura combativa em divergências; tendência a externalizar a responsabilidade pelo crescimento. A combinação configura padrão análogo a reprovados.",
+        "pontos_fortes": [
+          "Comunicação clara, fluida e estruturada",
+          "Protagonismo de carreira comprovado",
+          "Pensamento centrado no usuário com cases concretos",
+          "Vocação para ensino e mentoria",
+          "Visão sistêmica do produto"
+        ],
+        "pontos_de_atencao": [
+          "Baixa tolerância à morosidade e a demandas prontas",
+          "Forte valorização de plano de carreira estruturado",
+          "Postura combativa em divergências",
+          "Tendência a externalizar a responsabilidade pelo crescimento"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    },
+    {
+      "id": 142,
+      "candidate_name": "Laryssa Brunna Martins Lôbo (Bruna)",
+      "position": "Engenheira Frontend",
+      "job_position_id": 5,
+      "final_status": "REPROVAR",
+      "summary_markdown": null,
+      "transcript": "Beatriz Pierotti: Olá, tudo bem? [...] (transcrição completa no app de origem)",
+      "analysis_json": {
+        "nome_candidato": "Laryssa Brunna Martins Lôbo (Bruna)",
+        "cargo_pretendido": "Engenheira Frontend",
+        "resumo_perfil": "Bruna é uma profissional de desenvolvimento frontend com cerca de 5 anos de experiência, com trajetória consistente de evolução técnica (migração de bibliotecas, design system, IA). Perfil colaborativo, valoriza trabalho em equipe, cerimônias ágeis e troca técnica entre pares. Demonstrou nervosismo significativo na entrevista, com comunicação truncada e dificuldade de articular ideias com fluidez. Apresenta traços de insegurança e dependência de validação externa, além de preferência por ambientes estruturados.",
+        "aspectos_comportamentais_gerais": [
+          { "aspecto": "Orientação a aprendizado contínuo", "evidencia": "Evoluiu de back para front; atomic design, design system, automações com IA.", "intensidade": "alta" },
+          { "aspecto": "Colaboração e trabalho em equipe", "evidencia": "Valoriza cerimônias, code review e troca entre devs.", "intensidade": "alta" },
+          { "aspecto": "Autoconsciência sobre desenvolvimento de carreira", "evidencia": "'Quando você se sente confortável, é hora de procurar um novo desafio'.", "intensidade": "alta" },
+          { "aspecto": "Experiência com migração de sistemas legados", "evidencia": "Migrou sistema legado na primeira empresa.", "intensidade": "media" }
+        ],
+        "aspectos_comportamentais_negativos": [
+          { "aspecto": "Nervosismo/insegurança", "evidencia": "'Estou um pouco nervosa'; recrutadora precisou acalmá-la várias vezes.", "severidade": "media" },
+          { "aspecto": "Baixa tolerância a repriorização", "evidencia": "Incômodo com largar tarefa em andamento para 'apagar incêndio'.", "severidade": "media" },
+          { "aspecto": "Dependência de validação externa", "evidencia": "Cita o esposo como principal referência para decisões de carreira.", "severidade": "baixa" }
+        ]
+      },
+      "recommendation_json": {
+        "recomendacao": "REPROVAR",
+        "confianca": 78,
+        "justificativa": "Bruna tem perfil técnico adequado e colaborativo, mas converge com reprovados de Frontend Pleno: baixa tolerância a repriorização/ambientes dinâmicos (a Wave exige flexibilidade por conta dos clientes); preferência por ambientes estruturados; nervosismo e comunicação truncada; baixa autoconfiança/dependência de validação externa; ausência de evidências concretas de ownership end-to-end. A combinação configura padrão análogo a reprovados.",
+        "pontos_fortes": [
+          "5 anos de experiência consistente em frontend",
+          "Experiência com migração de sistemas legados",
+          "Orientação a aprendizado contínuo",
+          "Valorização de colaboração e code review",
+          "Engajamento com a oportunidade"
+        ],
+        "pontos_de_atencao": [
+          "Baixa tolerância a repriorização/ambientes dinâmicos",
+          "Preferência por ambientes estruturados",
+          "Nervosismo e comunicação truncada",
+          "Dependência de validação externa"
+        ],
+        "candidatos_similares_aprovados": [],
+        "candidatos_similares_reprovados": []
+      }
+    }
+  ]
+}
