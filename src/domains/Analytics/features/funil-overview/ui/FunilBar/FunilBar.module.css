@@ -1,0 +1,68 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  padding: var(--space-0_5) 0;
+  padding-left: calc(200px + var(--space-2));
+}
+
+.conversionBadge {
+  font-size: var(--text-xs);
+  color: var(--wave-slate);
+  background: var(--wave-bg);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius-pill);
+  padding: 1px var(--space-1);
+  white-space: nowrap;
+}
+
+.stageRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stageLabel {
+  font-size: var(--text-sm);
+  color: var(--wave-ink);
+  font-weight: 500;
+  width: 200px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barTrack {
+  flex: 1;
+  height: 28px;
+  background: var(--wave-bg);
+  border-radius: var(--wave-radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--wave-border);
+}
+
+.bar {
+  height: 100%;
+  background: var(--wave-accent);
+  border-radius: var(--wave-radius-sm);
+  transition: width 0.3s ease;
+}
+
+.count {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+  white-space: nowrap;
+  min-width: 110px;
+  text-align: right;
+}

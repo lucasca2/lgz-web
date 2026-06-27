@@ -13,3 +13,4 @@ export { CalendarIcon } from "./CalendarIcon";
 export { UsersIcon } from "./UsersIcon";
 export { SunIcon } from "./SunIcon";
 export { MoonIcon } from "./MoonIcon";
+export { TrendingUpIcon } from "./TrendingUpIcon";

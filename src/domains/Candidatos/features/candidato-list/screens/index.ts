@@ -1,0 +1,1 @@
+export { CandidatosListScreen } from "./CandidatosListScreen";

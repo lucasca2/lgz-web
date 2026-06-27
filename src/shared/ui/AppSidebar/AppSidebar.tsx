@@ -20,6 +20,7 @@ import {
   LayersIcon,
   SettingsIcon,
   LogOutIcon,
+  TrendingUpIcon,
 } from "@/shared/ui/icons";
 import { ThemeToggle } from "@/shared/ui/ThemeToggle";
 import { LocaleSwitcher } from "@/shared/ui/LocaleSwitcher";
@@ -129,6 +130,13 @@ export function AppSidebar() {
             onClick={handleClickLinkedinSearch}
           >
             {"linkedin-search"}
+          </SidebarNavItem>
+          <SidebarNavItem
+            href="/funil"
+            icon={<TrendingUpIcon />}
+            active={isActive("/funil")}
+          >
+            {t("funil")}
           </SidebarNavItem>
         </SidebarNav>
       </SidebarContent>
