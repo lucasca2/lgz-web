@@ -11,7 +11,7 @@ export const schedulingConfig = {
   tzOffset: "-03:00",
   // Lista padrão de pessoas exibida na tela do recrutador (editável na UI).
   employees: [
-    { email: "natan.lucena@bemobi.com", required: true },
-    { email: "alonso.almeida@bemobi.com", required: false },
+    { email: "beatriz.pierotti@bemobi.com", required: true },
+    { email: "gabriel.souza@bemobi.com", required: false },
   ],
 } as const;
