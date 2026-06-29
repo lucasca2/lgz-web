@@ -20,6 +20,16 @@ export const createJobSchema = z.object({
     .max(2000)
     .optional()
     .transform((value) => value || undefined),
+  // Vínculo com o catálogo de posições (alimenta o escopo do score por IA).
+  posicaoId: z.string().uuid().optional(),
+  budget: z.number().nonnegative().max(999_999_999).optional(),
+  prioridade: z.number().int().min(1).max(5).optional(),
+  hiringManagerId: z.string().uuid().optional(),
+  // Data (YYYY-MM-DD) vinda de <input type="date">.
+  dataFechamento: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
 });
 
 export type CreateJobInput = z.infer<typeof createJobSchema>;

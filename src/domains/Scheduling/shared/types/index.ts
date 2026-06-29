@@ -31,6 +31,16 @@ export type SchedulingConfigResponse = {
   employees: { email: string; required: boolean }[];
 };
 
+// Pessoa do diretório do Workspace (People API) exibida na modal de participantes.
+export type DirectoryPerson = {
+  name: string;
+  email: string;
+  photo: string | null;
+};
+
+// Resposta de GET /api/scheduling/directory?q=...
+export type DirectorySearchResponse = { people: DirectoryPerson[] };
+
 // Resposta de POST /api/scheduling/links.
 export type CreateLinkResponse = {
   id: string;

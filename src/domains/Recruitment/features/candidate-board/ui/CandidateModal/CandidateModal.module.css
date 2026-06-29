@@ -31,6 +31,19 @@
   min-width: 0;
 }
 
+.editButton {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-0_5);
+}
+
+.editButton svg {
+  width: var(--space-2);
+  height: var(--space-2);
+}
+
 .name {
   margin: 0;
   font-size: var(--text-lg);
@@ -76,6 +89,66 @@
   margin: 0;
   font-size: var(--text-md);
   color: var(--wave-ink);
+}
+
+.scoreSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1_5);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--wave-border);
+}
+
+.scoreHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.scoreControls {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+}
+
+.scoreControls > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.justificativaText {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--wave-slate);
+}
+
+.scoreError {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--wave-danger);
+}
+
+.assessmentItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+  padding-top: var(--space-1);
+  border-top: 1px dashed var(--wave-border);
+}
+
+.assessmentDecision {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.decisionApprove {
+  color: var(--wave-success);
+}
+
+.decisionReject {
+  color: var(--wave-danger);
 }
 
 .footer {

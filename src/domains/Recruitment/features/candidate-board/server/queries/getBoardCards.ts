@@ -32,8 +32,10 @@ export async function getBoardCards(vagaId?: string): Promise<BoardCardDTO[]> {
     orderBy: { created_at: "desc" },
     select: {
       id: true,
+      candidato_id: true,
       status_atual: true,
       score_fit_cultural: true,
+      justificativa_fit: true,
       candidatos: { select: { nome: true } },
       vagas: { select: { titulo: true, projeto: true } },
       historico_etapas: {
@@ -59,11 +61,13 @@ export async function getBoardCards(vagaId?: string): Promise<BoardCardDTO[]> {
     const entrevista = row.entrevistas[0];
     return {
       id: row.id,
+      candidatoId: row.candidato_id,
       candidateName: row.candidatos.nome,
       project: row.vagas.projeto,
       position: row.vagas.titulo,
       stage,
       score: row.score_fit_cultural,
+      justificativaFit: row.justificativa_fit,
       interview: entrevista
         ? {
             dataHora: entrevista.data_hora_inicio?.toISOString() ?? null,

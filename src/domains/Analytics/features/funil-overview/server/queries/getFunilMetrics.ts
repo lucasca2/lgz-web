@@ -1,289 +1,258 @@
 import "server-only";
 
-import type { FunilMetrics } from "../../types";
+import { prisma } from "@/shared/lib/prisma";
+import type {
+  FlowTransition,
+  FunilMetrics,
+  OrigemBreakdown,
+  StatusBreakdown,
+} from "../../types";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Raw types (mirror Prisma models)
-// ─────────────────────────────────────────────────────────────────────────────
-
-const FUNNEL_STAGES = [
-  "Entrevista People",
-  "Entrevista Técnica",
+// Etapas do funil (não-terminais), na ordem do pipeline. Espelha o catálogo
+// (etapas_catalogo) e a ordem do board (BOARD_STAGES) — terminais Aprovado/
+// Recusado ficam de fora do funil em si.
+const PROCESS_STAGES = [
+  "Triagem",
+  "Fit Cultural",
+  "People",
   "Teste Técnico",
-  "Liderança",
+  "Entrevistas",
   "Proposta",
 ] as const;
-type FunnelStage = (typeof FUNNEL_STAGES)[number];
 
-type Origem = "Hunting" | "Gupy" | "Indicacao" | "LinkedIn" | "Outro";
-type ProcessoStatus = "Em_andamento" | "Aprovado" | "Reprovado";
-type EtapaStatus = "Executada" | "Pulada";
+const LAST_PROCESS_IDX = PROCESS_STAGES.length - 1;
 
-// historico_etapas row
-type HistoricoEtapa = {
-  nome: FunnelStage;
-  status: EtapaStatus;
-  dias: number; // data_fim - data_inicio in days (0 when Pulada or in progress)
-};
-
-// processos_seletivos + candidatos joined
-type Processo = {
-  id: string;
-  vaga_id: string;
-  origem: Origem;
-  status_atual: ProcessoStatus;
-  motivo_descricao?: string; // motivos_reprovacao.descricao
-  etapas: HistoricoEtapa[];
-};
-
-// vagas row
-type Vaga = {
-  id: string;
-  titulo: string;
-  projeto: "Tim" | "Sabesp" | "Algar" | "Telcel";
-  status: "Aberta" | "Stand_by";
-  data_abertura: string; // YYYY-MM-DD
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock data — vagas
-// ─────────────────────────────────────────────────────────────────────────────
-
-const VAGAS: Vaga[] = [
-  { id: "v1",  titulo: "Engenheiro de Software Backend Sênior", projeto: "Tim",   status: "Aberta",   data_abertura: "2026-05-16" },
-  { id: "v2",  titulo: "Analista de Dados Pleno",               projeto: "Sabesp", status: "Aberta",  data_abertura: "2026-05-30" },
-  { id: "v3",  titulo: "Tech Lead Full Stack",                  projeto: "Tim",   status: "Stand_by", data_abertura: "2026-04-21" },
-  { id: "v4",  titulo: "Product Manager",                       projeto: "Algar", status: "Aberta",   data_abertura: "2026-06-08" },
-  { id: "v5",  titulo: "Engenheiro de Software Frontend Pleno", projeto: "Telcel", status: "Aberta",  data_abertura: "2026-05-23" },
-  { id: "v6",  titulo: "DevOps Engineer",                       projeto: "Tim",   status: "Aberta",   data_abertura: "2026-05-07" },
-  { id: "v7",  titulo: "Analista de QA Sênior",                 projeto: "Sabesp", status: "Aberta",  data_abertura: "2026-06-05" },
-  { id: "v8",  titulo: "Staff Engineer",                        projeto: "Algar", status: "Stand_by", data_abertura: "2026-03-31" },
-  { id: "v9",  titulo: "Engenheiro de Software Mobile Júnior",  projeto: "Telcel", status: "Aberta",  data_abertura: "2026-06-13" },
-  { id: "v10", titulo: "Scrum Master",                          projeto: "Tim",   status: "Aberta",   data_abertura: "2026-05-28" },
-  { id: "v11", titulo: "Data Engineer Pleno",                   projeto: "Sabesp", status: "Aberta",  data_abertura: "2026-06-02" },
-  { id: "v12", titulo: "Engenheiro de Segurança",               projeto: "Algar", status: "Aberta",   data_abertura: "2026-05-12" },
+const ORIGENS: OrigemBreakdown["origem"][] = [
+  "Hunting",
+  "Gupy",
+  "Indicacao",
+  "LinkedIn",
+  "Outro",
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock data — processos (scenarios expanded into individual records)
-// ─────────────────────────────────────────────────────────────────────────────
-
-// Typical days a candidate spends in each stage (mediaDias source)
-const STAGE_DIAS: Record<FunnelStage, number> = {
-  "Entrevista People": 3,
-  "Entrevista Técnica": 5,
-  "Teste Técnico": 7,
-  "Liderança": 6,
-  "Proposta": 4,
-};
-
-function etapa(nome: FunnelStage, status: EtapaStatus = "Executada"): HistoricoEtapa {
-  return { nome, status, dias: status === "Executada" ? STAGE_DIAS[nome] : 0 };
-}
-
-// Reusable stage paths (mirror common historico_etapas sequences)
-const PATH = {
-  people:    [etapa("Entrevista People")],
-  tecnica:   [etapa("Entrevista People"), etapa("Entrevista Técnica")],
-  teste:     [etapa("Entrevista People"), etapa("Entrevista Técnica"), etapa("Teste Técnico")],
-  lideranca: [etapa("Entrevista People"), etapa("Entrevista Técnica"), etapa("Teste Técnico"), etapa("Liderança")],
-  proposta:  [etapa("Entrevista People"), etapa("Entrevista Técnica"), etapa("Teste Técnico"), etapa("Liderança"), etapa("Proposta")],
-};
-
-type Scenario = Omit<Processo, "id">;
-
-// [count, scenario] — totals: 115 Reprovado + 22 Aprovado + 47 Em_andamento = 184
-const SCENARIOS: Array<[number, Scenario]> = [
-  // ── Reprovados at People (60) ───────────────────────────────────────────────
-  [40, { vaga_id: "v1",  origem: "Hunting",   status_atual: "Reprovado", motivo_descricao: "Perfil não aderente à vaga",              etapas: PATH.people }],
-  [20, { vaga_id: "v2",  origem: "Gupy",      status_atual: "Reprovado", motivo_descricao: "Fit cultural insuficiente",                etapas: PATH.people }],
-  // ── Reprovados at Técnica (30) ──────────────────────────────────────────────
-  [18, { vaga_id: "v3",  origem: "LinkedIn",  status_atual: "Reprovado", motivo_descricao: "Habilidades técnicas abaixo do esperado",  etapas: PATH.tecnica }],
-  [12, { vaga_id: "v4",  origem: "Outro",     status_atual: "Reprovado", motivo_descricao: "Habilidades técnicas abaixo do esperado",  etapas: PATH.tecnica }],
-  // ── Reprovados at Teste (17) ────────────────────────────────────────────────
-  [17, { vaga_id: "v5",  origem: "Gupy",      status_atual: "Reprovado", motivo_descricao: "Habilidades técnicas abaixo do esperado",  etapas: PATH.teste }],
-  // ── Reprovados at Liderança (6) ─────────────────────────────────────────────
-  [6,  { vaga_id: "v6",  origem: "Hunting",   status_atual: "Reprovado", motivo_descricao: "Expectativa salarial acima do budget",     etapas: PATH.lideranca }],
-  // ── Reprovados at Proposta (2) ──────────────────────────────────────────────
-  [2,  { vaga_id: "v7",  origem: "Indicacao", status_atual: "Reprovado", motivo_descricao: "Desistiu do processo",                    etapas: PATH.proposta }],
-  // ── Aprovados (22) ──────────────────────────────────────────────────────────
-  [22, { vaga_id: "v8",  origem: "Hunting",   status_atual: "Aprovado",  etapas: PATH.proposta }],
-  // ── Em andamento at People (4) ──────────────────────────────────────────────
-  [4,  { vaga_id: "v10", origem: "Gupy",      status_atual: "Em_andamento", etapas: PATH.people }],
-  // ── Em andamento at Técnica (15) ────────────────────────────────────────────
-  [15, { vaga_id: "v11", origem: "LinkedIn",  status_atual: "Em_andamento", etapas: PATH.tecnica }],
-  // ── Em andamento at Teste (10) ──────────────────────────────────────────────
-  [10, { vaga_id: "v12", origem: "Outro",     status_atual: "Em_andamento", etapas: PATH.teste }],
-  // ── Em andamento at Liderança (15) ──────────────────────────────────────────
-  [15, { vaga_id: "v1",  origem: "Hunting",   status_atual: "Em_andamento", etapas: PATH.lideranca }],
-  // ── Em andamento at Proposta (3) ────────────────────────────────────────────
-  [3,  { vaga_id: "v3",  origem: "Gupy",      status_atual: "Em_andamento", etapas: PATH.proposta }],
+const STATUSES: StatusBreakdown["status"][] = [
+  "Em_andamento",
+  "Aprovado",
+  "Reprovado",
+  "Base_de_Talentos",
 ];
 
-function buildProcessos(): Processo[] {
-  const result: Processo[] = [];
-  let pid = 1;
-  for (const [count, scenario] of SCENARIOS) {
-    for (let i = 0; i < count; i++) {
-      result.push({ ...scenario, id: `p${pid++}` });
-    }
-  }
-  return result;
+const MS_PER_DAY = 86_400_000;
+
+type EtapaRow = {
+  nome: string;
+  executada: boolean;
+  durationDays: number | null; // só quando Executada + data_fim
+};
+
+type ProcessoView = {
+  status: StatusBreakdown["status"];
+  origem: OrigemBreakdown["origem"];
+  etapas: EtapaRow[]; // ordenadas por data_inicio asc
+  reachedIdx: number; // índice da etapa mais avançada alcançada (em PROCESS_STAGES)
+};
+
+// Tempo gasto numa etapa fechada (Executada), descontando pausas. null se aberta.
+function stageDuration(
+  status_etapa: string,
+  data_inicio: Date,
+  data_fim: Date | null,
+): number | null {
+  if (status_etapa !== "Executada" || !data_fim) return null;
+  const gross = (data_fim.getTime() - data_inicio.getTime()) / MS_PER_DAY;
+  return Math.max(0, gross);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Aggregation — each function mirrors a real Prisma query
-// ─────────────────────────────────────────────────────────────────────────────
+export async function getFunilMetrics(
+  projeto?: string | null,
+): Promise<FunilMetrics> {
+  const now = Date.now();
 
-function computeEtapasFunil(processos: Processo[]) {
-  return FUNNEL_STAGES.map((stage, i) => {
-    const count = processos.filter((p) =>
-      p.etapas.some((e) => e.nome === stage && e.status === "Executada"),
-    ).length;
-    const prevCount =
-      i === 0
-        ? processos.length
-        : processos.filter((p) =>
-            p.etapas.some((e) => e.nome === FUNNEL_STAGES[i - 1] && e.status === "Executada"),
-          ).length;
+  const [processosRaw, vagasAbertasRaw] = await Promise.all([
+    // Processos no escopo (candidatos não removidos), com origem e histórico.
+    prisma.processos_seletivos.findMany({
+      where: {
+        candidatos: { deleted_at: null },
+        ...(projeto ? { vagas: { projeto } } : {}),
+      },
+      select: {
+        status_atual: true,
+        candidatos: { select: { origem: true } },
+        historico_etapas: {
+          orderBy: { data_inicio: "asc" },
+          select: {
+            status_etapa: true,
+            data_inicio: true,
+            data_fim: true,
+            tempo_pausado_seg: true,
+            etapas_catalogo: { select: { nome: true } },
+          },
+        },
+      },
+    }),
+    // Vagas abertas (Aberta/Stand_by) com contagem de processos.
+    prisma.vagas.findMany({
+      where: {
+        status: { in: ["Aberta", "Stand_by"] },
+        ...(projeto ? { projeto } : {}),
+      },
+      orderBy: { data_abertura: "asc" },
+      select: {
+        id: true,
+        titulo: true,
+        projeto: true,
+        status: true,
+        data_abertura: true,
+        _count: { select: { processos_seletivos: true } },
+      },
+    }),
+  ]);
+
+  // ── Normaliza cada processo ──
+  const processos: ProcessoView[] = processosRaw.map((p) => {
+    const etapas: EtapaRow[] = p.historico_etapas.map((h) => ({
+      nome: h.etapas_catalogo.nome,
+      executada: h.status_etapa === "Executada",
+      durationDays: stageDuration(h.status_etapa, h.data_inicio, h.data_fim),
+    }));
+
+    // Etapa mais avançada alcançada: maior índice de PROCESS_STAGES presente no
+    // histórico (todo processo entrou pela Triagem → piso 0). Aprovado ⇒ chegou
+    // ao fim do pipeline.
+    let reachedIdx = 0;
+    for (const e of etapas) {
+      const idx = PROCESS_STAGES.indexOf(e.nome as (typeof PROCESS_STAGES)[number]);
+      if (idx > reachedIdx) reachedIdx = idx;
+    }
+    if (p.status_atual === "Aprovado") reachedIdx = LAST_PROCESS_IDX;
+
     return {
-      etapa: stage,
-      candidatos: count,
-      conversao: i === 0 ? 100 : Math.round((count / prevCount) * 100),
+      status: p.status_atual,
+      origem: (p.candidatos.origem as OrigemBreakdown["origem"] | null) ?? "Outro",
+      etapas,
+      reachedIdx,
     };
   });
-}
-
-function computeStatusBreakdown(processos: Processo[]) {
-  const counts: Record<ProcessoStatus, number> = { Em_andamento: 0, Aprovado: 0, Reprovado: 0 };
-  for (const p of processos) counts[p.status_atual]++;
-  return (Object.entries(counts) as [ProcessoStatus, number][]).map(([status, count]) => ({
-    status,
-    count,
-  }));
-}
-
-function computeOrigemBreakdown(processos: Processo[]) {
-  const counts = new Map<Origem, number>();
-  for (const p of processos) counts.set(p.origem, (counts.get(p.origem) ?? 0) + 1);
-  return [...counts.entries()]
-    .sort(([, a], [, b]) => b - a)
-    .map(([origem, count]) => ({ origem, count }));
-}
-
-function computeMotivosReprovacao(processos: Processo[]) {
-  const counts = new Map<string, number>();
-  for (const p of processos) {
-    if (p.status_atual === "Reprovado" && p.motivo_descricao) {
-      counts.set(p.motivo_descricao, (counts.get(p.motivo_descricao) ?? 0) + 1);
-    }
-  }
-  return [...counts.entries()]
-    .sort(([, a], [, b]) => b - a)
-    .map(([motivo, count]) => ({ motivo, count }));
-}
-
-function computeSlaEtapas(processos: Processo[]) {
-  return FUNNEL_STAGES.map((stage) => {
-    const dias = processos.flatMap((p) =>
-      p.etapas
-        .filter((e) => e.nome === stage && e.status === "Executada" && e.dias > 0)
-        .map((e) => e.dias),
-    );
-    return {
-      etapa: stage,
-      mediaDias: dias.length > 0 ? Math.round(dias.reduce((s, d) => s + d, 0) / dias.length) : 0,
-    };
-  });
-}
-
-// Derives FlowTransition[] from historico_etapas sequences.
-// Pulada stages are skipped; terminal outcome (Aprovado/Reprovado) added for finished processos.
-function computeTransicoes(processos: Processo[]) {
-  const counts = new Map<string, number>();
-  const add = (from: string, to: string) => {
-    const key = `${from}|||${to}`;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  };
-
-  for (const p of processos) {
-    const executed = p.etapas.filter((e) => e.status === "Executada");
-    for (let i = 0; i + 1 < executed.length; i++) {
-      add(executed[i].nome, executed[i + 1].nome);
-    }
-    if (p.status_atual !== "Em_andamento" && executed.length > 0) {
-      add(executed[executed.length - 1].nome, p.status_atual);
-    }
-  }
-
-  return [...counts.entries()].map(([key, count]) => {
-    const sep = key.indexOf("|||");
-    return { from: key.slice(0, sep), to: key.slice(sep + 3), count };
-  });
-}
-
-function computeVagasAbertas(processos: Processo[], vagas: Vaga[], today: Date) {
-  const countByVaga = new Map<string, number>();
-  for (const p of processos) countByVaga.set(p.vaga_id, (countByVaga.get(p.vaga_id) ?? 0) + 1);
-
-  return vagas.filter((v) => v.status === "Aberta" || v.status === "Stand_by").map((v) => {
-    const abertura = new Date(v.data_abertura);
-    const diasAberta = Math.round((today.getTime() - abertura.getTime()) / 86_400_000);
-    return {
-      id: v.id,
-      titulo: v.titulo,
-      projeto: v.projeto,
-      status: v.status,
-      candidatos: countByVaga.get(v.id) ?? 0,
-      diasAberta,
-    };
-  });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Exported query
-// ─────────────────────────────────────────────────────────────────────────────
-
-export async function getFunilMetrics(projeto?: string | null): Promise<FunilMetrics> {
-  const today = new Date("2026-06-27");
-
-  const vagasFiltradas = projeto ? VAGAS.filter((v) => v.projeto === projeto) : VAGAS;
-  const vagasIds = new Set(vagasFiltradas.map((v) => v.id));
-  const processos = buildProcessos().filter((p) => vagasIds.has(p.vaga_id));
-
-  const slaEtapas = computeSlaEtapas(processos);
 
   const total = processos.length;
-  const aprovados = processos.filter((p) => p.status_atual === "Aprovado").length;
-  const ativos = processos.filter((p) => p.status_atual === "Em_andamento").length;
 
-  // Average total process duration per candidato
+  // ── Funil cumulativo (alcançou a etapa i ou além) ──
+  const reachCounts = PROCESS_STAGES.map(
+    (_, i) => processos.filter((p) => p.reachedIdx >= i).length,
+  );
+  const etapasFunil = PROCESS_STAGES.map((etapa, i) => ({
+    etapa,
+    candidatos: reachCounts[i],
+    conversao:
+      i === 0
+        ? 100
+        : reachCounts[i - 1] > 0
+          ? Math.round((reachCounts[i] / reachCounts[i - 1]) * 100)
+          : 0,
+  }));
+
+  // ── Status ──
+  const statusCounts = new Map<string, number>();
+  for (const p of processos)
+    statusCounts.set(p.status, (statusCounts.get(p.status) ?? 0) + 1);
+  const statusBreakdown: StatusBreakdown[] = STATUSES.map((status) => ({
+    status,
+    count: statusCounts.get(status) ?? 0,
+  })).filter((s) => s.count > 0);
+
+  // ── Origem ──
+  const origemCounts = new Map<string, number>();
+  for (const p of processos)
+    origemCounts.set(p.origem, (origemCounts.get(p.origem) ?? 0) + 1);
+  const origemBreakdown: OrigemBreakdown[] = ORIGENS.map((origem) => ({
+    origem,
+    count: origemCounts.get(origem) ?? 0,
+  }))
+    .filter((o) => o.count > 0)
+    .sort((a, b) => b.count - a.count);
+
+  // ── SLA por etapa (médias de etapas Executadas com data_fim) ──
+  const slaEtapas = PROCESS_STAGES.map((etapa) => {
+    const durations: number[] = [];
+    for (const p of processos) {
+      for (const e of p.etapas) {
+        if (e.nome === etapa && e.durationDays != null)
+          durations.push(e.durationDays);
+      }
+    }
+    const mediaDias =
+      durations.length > 0
+        ? Math.round(durations.reduce((s, d) => s + d, 0) / durations.length)
+        : 0;
+    return { etapa, mediaDias };
+  });
+
+  // SLA médio total: média (por processo) da soma das durações de etapas fechadas.
+  const perProcessoTotals = processos
+    .map((p) =>
+      p.etapas.reduce((s, e) => s + (e.durationDays ?? 0), 0),
+    )
+    .filter((d) => d > 0);
   const slaMedioDias =
-    total > 0
+    perProcessoTotals.length > 0
       ? Math.round(
-          processos.reduce(
-            (sum, p) =>
-              sum + p.etapas.filter((e) => e.status === "Executada").reduce((s, e) => s + e.dias, 0),
-            0,
-          ) / total,
+          perProcessoTotals.reduce((s, d) => s + d, 0) /
+            perProcessoTotals.length,
         )
       : 0;
 
+  // ── Transições (caminho real pelo histórico) ──
+  const transicaoCounts = new Map<string, number>();
+  for (const p of processos) {
+    for (let i = 0; i + 1 < p.etapas.length; i++) {
+      const from = p.etapas[i].nome;
+      const to = p.etapas[i + 1].nome;
+      if (from === to) continue;
+      const key = `${from}|||${to}`;
+      transicaoCounts.set(key, (transicaoCounts.get(key) ?? 0) + 1);
+    }
+  }
+  const transicoes: FlowTransition[] = [...transicaoCounts.entries()].map(
+    ([key, count]) => {
+      const sep = key.indexOf("|||");
+      return { from: key.slice(0, sep), to: key.slice(sep + 3), count };
+    },
+  );
+
+  // ── KPIs ──
+  const aprovados = statusCounts.get("Aprovado") ?? 0;
+  const reprovados = statusCounts.get("Reprovado") ?? 0;
+  const ativos = statusCounts.get("Em_andamento") ?? 0;
+  const decididos = aprovados + reprovados;
+
   return {
-    projetos: Array.from(new Set(VAGAS.map((v) => v.projeto))).sort(),
     kpis: {
       totalCandidatos: total,
       candidatosAtivos: ativos,
-      taxaConversaoGeral: total > 0 ? Math.round((aprovados / total) * 1000) / 10 : 0,
+      // Taxa de aprovação entre os decididos (Aprovado / (Aprovado+Reprovado)).
+      taxaConversaoGeral:
+        decididos > 0 ? Math.round((aprovados / decididos) * 1000) / 10 : 0,
       slaMedioDias,
-      vagasAbertas: vagasFiltradas.filter((v) => v.status === "Aberta" || v.status === "Stand_by").length,
+      vagasAbertas: vagasAbertasRaw.length,
     },
-    etapasFunil: computeEtapasFunil(processos),
-    statusBreakdown: computeStatusBreakdown(processos),
-    origemBreakdown: computeOrigemBreakdown(processos),
-    motivosReprovacao: computeMotivosReprovacao(processos),
+    etapasFunil,
+    statusBreakdown,
+    origemBreakdown,
+    // Motivos de reprovação: sem caminho de gravação de motivo_reprovacao_id
+    // hoje (comentado até existir a lógica). Mantido vazio.
+    motivosReprovacao: [],
     slaEtapas,
-    vagasAbertas: computeVagasAbertas(processos, vagasFiltradas, today),
-    transicoes: computeTransicoes(processos),
+    vagasAbertas: vagasAbertasRaw.map((v) => {
+      const abertura = v.data_abertura.getTime();
+      return {
+        id: v.id,
+        titulo: v.titulo,
+        projeto: v.projeto,
+        status: v.status as "Aberta" | "Stand_by",
+        candidatos: v._count.processos_seletivos,
+        diasAberta: Math.max(0, Math.floor((now - abertura) / MS_PER_DAY)),
+      };
+    }),
+    transicoes,
   };
 }

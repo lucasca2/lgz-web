@@ -21,7 +21,8 @@ export const AI_DEFAULTS: AiSettingsDTO = {
 
 const SINGLETON_ID = "singleton";
 
-// Lê a config global e sobrepõe nos defaults (linha única, pode não existir).
+// Lê a config global (modelo + prompts) e sobrepõe nos defaults (linha única,
+// pode não existir). O setup token NÃO mora aqui — é por-usuário (ver Auth).
 export async function getAiSettings(): Promise<AiSettingsDTO> {
   const row = await prisma.configuracoes_avaliacao.findUnique({
     where: { id: SINGLETON_ID },
@@ -38,7 +39,8 @@ export async function getAiSettings(): Promise<AiSettingsDTO> {
   };
 }
 
-// Upsert da linha única de configuração.
+// Upsert da linha única (modelo + prompts). O setup token é gravado à parte,
+// por usuário, em Auth/shared/server/setupToken.
 export async function saveAiSettings(
   input: AiSettingsDTO,
 ): Promise<AiSettingsDTO> {

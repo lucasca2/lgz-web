@@ -94,6 +94,9 @@ export type AiSettingsResponse = {
   settings: AiSettingsDTO;
   defaults: AiSettingsDTO;
   availableModels: AiModelOption[];
+  // Indica se o usuário logado tem credenciais salvas (sem expor os valores).
+  hasSetupToken: boolean;
+  hasApiKey: boolean;
 };
 
 export type RejectionTemplateResponse = { justificativa: string };

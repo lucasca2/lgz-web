@@ -7,10 +7,12 @@ export type BoardInterview = {
 
 export type BoardCardDTO = {
   id: string; // id do processo seletivo
+  candidatoId: string; // id do candidato (a pessoa) — usado p/ editar
   candidateName: string;
   project: string; // ex.: "App Algar"
   position: string; // ex.: "Mobile Developer"
   stage: BoardStage; // coluna atual = status_atual do processo
   score: number | null; // score_fit_cultural (null até a IA avaliar)
+  justificativaFit: string | null; // justificativa do score (IA ou manual)
   interview?: BoardInterview | null; // entrevista mais recente, se houver
 };

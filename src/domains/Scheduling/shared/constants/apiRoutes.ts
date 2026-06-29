@@ -2,6 +2,8 @@
 export const schedulingApiRoutes = {
   config: "/api/scheduling/config",
   slots: "/api/scheduling/slots",
+  directory: (q: string) =>
+    `/api/scheduling/directory?q=${encodeURIComponent(q)}`,
   links: "/api/scheduling/links",
   linkSlots: (id: string) => `/api/scheduling/links/${id}/slots`,
   book: (id: string) => `/api/scheduling/links/${id}/book`,

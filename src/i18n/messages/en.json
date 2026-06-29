@@ -2,6 +2,12 @@
   "Common": {
     "language": "Language"
   },
+  "AiGuard": {
+    "title": "AI not configured",
+    "body": "Set up a setup token or API key in Settings to use AI.",
+    "cta": "Go to Settings",
+    "cancel": "Close"
+  },
   "Nav": {
     "primary": "Main navigation",
     "secondary": "Account",
@@ -25,6 +31,7 @@
     "loadError": "Could not load the board.",
     "emptyColumn": "No candidates",
     "candidateModalTitle": "Candidate details",
+    "editCandidate": "Edit",
     "modalProject": "Project",
     "modalPosition": "Position",
     "scheduleMeeting": "Schedule meeting",
@@ -33,6 +40,26 @@
     "scheduledFor": "Scheduled for {datetime}",
     "openMeet": "Open in Meet",
     "scorePending": "Pending",
+    "scoreTitle": "Fit score",
+    "evaluateWithAi": "Evaluate with AI",
+    "scoreManualSave": "Save",
+    "scoreMissingData": "Fill in the candidate's extracted data to evaluate.",
+    "scoreError": "Could not evaluate. Please try again.",
+    "interviewTitle": "Evaluate interview (transcript)",
+    "interviewPlaceholder": "Paste the interview transcript here…",
+    "evaluateInterview": "Evaluate interview",
+    "interviewError": "Could not evaluate the interview. Please try again.",
+    "decisao": {
+      "APROVAR": "Approve",
+      "REPROVAR": "Reject"
+    },
+    "moveJustifyTitle": "Justify the move",
+    "moveJustifyHint": "Moving from {from} to {to}.",
+    "moveJustifyLabel": "Justification",
+    "moveJustifyPlaceholder": "Why is the candidate changing stage?",
+    "moveError": "Could not save. Please try again.",
+    "moveConfirm": "Confirm",
+    "moveCancel": "Cancel",
     "hasInterview": "Interview scheduled",
     "stages": {
       "Triagem": "Screening",
@@ -50,7 +77,28 @@
     "form": {
       "title": "Add candidate",
       "submit": "Add",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "editTitle": "Edit candidate",
+      "save": "Save"
+    },
+    "edit": {
+      "loading": "Loading candidate data…",
+      "loadError": "Could not load the candidate's data."
+    },
+    "duplicate": {
+      "checking": "Checking if it already exists…",
+      "found": "This candidate already exists — we filled in their data. Edit what you need and save to add them to the job.",
+      "save": "Save and add to job"
+    },
+    "search": {
+      "label": "Search candidate",
+      "placeholder": "Search by name or LinkedIn…",
+      "help": "Type at least 2 characters to search the base.",
+      "loading": "Searching…",
+      "empty": "No candidate found.",
+      "createNew": "Add new",
+      "back": "Back to search",
+      "inProcesses": "{count, plural, =0 {no processes} one {# process} other {# processes}}"
     },
     "fields": {
       "nome": "Name",
@@ -64,7 +112,9 @@
       "origem": "Source",
       "selectPlaceholder": "Select…",
       "pretensao": "Salary expectation",
-      "pretensaoPlaceholder": "e.g. 8000"
+      "pretensaoPlaceholder": "e.g. 8000",
+      "dadosExtraidos": "Extracted data (profile/résumé)",
+      "dadosExtraidosPlaceholder": "Paste the candidate's profile summary, résumé or notes…"
     },
     "origem": {
       "Hunting": "Hunting",
@@ -76,7 +126,9 @@
     "errors": {
       "required": "Required field.",
       "alreadyInJob": "This candidate is already in this job.",
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "linkedinTaken": "This LinkedIn already belongs to another candidate.",
+      "emailTaken": "This email already belongs to another candidate."
     }
   },
   "Jobs": {
@@ -99,7 +151,11 @@
       "status": "Status",
       "description": "Description (optional)",
       "descriptionPlaceholder": "Describe the responsibilities, requirements and context of the job…",
-      "selectPlaceholder": "Select…"
+      "selectPlaceholder": "Select…",
+      "hiringManager": "Hiring manager (optional)",
+      "budget": "Budget (optional)",
+      "prioridade": "Priority (1–5, optional)",
+      "dataFechamento": "Closing date (optional)"
     },
     "status": {
       "Aberta": "Open",
@@ -120,6 +176,39 @@
     "model": {
       "label": "Claude model",
       "hint": "Model used for analysis, recommendation and summary."
+    },
+    "credential": {
+      "label": "AI credential",
+      "methodLabel": "Authentication method",
+      "setupOption": "Setup token",
+      "apiKeyOption": "API key",
+      "statusSetup": "setup token set",
+      "statusApiKey": "API key set",
+      "statusNone": "no credential",
+      "remove": "Remove credential"
+    },
+    "setupToken": {
+      "label": "Setup token (Claude)",
+      "helpAria": "How to get the token",
+      "helpTitle": "How to get the setup token",
+      "helpIntro": "The setup token uses your own Claude subscription — no API key needed.",
+      "helpStep1": "Have Claude Code installed and logged in (claude login).",
+      "helpStep2": "Run the command below in your terminal and copy the generated token (sk-ant-oat01-…).",
+      "helpStep3": "Paste the token in the field above and save.",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "placeholder": "sk-ant-oat01-…",
+      "configured": "token configured",
+      "notConfigured": "no token saved",
+      "clear": "Remove token"
+    },
+    "apiKey": {
+      "label": "API key (fallback)",
+      "placeholder": "sk-ant-api…",
+      "hint": "Alternative to the setup token — your personal API key (console.anthropic.com), used when you have no setup token.",
+      "configured": "API key set",
+      "notConfigured": "no API key saved",
+      "clear": "Remove API key"
     },
     "prompts": {
       "analysis": "Behavioral Analysis Prompt",
@@ -277,6 +366,8 @@
     "loading": "Loading projects…",
     "loadError": "Could not load projects.",
     "edit": "Edit",
+    "openJobs": "{count, plural, =0 {0 open} one {# open} other {# open}}",
+    "closedJobs": "{count, plural, =0 {0 closed} one {# closed} other {# closed}}",
     "emptyContext": "No context yet.",
     "createdAtLabel": "Created at",
     "form": {
@@ -350,14 +441,16 @@
     "funil": {
       "title": "Stage Funnel",
       "candidatos": "candidates",
-      "conversao": "conversion"
+      "conversao": "conversion",
+      "empty": "No candidates in the funnel yet."
     },
     "pathFlow": {
       "title": "Path Analysis",
       "subtitle": "See where candidates went from each stage.",
       "startFrom": "Start from",
       "step": "Step",
-      "ofStart": "of start"
+      "ofStart": "of start",
+      "empty": "No transitions recorded yet. Move candidates on the board to see the paths."
     },
     "status": {
       "title": "Candidates by Status",
@@ -376,7 +469,8 @@
     },
     "sla": {
       "title": "SLA by Stage",
-      "mediaDias": "Average (days)"
+      "mediaDias": "Average (days)",
+      "empty": "No per-stage time data yet."
     },
     "vagas": {
       "title": "Open Positions",
@@ -435,6 +529,29 @@
       "addParticipant": "Add email",
       "addParticipantPlaceholder": "person@bemobi.com",
       "add": "Add",
+      "parameters": "Parameters",
+      "agenda": "Schedule",
+      "agendaEmpty": "Find slots to build the schedule.",
+      "durationOther": "Other",
+      "optional": "Optional",
+      "requiredFull": "Required",
+      "urgentLabel": "Urgent",
+      "urgentHelper": "Ignores optional participants when finding slots.",
+      "linkGenerated": "Link generated — send it to the candidate",
+      "addPeople": "Add participant",
+      "removeParticipant": "Remove",
+      "participantsEmpty": "No participants yet.",
+      "participantsModalTitle": "Add participants",
+      "directorySearchLabel": "Search a person",
+      "directorySearchPlaceholder": "Search by name or email…",
+      "directoryHint": "Type at least 2 letters to search the Google directory.",
+      "directoryEmpty": "No people found.",
+      "directoryRelogin": "Google permission required. Sign out and back in to search people.",
+      "directoryUnavailable": "Google search is unavailable right now. Add by email below.",
+      "directoryError": "Couldn't search. Please try again.",
+      "added": "Added",
+      "externalGuest": "External guest",
+      "emailInvalid": "Invalid email.",
       "reloginNeeded": "Your Google Calendar permission expired. Please sign out and back in.",
       "error": "Couldn't load slots. Please try again."
     },

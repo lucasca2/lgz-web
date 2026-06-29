@@ -14,6 +14,7 @@ import {
   useRecommend,
   useUpdateAssessment,
 } from "../../hooks";
+import { useAiGuard } from "@/shared/hooks/useAiGuard";
 import { AnalysisPanel } from "../../ui/AnalysisPanel";
 import { RecommendationPanel } from "../../ui/RecommendationPanel";
 import { DecisionControls } from "../../ui/DecisionControls";
@@ -43,6 +44,7 @@ function NewAssessment() {
   const router = useRouter();
   const { data: positions } = usePositions();
   const analyze = useAnalyze();
+  const aiGuard = useAiGuard();
 
   const [posicaoId, setPosicaoId] = useState("");
   const [transcricao, setTranscricao] = useState("");
@@ -96,7 +98,7 @@ function NewAssessment() {
           <Button
             type="button"
             size="md"
-            onClick={handleAnalyze}
+            onClick={() => aiGuard.ensure(handleAnalyze)}
             loading={analyze.isPending}
             disabled={!transcricao.trim()}
           >
@@ -104,6 +106,8 @@ function NewAssessment() {
           </Button>
         </div>
       </div>
+
+      {aiGuard.modal}
     </div>
   );
 }
@@ -115,6 +119,7 @@ function ExistingAssessment({ id }: { id: string }) {
   const { data: positions } = usePositions();
   const recommend = useRecommend();
   const updatePosition = useUpdateAssessment();
+  const aiGuard = useAiGuard();
 
   const [tab, setTab] = useState<Tab>("recommendation");
   const [summaryOpen, setSummaryOpen] = useState(false);
@@ -147,7 +152,7 @@ function ExistingAssessment({ id }: { id: string }) {
             type="button"
             variant="ghost"
             size="sm"
-            onClick={() => setSummaryOpen(true)}
+            onClick={() => aiGuard.ensure(() => setSummaryOpen(true))}
           >
             {t("actions.summary")}
           </Button>
@@ -212,7 +217,7 @@ function ExistingAssessment({ id }: { id: string }) {
                 type="button"
                 size="md"
                 loading={recommend.isPending}
-                onClick={() => recommend.mutate(id)}
+                onClick={() => aiGuard.ensure(() => recommend.mutate(id))}
               >
                 {t("recommendation.generate")}
               </Button>
@@ -231,7 +236,7 @@ function ExistingAssessment({ id }: { id: string }) {
                 type="button"
                 variant="ghost"
                 size="md"
-                onClick={() => setRejectionOpen(true)}
+                onClick={() => aiGuard.ensure(() => setRejectionOpen(true))}
               >
                 {t("actions.rejection")}
               </Button>
@@ -251,6 +256,8 @@ function ExistingAssessment({ id }: { id: string }) {
         id={id}
         candidateName={assessment.candidateName}
       />
+
+      {aiGuard.modal}
     </div>
   );
 }

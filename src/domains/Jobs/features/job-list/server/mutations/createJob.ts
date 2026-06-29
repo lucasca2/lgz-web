@@ -14,6 +14,13 @@ export async function createJob(input: CreateJobInput): Promise<JobDTO> {
       descricao: input.description ?? null,
       status: toDbStatus(input.status),
       palavras_chave: [],
+      posicao_id: input.posicaoId ?? null,
+      budget: input.budget ?? null,
+      prioridade: input.prioridade ?? null,
+      hiring_manager_id: input.hiringManagerId ?? null,
+      data_fechamento: input.dataFechamento
+        ? new Date(input.dataFechamento)
+        : null,
     },
     select: {
       id: true,

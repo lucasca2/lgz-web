@@ -3,6 +3,7 @@ import "server-only";
 import type { GoogleProfile, GoogleTokens } from "@/domains/Scheduling/shared/types";
 import {
   CALENDAR_SCOPE,
+  DIRECTORY_SCOPE,
   GOOGLE_SCOPES,
   getRedirectUri,
   loadGoogleCredentials,
@@ -13,7 +14,7 @@ const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
 const USERINFO_ENDPOINT = "https://www.googleapis.com/oauth2/v2/userinfo";
 
 // Re-export para conveniência dos callers.
-export { CALENDAR_SCOPE, GOOGLE_SCOPES };
+export { CALENDAR_SCOPE, DIRECTORY_SCOPE, GOOGLE_SCOPES };
 
 // Monta a URL de consentimento do Google. access_type=offline + prompt=consent
 // garantem o refresh_token (necessário para "agir como" o recrutador depois).
@@ -138,4 +139,9 @@ export async function refreshAccessToken(
 // Verifica se o escopo concedido inclui a permissão de Agenda.
 export function hasCalendarScope(scope: string): boolean {
   return scope.split(" ").includes(CALENDAR_SCOPE);
+}
+
+// Verifica se o escopo concedido inclui a permissão de diretório (People API).
+export function hasDirectoryScope(scope: string): boolean {
+  return scope.split(" ").includes(DIRECTORY_SCOPE);
 }

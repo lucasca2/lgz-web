@@ -2,6 +2,12 @@
   "Common": {
     "language": "Idioma"
   },
+  "AiGuard": {
+    "title": "IA no configurada",
+    "body": "Configura un setup token o una API key en Configuración para usar la IA.",
+    "cta": "Ir a Configuración",
+    "cancel": "Cerrar"
+  },
   "Nav": {
     "primary": "Navegación principal",
     "secondary": "Cuenta",
@@ -25,6 +31,7 @@
     "loadError": "No se pudo cargar el tablero.",
     "emptyColumn": "Sin candidatos",
     "candidateModalTitle": "Detalles del candidato",
+    "editCandidate": "Editar",
     "modalProject": "Proyecto",
     "modalPosition": "Vacante",
     "scheduleMeeting": "Agendar reunión",
@@ -33,6 +40,26 @@
     "scheduledFor": "Agendado para {datetime}",
     "openMeet": "Abrir en Meet",
     "scorePending": "Pendiente",
+    "scoreTitle": "Puntuación de fit",
+    "evaluateWithAi": "Evaluar con IA",
+    "scoreManualSave": "Guardar",
+    "scoreMissingData": "Completa los datos extraídos del candidato para evaluar.",
+    "scoreError": "No se pudo evaluar. Inténtalo de nuevo.",
+    "interviewTitle": "Evaluar entrevista (transcripción)",
+    "interviewPlaceholder": "Pega aquí la transcripción de la entrevista…",
+    "evaluateInterview": "Evaluar entrevista",
+    "interviewError": "No se pudo evaluar la entrevista. Inténtalo de nuevo.",
+    "decisao": {
+      "APROVAR": "Aprobar",
+      "REPROVAR": "Rechazar"
+    },
+    "moveJustifyTitle": "Justifica el movimiento",
+    "moveJustifyHint": "Moviendo de {from} a {to}.",
+    "moveJustifyLabel": "Justificación",
+    "moveJustifyPlaceholder": "¿Por qué el candidato cambia de etapa?",
+    "moveError": "No se pudo guardar. Inténtalo de nuevo.",
+    "moveConfirm": "Confirmar",
+    "moveCancel": "Cancelar",
     "hasInterview": "Entrevista agendada",
     "stages": {
       "Triagem": "Cribado",
@@ -50,7 +77,28 @@
     "form": {
       "title": "Registrar candidato",
       "submit": "Registrar",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "editTitle": "Editar candidato",
+      "save": "Guardar"
+    },
+    "edit": {
+      "loading": "Cargando datos del candidato…",
+      "loadError": "No se pudieron cargar los datos del candidato."
+    },
+    "duplicate": {
+      "checking": "Comprobando si ya existe…",
+      "found": "Este candidato ya existe — completamos sus datos. Edita lo que necesites y guarda para añadirlo a la vacante.",
+      "save": "Guardar y añadir a la vacante"
+    },
+    "search": {
+      "label": "Buscar candidato",
+      "placeholder": "Buscar por nombre o LinkedIn…",
+      "help": "Escribe al menos 2 caracteres para buscar en la base.",
+      "loading": "Buscando…",
+      "empty": "Ningún candidato encontrado.",
+      "createNew": "Registrar nuevo",
+      "back": "Volver a la búsqueda",
+      "inProcesses": "{count, plural, =0 {sin procesos} one {# proceso} other {# procesos}}"
     },
     "fields": {
       "nome": "Nombre",
@@ -64,7 +112,9 @@
       "origem": "Origen",
       "selectPlaceholder": "Selecciona…",
       "pretensao": "Pretensión salarial",
-      "pretensaoPlaceholder": "Ej.: 8000"
+      "pretensaoPlaceholder": "Ej.: 8000",
+      "dadosExtraidos": "Datos extraídos (perfil/CV)",
+      "dadosExtraidosPlaceholder": "Pega el resumen del perfil, CV o notas del candidato…"
     },
     "origem": {
       "Hunting": "Hunting",
@@ -76,7 +126,9 @@
     "errors": {
       "required": "Campo obligatorio.",
       "alreadyInJob": "Este candidato ya está en esta vacante.",
-      "generic": "Algo salió mal. Inténtalo de nuevo."
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "linkedinTaken": "Este LinkedIn ya pertenece a otro candidato.",
+      "emailTaken": "Este correo ya pertenece a otro candidato."
     }
   },
   "Jobs": {
@@ -99,7 +151,11 @@
       "status": "Estado",
       "description": "Descripción (opcional)",
       "descriptionPlaceholder": "Describe las responsabilidades, requisitos y contexto de la vacante…",
-      "selectPlaceholder": "Selecciona…"
+      "selectPlaceholder": "Selecciona…",
+      "hiringManager": "Hiring manager (opcional)",
+      "budget": "Presupuesto (opcional)",
+      "prioridade": "Prioridad (1–5, opcional)",
+      "dataFechamento": "Fecha de cierre (opcional)"
     },
     "status": {
       "Aberta": "Abierta",
@@ -120,6 +176,39 @@
     "model": {
       "label": "Modelo de Claude",
       "hint": "Modelo usado para análisis, recomendación y resumen."
+    },
+    "credential": {
+      "label": "Credencial de la IA",
+      "methodLabel": "Método de autenticación",
+      "setupOption": "Setup token",
+      "apiKeyOption": "API key",
+      "statusSetup": "setup token configurado",
+      "statusApiKey": "API key configurada",
+      "statusNone": "ninguna credencial",
+      "remove": "Eliminar credencial"
+    },
+    "setupToken": {
+      "label": "Setup token (Claude)",
+      "helpAria": "Cómo obtener el token",
+      "helpTitle": "Cómo obtener el setup token",
+      "helpIntro": "El setup token usa tu propia suscripción de Claude — no necesitas una API key.",
+      "helpStep1": "Ten Claude Code instalado y con sesión iniciada (claude login).",
+      "helpStep2": "Ejecuta el comando de abajo en la terminal y copia el token generado (sk-ant-oat01-…).",
+      "helpStep3": "Pega el token en el campo de arriba y guarda.",
+      "copy": "Copiar",
+      "copied": "¡Copiado!",
+      "placeholder": "sk-ant-oat01-…",
+      "configured": "token configurado",
+      "notConfigured": "ningún token guardado",
+      "clear": "Eliminar token"
+    },
+    "apiKey": {
+      "label": "API key (fallback)",
+      "placeholder": "sk-ant-api…",
+      "hint": "Alternativa al setup token — tu API key personal (console.anthropic.com), se usa cuando no tienes setup token.",
+      "configured": "API key configurada",
+      "notConfigured": "ninguna API key guardada",
+      "clear": "Eliminar API key"
     },
     "prompts": {
       "analysis": "Prompt de Análisis de Comportamiento",
@@ -277,6 +366,8 @@
     "loading": "Cargando proyectos…",
     "loadError": "No se pudieron cargar los proyectos.",
     "edit": "Editar",
+    "openJobs": "{count, plural, =0 {0 abiertas} one {# abierta} other {# abiertas}}",
+    "closedJobs": "{count, plural, =0 {0 cerradas} one {# cerrada} other {# cerradas}}",
     "emptyContext": "Sin contexto aún.",
     "createdAtLabel": "Creado el",
     "form": {
@@ -350,14 +441,16 @@
     "funil": {
       "title": "Embudo de Etapas",
       "candidatos": "candidatos",
-      "conversao": "conversión"
+      "conversao": "conversión",
+      "empty": "Aún no hay candidatos en el embudo."
     },
     "pathFlow": {
       "title": "Análisis de Caminos",
       "subtitle": "Ve por dónde pasaron los candidatos a partir de cada etapa.",
       "startFrom": "Inicio",
       "step": "Paso",
-      "ofStart": "del inicio"
+      "ofStart": "del inicio",
+      "empty": "Aún no hay transiciones registradas. Mueve candidatos en el tablero para ver los caminos."
     },
     "status": {
       "title": "Candidatos por Estado",
@@ -376,7 +469,8 @@
     },
     "sla": {
       "title": "SLA por Etapa",
-      "mediaDias": "Promedio (días)"
+      "mediaDias": "Promedio (días)",
+      "empty": "Aún no hay datos de tiempo por etapa."
     },
     "vagas": {
       "title": "Vacantes Abiertas",
@@ -435,6 +529,29 @@
       "addParticipant": "Agregar correo",
       "addParticipantPlaceholder": "persona@bemobi.com",
       "add": "Agregar",
+      "parameters": "Parámetros",
+      "agenda": "Agenda",
+      "agendaEmpty": "Busca horarios para armar la agenda.",
+      "durationOther": "Otro",
+      "optional": "Opcional",
+      "requiredFull": "Obligatorio",
+      "urgentLabel": "Urgencia",
+      "urgentHelper": "Ignora participantes opcionales al buscar horarios.",
+      "linkGenerated": "Enlace generado — envíaselo al candidato",
+      "addPeople": "Agregar participante",
+      "removeParticipant": "Quitar",
+      "participantsEmpty": "Aún no hay participantes.",
+      "participantsModalTitle": "Agregar participantes",
+      "directorySearchLabel": "Buscar persona",
+      "directorySearchPlaceholder": "Buscar por nombre o correo…",
+      "directoryHint": "Escribe al menos 2 letras para buscar en el directorio de Google.",
+      "directoryEmpty": "No se encontraron personas.",
+      "directoryRelogin": "Permiso de Google necesario. Sal y vuelve a entrar para buscar personas.",
+      "directoryUnavailable": "La búsqueda de Google no está disponible ahora. Agrega por correo abajo.",
+      "directoryError": "No se pudo buscar. Inténtalo de nuevo.",
+      "added": "Agregado",
+      "externalGuest": "Invitado externo",
+      "emailInvalid": "Correo inválido.",
       "reloginNeeded": "Tu permiso de Google Calendar expiró. Sal y vuelve a entrar.",
       "error": "No se pudieron cargar los horarios. Inténtalo de nuevo."
     },

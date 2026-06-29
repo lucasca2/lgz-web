@@ -7,15 +7,22 @@ import path from "node:path";
 // openid + userinfo.email → descobrir o e-mail/identidade de quem logou.
 // userinfo.profile → nome e avatar.
 // calendar → ler agendas (events.list) e criar eventos (events.insert).
+// directory.readonly → buscar pessoas do Workspace (People API) na modal de
+//   participantes. Requer re-consentimento (re-login) e People API habilitada.
 export const GOOGLE_SCOPES = [
   "openid",
   "https://www.googleapis.com/auth/userinfo.email",
   "https://www.googleapis.com/auth/userinfo.profile",
   "https://www.googleapis.com/auth/calendar",
+  "https://www.googleapis.com/auth/directory.readonly",
 ];
 
 // Usado para validar se a permissão de Agenda foi concedida.
 export const CALENDAR_SCOPE = "https://www.googleapis.com/auth/calendar";
+
+// Usado para validar se a permissão de diretório (People API) foi concedida.
+export const DIRECTORY_SCOPE =
+  "https://www.googleapis.com/auth/directory.readonly";
 
 export type GoogleCredentials = {
   clientId: string;

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Select } from "@/shared/ui/Select";
+import { useProjects } from "@/domains/Projects/features/project-list/hooks";
 import { useFunilMetrics } from "../hooks";
 import { KpiCard, FunilBar, BreakdownBar, VagasTable, PathFlowChart } from "../ui";
 import styles from "./FunilScreen.module.css";
@@ -25,6 +27,7 @@ export function FunilScreen() {
   const t = useTranslations("Funil");
   const [projetoSelecionado, setProjetoSelecionado] = useState<string | null>(null);
   const { data, isFetching } = useFunilMetrics(projetoSelecionado);
+  const { data: projetos } = useProjects();
 
   if (!data) {
     return (
@@ -35,7 +38,7 @@ export function FunilScreen() {
     );
   }
 
-  const { kpis, etapasFunil, statusBreakdown, origemBreakdown, motivosReprovacao, slaEtapas, vagasAbertas, transicoes } =
+  const { kpis, etapasFunil, statusBreakdown, origemBreakdown, slaEtapas, vagasAbertas, transicoes } =
     data;
 
   const statusItems = statusBreakdown.map((s) => ({
@@ -50,28 +53,25 @@ export function FunilScreen() {
     color: ORIGEM_COLORS[o.origem] ?? "#94a3b8",
   }));
 
-  const totalReprovacoes = motivosReprovacao.reduce((s, m) => s + m.count, 0);
+  const funilVazio = (etapasFunil[0]?.candidatos ?? 0) === 0;
+  const slaTemDados = slaEtapas.some((s) => s.mediaDias > 0);
 
   return (
     <div className={`${styles.page} ${isFetching ? styles.fetching : ""}`}>
       <div className={styles.header}>
         <h1 className={styles.title}>{t("title")}</h1>
         <p className={styles.subtitle}>{t("subtitle")}</p>
-        <div className={styles.filterRow}>
-          <label className={styles.filterLabel} htmlFor="projeto-select">
-            {t("filtro.projeto")}
-          </label>
-          <select
-            id="projeto-select"
-            className={styles.filterSelect}
+        <div className={styles.filter}>
+          <Select
+            label={t("filtro.projeto")}
+            name="projeto"
             value={projetoSelecionado ?? ""}
-            onChange={(e) => setProjetoSelecionado(e.target.value || null)}
-          >
-            <option value="">{t("filtro.todos")}</option>
-            {data.projetos.map((p) => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
+            onChange={(value) => setProjetoSelecionado(value || null)}
+            options={[
+              { value: "", label: t("filtro.todos") },
+              ...(projetos ?? []).map((p) => ({ value: p.name, label: p.name })),
+            ]}
+          />
         </div>
       </div>
 
@@ -111,25 +111,33 @@ export function FunilScreen() {
       <section className={styles.card}>
         <h2 className={styles.sectionTitle}>{t("pathFlow.title")}</h2>
         <p className={styles.sectionSubtitle}>{t("pathFlow.subtitle")}</p>
-        <PathFlowChart
-          transitions={transicoes}
-          rootStage="Entrevista People"
-          labels={{
-            step: t("pathFlow.step"),
-            ofStart: t("pathFlow.ofStart"),
-          }}
-        />
+        {transicoes.length === 0 ? (
+          <p className={styles.empty}>{t("pathFlow.empty")}</p>
+        ) : (
+          <PathFlowChart
+            transitions={transicoes}
+            rootStage="Triagem"
+            labels={{
+              step: t("pathFlow.step"),
+              ofStart: t("pathFlow.ofStart"),
+            }}
+          />
+        )}
       </section>
 
       {/* Funnel + Status */}
       <div className={styles.twoCol}>
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>{t("funil.title")}</h2>
-          <FunilBar
-            etapas={etapasFunil}
-            labelCandidatos={t("funil.candidatos")}
-            labelConversao={t("funil.conversao")}
-          />
+          {funilVazio ? (
+            <p className={styles.empty}>{t("funil.empty")}</p>
+          ) : (
+            <FunilBar
+              etapas={etapasFunil}
+              labelCandidatos={t("funil.candidatos")}
+              labelConversao={t("funil.conversao")}
+            />
+          )}
         </section>
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>{t("status.title")}</h2>
@@ -137,65 +145,52 @@ export function FunilScreen() {
         </section>
       </div>
 
-      {/* Origin + Rejection reasons */}
+      {/* Origin + SLA per stage */}
       <div className={styles.twoCol}>
         <section className={styles.card}>
           <h2 className={styles.sectionTitle}>{t("origem.title")}</h2>
           <BreakdownBar items={origemItems} />
         </section>
         <section className={styles.card}>
-          <h2 className={styles.sectionTitle}>{t("reprovacao.title")}</h2>
-          <div className={styles.motivosList}>
-            {motivosReprovacao.map((m) => {
-              const pct =
-                totalReprovacoes > 0
-                  ? Math.round((m.count / totalReprovacoes) * 100)
-                  : 0;
-              return (
-                <div key={m.motivo} className={styles.motivoRow}>
-                  <div className={styles.motivoInfo}>
-                    <span className={styles.motivoLabel}>{m.motivo}</span>
-                    <span className={styles.motivoCount}>
-                      {m.count} {t("reprovacao.casos")}
-                    </span>
-                  </div>
-                  <div className={styles.motivoTrack}>
-                    <div
-                      className={styles.motivoBar}
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <h2 className={styles.sectionTitle}>{t("sla.title")}</h2>
+          {slaTemDados ? (
+            <div className={styles.tableWrapper}>
+              <table className={styles.slaTable}>
+                <thead>
+                  <tr>
+                    <th className={styles.slaTh}>{t("funil.title")}</th>
+                    <th className={styles.slaTh}>{t("sla.mediaDias")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {slaEtapas.map((s) => (
+                    <tr key={s.etapa} className={styles.slaRow}>
+                      <td className={styles.slaTd}>{s.etapa}</td>
+                      <td className={styles.slaTd}>
+                        <span className={styles.slaValue}>{s.mediaDias}d</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className={styles.empty}>{t("sla.empty")}</p>
+          )}
         </section>
       </div>
 
-      {/* SLA per stage */}
-      <section className={styles.card}>
-        <h2 className={styles.sectionTitle}>{t("sla.title")}</h2>
-        <div className={styles.tableWrapper}>
-          <table className={styles.slaTable}>
-            <thead>
-              <tr>
-                <th className={styles.slaTh}>{t("funil.title")}</th>
-                <th className={styles.slaTh}>{t("sla.mediaDias")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {slaEtapas.map((s) => (
-                <tr key={s.etapa} className={styles.slaRow}>
-                  <td className={styles.slaTd}>{s.etapa}</td>
-                  <td className={styles.slaTd}>
-                    <span className={styles.slaValue}>{s.mediaDias}d</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      {/*
+        Motivos de Reprovação — comentado até existir lógica de gravação de
+        motivo_reprovacao_id (hoje a coluna nunca é preenchida). Reativar quando
+        houver o caminho de escrita.
+        <section className={styles.card}>
+          <h2 className={styles.sectionTitle}>{t("reprovacao.title")}</h2>
+          <div className={styles.motivosList}>
+            {motivosReprovacao.map((m) => { ... })}
+          </div>
+        </section>
+      */}
 
       {/* Open positions */}
       <section className={styles.cardFull}>

@@ -4,4 +4,7 @@ export type ProjectDTO = {
   name: string;
   expectation: string;
   createdAt: string;
+  // Contagem de vagas do projeto (relação denormalizada por `vagas.projeto`).
+  openJobsCount: number;
+  closedJobsCount: number;
 };

@@ -12,10 +12,10 @@ type Props = {
   };
 };
 
+// Etapas terminais (nomes reais do catálogo) — pintadas em verde/vermelho.
 const TERMINAL: Record<string, string> = {
   Aprovado: "#34d399",
-  Reprovado: "#f87171",
-  "Base de Talentos": "#a78bfa",
+  Recusado: "#f87171",
 };
 
 const COL_W = 164;

@@ -5,19 +5,29 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { TextField } from "@/shared/ui/TextField";
 import { Textarea } from "@/shared/ui/Textarea";
+import { CalendarIcon, CheckIcon, PlusIcon } from "@/shared/ui/icons";
 import {
   useCreateLink,
   useSchedulingConfig,
   useSlots,
   type SlotsArgs,
 } from "../../hooks";
+import { Avatar } from "../../ui/Avatar";
+import {
+  ParticipantsModal,
+  type AddedPerson,
+} from "../../ui/ParticipantsModal";
 import styles from "./RecruiterScreen.module.css";
 
 type Participant = {
   email: string;
   included: boolean;
   required: boolean;
+  name?: string;
+  picture?: string | null;
 };
+
+const DURATION_PRESETS = [15, 30, 45, 60];
 
 function dayLabel(date: string): string {
   // date = "YYYY-MM-DD"; rótulo curto e estável (sem depender do fuso da máquina).
@@ -41,9 +51,10 @@ export function RecruiterScreen({
 
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [initialized, setInitialized] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [duration, setDuration] = useState<number>(30);
+  const [customDuration, setCustomDuration] = useState(false);
   const [urgent, setUrgent] = useState(false);
   const [weekOffset, setWeekOffset] = useState(0);
 
@@ -114,18 +125,24 @@ export function RecruiterScreen({
     );
   }
 
-  function addParticipant() {
-    const email = newEmail.trim().toLowerCase();
+  function addPerson(person: AddedPerson) {
+    const email = person.email.trim().toLowerCase();
     if (!email) return;
-    if (participants.some((p) => p.email === email)) {
-      setNewEmail("");
-      return;
-    }
+    if (participants.some((p) => p.email === email)) return;
     setParticipants((prev) => [
       ...prev,
-      { email, included: true, required: false },
+      {
+        email,
+        included: true,
+        required: false,
+        name: person.name,
+        picture: person.picture,
+      },
     ]);
-    setNewEmail("");
+  }
+
+  function removeParticipant(email: string) {
+    setParticipants((prev) => prev.filter((p) => p.email !== email));
   }
 
   function resetSelection() {
@@ -140,9 +157,24 @@ export function RecruiterScreen({
     resetSelection();
   }
 
+  function selectPreset(value: number) {
+    setCustomDuration(false);
+    onDurationChange(value);
+  }
+
   function search() {
     resetSelection();
     setSlotsArgs({ weekOffset, duration, urgent, included, required });
+  }
+
+  // Setas da agenda paginam a semana; se já houve uma busca, recarrega na hora.
+  function goToWeek(offset: number) {
+    const next = Math.max(0, offset);
+    setWeekOffset(next);
+    if (slotsArgs) {
+      resetSelection();
+      setSlotsArgs({ weekOffset: next, duration, urgent, included, required });
+    }
   }
 
   function toggleSlot(start: string) {
@@ -185,6 +217,7 @@ export function RecruiterScreen({
 
   const days = slotsQuery.data?.days ?? [];
   const generateDisabled = selected.size === 0 || included.length === 0;
+  const usingCustom = customDuration || !DURATION_PRESETS.includes(duration);
 
   return (
     <div className={styles.page}>
@@ -198,7 +231,7 @@ export function RecruiterScreen({
         ) : null}
       </header>
 
-      <section className={styles.panel}>
+      <section className={styles.eventCard}>
         <h2 className={styles.panelTitle}>{t("eventDetails")}</h2>
         <TextField
           label={t("eventTitleLabel")}
@@ -213,188 +246,278 @@ export function RecruiterScreen({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder={t("descriptionPlaceholder")}
-          rows={3}
+          rows={2}
         />
       </section>
 
-      <section className={styles.panel}>
-        <h2 className={styles.panelTitle}>{t("participants")}</h2>
-        <div className={styles.participantList}>
-          {participants.map((p) => (
-            <div key={p.email} className={styles.participant}>
-              <span className={styles.participantEmail}>{p.email}</span>
-              <label className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  checked={p.included}
-                  onChange={() => toggleInclude(p.email)}
-                />
-                {t("include")}
-              </label>
-              <label className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  checked={p.required}
-                  onChange={() => toggleRequired(p.email)}
-                />
-                {t("required")}
-              </label>
+      <div className={styles.columns}>
+        <section className={styles.configCol}>
+          <div className={styles.block}>
+            <h2 className={styles.panelTitle}>{t("participants")}</h2>
+            <div className={styles.participantList}>
+              {participants.length === 0 ? (
+                <p className={styles.participantsEmpty}>
+                  {t("participantsEmpty")}
+                </p>
+              ) : (
+                participants.map((p) => (
+                  <div
+                    key={p.email}
+                    className={styles.participant}
+                    data-included={p.included || undefined}
+                  >
+                    <Avatar email={p.email} name={p.name} picture={p.picture} />
+                    <div className={styles.participantInfo}>
+                      <span className={styles.participantName}>
+                        {p.name ?? p.email}
+                      </span>
+                      {p.name ? (
+                        <span className={styles.participantEmail}>
+                          {p.email}
+                        </span>
+                      ) : null}
+                    </div>
+                    {p.included ? (
+                      <button
+                        type="button"
+                        className={styles.reqToggle}
+                        data-on={p.required || undefined}
+                        aria-pressed={p.required}
+                        onClick={() => toggleRequired(p.email)}
+                      >
+                        {p.required ? t("requiredFull") : t("optional")}
+                      </button>
+                    ) : null}
+                    <label className={styles.switch}>
+                      <input
+                        type="checkbox"
+                        className={styles.switchInput}
+                        checked={p.included}
+                        onChange={() => toggleInclude(p.email)}
+                        aria-label={t("include")}
+                      />
+                      <span className={styles.switchTrack}>
+                        <span className={styles.switchThumb} />
+                      </span>
+                    </label>
+                    <button
+                      type="button"
+                      className={styles.removeBtn}
+                      aria-label={t("removeParticipant")}
+                      onClick={() => removeParticipant(p.email)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
-          ))}
-        </div>
 
-        <div className={styles.addRow}>
-          <div className={styles.addField}>
-            <TextField
-              label={t("addParticipant")}
-              hideLabel
-              type="email"
-              placeholder={t("addParticipantPlaceholder")}
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addParticipant();
-                }
-              }}
-            />
-          </div>
-          <Button variant="ghost" type="button" onClick={addParticipant}>
-            {t("add")}
-          </Button>
-        </div>
-      </section>
-
-      <section className={styles.panel}>
-        <div className={styles.toolbar}>
-          <div className={styles.durationField}>
-            <TextField
-              label={t("duration")}
-              type="number"
-              min={5}
-              max={480}
-              step={5}
-              value={duration}
-              onChange={(e) =>
-                onDurationChange(Number(e.target.value) || 0)
-              }
-            />
-          </div>
-
-          <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              checked={urgent}
-              onChange={(e) => setUrgent(e.target.checked)}
-            />
-            {t("urgent")}
-          </label>
-
-          <div className={styles.weekNav}>
             <Button
               variant="ghost"
               type="button"
+              fullWidth
+              onClick={() => setModalOpen(true)}
+            >
+              <PlusIcon className={styles.addIcon} />
+              {t("addPeople")}
+            </Button>
+          </div>
+
+          <div className={styles.block}>
+            <h2 className={styles.panelTitle}>{t("parameters")}</h2>
+
+            <div className={styles.field}>
+              <span className={styles.fieldLabel}>{t("duration")}</span>
+              <div
+                className={styles.segmented}
+                role="group"
+                aria-label={t("duration")}
+              >
+                {DURATION_PRESETS.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    className={styles.segment}
+                    data-active={(!usingCustom && duration === p) || undefined}
+                    aria-pressed={!usingCustom && duration === p}
+                    onClick={() => selectPreset(p)}
+                  >
+                    {p}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className={styles.segment}
+                  data-active={usingCustom || undefined}
+                  aria-pressed={usingCustom}
+                  onClick={() => setCustomDuration(true)}
+                >
+                  {t("durationOther")}
+                </button>
+              </div>
+              {usingCustom ? (
+                <div className={styles.customDuration}>
+                  <TextField
+                    label={t("duration")}
+                    hideLabel
+                    type="number"
+                    min={5}
+                    max={480}
+                    step={5}
+                    value={duration}
+                    onChange={(e) =>
+                      onDurationChange(Number(e.target.value) || 0)
+                    }
+                  />
+                </div>
+              ) : null}
+            </div>
+
+            <label className={styles.switchField}>
+              <span className={styles.switch}>
+                <input
+                  type="checkbox"
+                  className={styles.switchInput}
+                  checked={urgent}
+                  onChange={(e) => setUrgent(e.target.checked)}
+                />
+                <span className={styles.switchTrack}>
+                  <span className={styles.switchThumb} />
+                </span>
+              </span>
+              <span className={styles.switchText}>
+                <span className={styles.switchLabel}>{t("urgentLabel")}</span>
+                <span className={styles.switchHelper}>{t("urgentHelper")}</span>
+              </span>
+            </label>
+
+            <Button
+              type="button"
+              fullWidth
+              onClick={search}
+              loading={slotsQuery.isFetching}
+            >
+              {slotsQuery.isFetching ? t("searching") : t("search")}
+            </Button>
+          </div>
+        </section>
+
+        <section className={styles.agendaCol}>
+          <div className={styles.agendaHeader}>
+            <h2 className={styles.panelTitle}>{t("agenda")}</h2>
+            {days.length > 0 ? (
+              <div className={styles.legend}>
+                <span className={styles.legendItem}>
+                  <span
+                    className={`${styles.legendSwatch} ${styles.swatchFree}`}
+                  />
+                  {t("legendFree")}
+                </span>
+                <span className={styles.legendItem}>
+                  <span
+                    className={`${styles.legendSwatch} ${styles.swatchUrgent}`}
+                  />
+                  {t("legendUrgent")}
+                </span>
+                <span className={styles.legendItem}>
+                  <span
+                    className={`${styles.legendSwatch} ${styles.swatchSelected}`}
+                  />
+                  {t("legendSelected")}
+                </span>
+              </div>
+            ) : null}
+          </div>
+
+          <div className={styles.weekSlider}>
+            <Button
+              variant="ghost"
+              size="sm"
+              type="button"
+              className={styles.weekArrow}
               aria-label={t("prevWeek")}
               disabled={weekOffset === 0}
-              onClick={() => setWeekOffset((w) => Math.max(0, w - 1))}
+              onClick={() => goToWeek(weekOffset - 1)}
             >
               ←
             </Button>
-            <span className={styles.weekLabel}>
-              {t("week", { n: weekOffset })}
-            </span>
+
+            <div className={styles.weekContent}>
+              {reloginNeeded ? (
+                <p className={styles.error}>{t("reloginNeeded")}</p>
+              ) : slotsQuery.isError ? (
+                <p className={styles.error}>{t("error")}</p>
+              ) : slotsArgs && !slotsQuery.isFetching && days.length === 0 ? (
+                <p className={styles.empty}>{t("noSlots")}</p>
+              ) : days.length > 0 ? (
+                <div className={styles.grid}>
+                  {days.map((day) => (
+                    <div key={day.date} className={styles.dayColumn}>
+                      <div className={styles.dayHeader}>
+                        {dayLabel(day.date)}
+                      </div>
+                      <div className={styles.daySlots}>
+                        {day.slots.map((slot) => {
+                          const isSelected = selected.has(slot.start);
+                          const classes = [
+                            styles.slot,
+                            slot.urgentOnly && styles.slotUrgent,
+                            isSelected && styles.slotSelected,
+                          ]
+                            .filter(Boolean)
+                            .join(" ");
+                          return (
+                            <button
+                              key={slot.start}
+                              type="button"
+                              className={classes}
+                              aria-pressed={isSelected}
+                              title={
+                                slot.urgentOnly
+                                  ? slot.conflicts.join(", ")
+                                  : undefined
+                              }
+                              onClick={() => toggleSlot(slot.start)}
+                            >
+                              {isSelected ? "✓ " : ""}
+                              {slot.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.placeholder}>
+                  <CalendarIcon className={styles.placeholderIcon} />
+                  <p>{t("agendaEmpty")}</p>
+                </div>
+              )}
+            </div>
+
             <Button
               variant="ghost"
+              size="sm"
               type="button"
+              className={styles.weekArrow}
               aria-label={t("nextWeek")}
-              onClick={() => setWeekOffset((w) => w + 1)}
+              onClick={() => goToWeek(weekOffset + 1)}
             >
               →
             </Button>
           </div>
+        </section>
+      </div>
 
-          <div className={styles.spacer} />
-
-          <Button
-            type="button"
-            onClick={search}
-            loading={slotsQuery.isFetching}
-          >
-            {slotsQuery.isFetching ? t("searching") : t("search")}
-          </Button>
-        </div>
-
-        <div className={styles.legend}>
-          <span className={styles.legendItem}>
-            <span className={`${styles.legendSwatch} ${styles.swatchFree}`} />
-            {t("legendFree")}
+      {linkUrl ? (
+        <section className={styles.successBar}>
+          <span className={styles.successCheck} aria-hidden="true">
+            <CheckIcon className={styles.successCheckIcon} />
           </span>
-          <span className={styles.legendItem}>
-            <span
-              className={`${styles.legendSwatch} ${styles.swatchUrgent}`}
-            />
-            {t("legendUrgent")}
-          </span>
-          <span className={styles.legendItem}>
-            <span
-              className={`${styles.legendSwatch} ${styles.swatchSelected}`}
-            />
-            {t("legendSelected")}
-          </span>
-        </div>
-
-        {reloginNeeded ? (
-          <p className={styles.error}>{t("reloginNeeded")}</p>
-        ) : slotsQuery.isError ? (
-          <p className={styles.error}>{t("error")}</p>
-        ) : slotsArgs && !slotsQuery.isFetching && days.length === 0 ? (
-          <p className={styles.empty}>{t("noSlots")}</p>
-        ) : days.length > 0 ? (
-          <div className={styles.grid}>
-            {days.map((day) => (
-              <div key={day.date} className={styles.dayColumn}>
-                <div className={styles.dayHeader}>{dayLabel(day.date)}</div>
-                {day.slots.map((slot) => {
-                  const isSelected = selected.has(slot.start);
-                  const classes = [
-                    styles.slot,
-                    slot.urgentOnly && styles.slotUrgent,
-                    isSelected && styles.slotSelected,
-                  ]
-                    .filter(Boolean)
-                    .join(" ");
-                  return (
-                    <button
-                      key={slot.start}
-                      type="button"
-                      className={classes}
-                      aria-pressed={isSelected}
-                      title={
-                        slot.urgentOnly
-                          ? slot.conflicts.join(", ")
-                          : undefined
-                      }
-                      onClick={() => toggleSlot(slot.start)}
-                    >
-                      {isSelected ? "✓ " : ""}
-                      {slot.label}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        ) : null}
-      </section>
-
-      <section className={styles.generateBar}>
-        <span className={styles.selectedCount}>
-          {t("selectedCount", { count: selected.size })}
-        </span>
-
-        {linkUrl ? (
-          <>
+          <div className={styles.successBody}>
+            <span className={styles.successLabel}>{t("linkGenerated")}</span>
             <div className={styles.linkRow}>
               <div className={styles.linkField}>
                 <TextField
@@ -409,24 +532,34 @@ export function RecruiterScreen({
                 {copied ? t("copied") : t("copy")}
               </Button>
             </div>
-            <Button variant="ghost" type="button" onClick={resetSelection}>
-              {t("clear")}
-            </Button>
-          </>
-        ) : (
-          <>
-            <div className={styles.spacer} />
-            <Button
-              type="button"
-              disabled={generateDisabled}
-              loading={createLink.isPending}
-              onClick={generate}
-            >
-              {createLink.isPending ? t("generating") : t("generate")}
-            </Button>
-          </>
-        )}
-      </section>
+          </div>
+          <Button variant="ghost" type="button" onClick={resetSelection}>
+            {t("clear")}
+          </Button>
+        </section>
+      ) : (
+        <section className={styles.actionBar}>
+          <span className={styles.selectedCount}>
+            {t("selectedCount", { count: selected.size })}
+          </span>
+          <div className={styles.spacer} />
+          <Button
+            type="button"
+            disabled={generateDisabled}
+            loading={createLink.isPending}
+            onClick={generate}
+          >
+            {createLink.isPending ? t("generating") : t("generate")}
+          </Button>
+        </section>
+      )}
+
+      <ParticipantsModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        existingEmails={participants.map((p) => p.email)}
+        onAdd={addPerson}
+      />
     </div>
   );
 }

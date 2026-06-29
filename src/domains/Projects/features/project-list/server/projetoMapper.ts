@@ -11,11 +11,19 @@ type ProjetoRow = {
   created_at: Date;
 };
 
-export function projetoToProjectDTO(row: ProjetoRow): ProjectDTO {
+// Contagem de vagas por status (open = Aberta, closed = Fechada). Default 0.
+type JobCounts = { open: number; closed: number };
+
+export function projetoToProjectDTO(
+  row: ProjetoRow,
+  jobCounts: JobCounts = { open: 0, closed: 0 },
+): ProjectDTO {
   return {
     id: row.id,
     name: row.nome,
     expectation: row.contexto ?? "",
     createdAt: row.created_at.toISOString(),
+    openJobsCount: jobCounts.open,
+    closedJobsCount: jobCounts.closed,
   };
 }

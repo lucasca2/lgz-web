@@ -1,9 +1,6 @@
-export type EtapaFunil =
-  | "Entrevista People"
-  | "Entrevista Técnica"
-  | "Teste Técnico"
-  | "Liderança"
-  | "Proposta";
+// Nome de etapa do funil — string crua do catálogo (etapas_catalogo.nome),
+// ex.: "Triagem", "Fit Cultural", "Teste Técnico".
+export type EtapaFunil = string;
 
 export type FunilEtapa = {
   etapa: EtapaFunil;
@@ -12,7 +9,7 @@ export type FunilEtapa = {
 };
 
 export type StatusBreakdown = {
-  status: "Em_andamento" | "Aprovado" | "Reprovado";
+  status: "Em_andamento" | "Aprovado" | "Reprovado" | "Base_de_Talentos";
   count: number;
 };
 
@@ -34,7 +31,7 @@ export type SlaEtapa = {
 export type VagaAberta = {
   id: string;
   titulo: string;
-  projeto: "Tim" | "Sabesp" | "Algar" | "Telcel";
+  projeto: string; // vagas.projeto é texto livre (não FK)
   status: "Aberta" | "Stand_by";
   candidatos: number;
   diasAberta: number;
@@ -47,7 +44,6 @@ export type FlowTransition = {
 };
 
 export type FunilMetrics = {
-  projetos: string[];
   kpis: {
     totalCandidatos: number;
     candidatosAtivos: number;

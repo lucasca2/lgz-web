@@ -5,6 +5,7 @@ import type { FunilMetrics } from "../../types";
 export function useFunilMetrics(projeto: string | null) {
   return useQuery<FunilMetrics>({
     queryKey: ["funil", "metrics", projeto],
+    staleTime: 30_000,
     queryFn: async () => {
       const url = projeto
         ? `${funilApiRoutes.overview}?projeto=${encodeURIComponent(projeto)}`

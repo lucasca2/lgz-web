@@ -12,7 +12,8 @@ type VagasTableProps = {
   };
 };
 
-const PROJETO_BADGE_CLASS: Record<VagaAberta["projeto"], string> = {
+// Cores conhecidas por projeto; projetos fora do mapa usam só o badge base.
+const PROJETO_BADGE_CLASS: Record<string, string> = {
   Tim: styles.badgeTim,
   Sabesp: styles.badgeSabesp,
   Algar: styles.badgeAlgar,
@@ -38,7 +39,7 @@ export function VagasTable({ vagas, labels }: VagasTableProps) {
               <td className={`${styles.td} ${styles.titulo}`}>{vaga.titulo}</td>
               <td className={styles.td}>
                 <span
-                  className={`${styles.badge} ${PROJETO_BADGE_CLASS[vaga.projeto]}`}
+                  className={`${styles.badge} ${PROJETO_BADGE_CLASS[vaga.projeto] ?? ""}`}
                 >
                   {vaga.projeto}
                 </span>

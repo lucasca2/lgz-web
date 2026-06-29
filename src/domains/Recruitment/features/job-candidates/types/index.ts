@@ -20,3 +20,17 @@ export type JobCandidateDTO = {
   status: ProcessoStatus;
   createdAt: string;
 };
+
+// DTO do candidato (a pessoa, compartilhada entre vagas) para edição. `id` é o
+// id do candidato — NÃO do processo. `dadosExtraidos` é o texto livre já
+// desempacotado do JSON `{ texto }`.
+export type CandidatoEditDTO = {
+  id: string;
+  nome: string;
+  linkedinUrl: string;
+  email: string | null;
+  telefone: string | null;
+  origem: Origem | null;
+  pretensaoSalarial: number | null;
+  dadosExtraidos: string | null;
+};

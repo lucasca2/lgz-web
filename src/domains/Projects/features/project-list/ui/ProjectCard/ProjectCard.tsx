@@ -41,6 +41,15 @@ export function ProjectCard({ project, onEdit }: ProjectCardProps) {
       >
         <span className={styles.name}>{project.name}</span>
 
+        <span className={styles.jobBadges}>
+          <span className={`${styles.badge} ${styles.badgeOpen}`}>
+            {t("openJobs", { count: project.openJobsCount })}
+          </span>
+          <span className={`${styles.badge} ${styles.badgeClosed}`}>
+            {t("closedJobs", { count: project.closedJobsCount })}
+          </span>
+        </span>
+
         <span className={styles.headerActions}>
           <Button
             variant="ghost"

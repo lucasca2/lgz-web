@@ -24,7 +24,8 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-0_5);
+  align-items: flex-start;
+  gap: var(--space-1);
 }
 
 .title {
@@ -39,8 +40,13 @@
 }
 
 .count {
+  align-self: flex-start;
+  padding: var(--space-0_5) var(--space-1_5);
   font-size: var(--text-sm);
-  color: var(--wave-ink);
+  font-weight: 600;
+  color: var(--wave-accent);
+  background: var(--wave-accent-soft);
+  border-radius: var(--wave-radius-pill);
 }
 
 .removed {
@@ -59,16 +65,68 @@
 }
 
 .error {
+  padding: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--wave-danger);
+  color: var(--wave-danger-strong);
+  background: var(--wave-danger-soft);
+  border: 1px solid var(--wave-danger);
+  border-radius: var(--wave-radius);
 }
 
 .eventLink {
   font-size: var(--text-md);
+  font-weight: 600;
   color: var(--wave-accent);
   text-decoration: underline;
 }
 
+/* ---- Estados (não encontrado / expirado / sucesso) ---- */
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1_5);
+  padding: var(--space-3) 0;
+  text-align: center;
+}
+
+.stateIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--wave-radius-pill);
+}
+
+.stateIconNeutral {
+  background: var(--wave-accent-soft);
+  color: var(--wave-accent);
+}
+
+.stateIconSuccess {
+  background: var(--wave-success-soft);
+  color: var(--wave-success);
+}
+
+.stateIconSvg {
+  width: var(--space-3);
+  height: var(--space-3);
+}
+
+.stateTitle {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--wave-ink);
+}
+
+.stateHint {
+  font-size: var(--text-sm);
+  color: var(--wave-slate);
+  max-width: 36ch;
+}
+
+/* ---- Horários ---- */
 .slots {
   display: flex;
   flex-direction: column;
@@ -96,50 +154,36 @@
 .chip {
   font-size: var(--text-md);
   color: var(--wave-ink);
-  background: var(--wave-surface);
-  border: 1px solid var(--wave-border);
+  background: var(--wave-accent-soft);
+  border: 1px solid var(--wave-accent-soft);
   border-radius: var(--wave-radius);
   padding: var(--space-1) var(--space-1_5);
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .chip:hover {
-  background: var(--wave-accent-soft);
   border-color: var(--wave-accent);
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-3);
-  background: rgba(22, 22, 22, 0.5);
-  z-index: 10;
+.chip:focus-visible {
+  outline: 2px solid var(--wave-accent);
+  outline-offset: 2px;
 }
 
-.dialog {
-  width: min(420px, 100%);
+/* ---- Conteúdo do modal de confirmação ---- */
+.dialogContent {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  background: var(--wave-surface);
-  border-radius: var(--wave-radius-md);
-  box-shadow: var(--wave-shadow);
-  padding: var(--space-3);
-}
-
-.dialogTitle {
-  font-size: var(--text-lg);
-  font-weight: 600;
-  color: var(--wave-ink);
+  gap: var(--space-3);
 }
 
 .dialogBody {
   font-size: var(--text-md);
-  color: var(--wave-slate);
+  color: var(--wave-ink);
 }
 
 .dialogActions {

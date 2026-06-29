@@ -42,6 +42,54 @@
   color: var(--wave-ink);
 }
 
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-0_5);
+}
+
+.divider {
+  height: 0;
+  border-top: 1px solid var(--wave-border);
+}
+
+.segmented {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: var(--space-0_5);
+  padding: var(--space-0_5);
+  background: var(--wave-bg);
+  border: 1px solid var(--wave-border);
+  border-radius: var(--wave-radius);
+}
+
+.seg,
+.segActive {
+  padding: var(--space-0_5) var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wave-radius);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.seg {
+  background: transparent;
+  color: var(--wave-slate);
+}
+
+.seg:hover {
+  color: var(--wave-ink);
+}
+
+.segActive {
+  background: var(--wave-surface);
+  color: var(--wave-ink);
+}
+
 .cardHeaderSide {
   display: flex;
   align-items: center;

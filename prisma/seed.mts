@@ -44,6 +44,35 @@ type SeedEtapa = {
   grupo?: string | null;
 };
 
+type ProcessoStatus =
+  | "Em andamento"
+  | "Aprovado"
+  | "Reprovado"
+  | "Base de Talentos";
+
+type SeedVagaCandidato = {
+  nome: string;
+  linkedin_url: string;
+  email?: string | null;
+  telefone?: string | null;
+  origem?: string | null;
+  pretensao_salarial?: number | null;
+  etapa: string;
+  score?: number | null;
+};
+
+type SeedVagaExemplo = {
+  vaga: {
+    titulo: string;
+    projeto: string;
+    descricao?: string | null;
+    status?: string | null;
+    prioridade?: number | null;
+    palavras_chave?: string[];
+  };
+  candidatos: SeedVagaCandidato[];
+};
+
 const here = dirname(fileURLToPath(import.meta.url));
 const positions: SeedPosition[] = JSON.parse(
   readFileSync(join(here, "seed", "positions.json"), "utf8"),
@@ -53,6 +82,9 @@ const projects: SeedProject[] = JSON.parse(
 );
 const etapas: SeedEtapa[] = JSON.parse(
   readFileSync(join(here, "seed", "etapas.json"), "utf8"),
+);
+const vagaExemplo: SeedVagaExemplo = JSON.parse(
+  readFileSync(join(here, "seed", "vaga-exemplo.json"), "utf8"),
 );
 
 function readSourceInterviews(): SourceInterview[] {
@@ -227,6 +259,105 @@ async function seedEtapas(pool: pg.Pool) {
   );
 }
 
+// Deriva o status_atual do processo a partir da etapa do board.
+function statusFromEtapa(etapa: string): ProcessoStatus {
+  if (etapa === "Aprovado") return "Aprovado";
+  if (etapa === "Recusado") return "Reprovado";
+  return "Em andamento";
+}
+
+// Semeia 1 vaga de exemplo + seus candidatos, ligando-os via processos_seletivos
+// e posicionando cada um numa etapa do board (historico_etapas). Idempotente:
+// reusa a vaga/candidatos por chave natural e regrava a etapa atual.
+async function seedVagaExemplo(pool: pg.Pool) {
+  const { vaga, candidatos } = vagaExemplo;
+
+  // 1. Vaga — sem unique natural; reusa por (titulo, projeto) ou cria.
+  const existingVaga = await pool.query<{ id: string }>(
+    `SELECT id FROM vagas WHERE titulo = $1 AND projeto = $2 LIMIT 1`,
+    [vaga.titulo, vaga.projeto],
+  );
+  let vagaId: string;
+  if (existingVaga.rows[0]) {
+    vagaId = existingVaga.rows[0].id;
+  } else {
+    const created = await pool.query<{ id: string }>(
+      `INSERT INTO vagas (titulo, projeto, descricao, status, prioridade, palavras_chave)
+       VALUES ($1, $2, $3, $4::vaga_status, $5, $6)
+       RETURNING id`,
+      [
+        vaga.titulo,
+        vaga.projeto,
+        vaga.descricao ?? null,
+        vaga.status ?? "Aberta",
+        vaga.prioridade ?? null,
+        vaga.palavras_chave ?? [],
+      ],
+    );
+    vagaId = created.rows[0].id;
+  }
+
+  // 2. Mapa nome → id das etapas do catálogo (garantidas por seedEtapas).
+  const etapaRows = await pool.query<{ id: string; nome: string }>(
+    `SELECT id, nome FROM etapas_catalogo`,
+  );
+  const etapaMap = new Map(etapaRows.rows.map((r) => [r.nome, r.id]));
+
+  let processados = 0;
+  for (const cand of candidatos) {
+    // 3a. Candidato — reusa por linkedin_url (unique parcial onde deleted_at IS NULL).
+    const candResult = await pool.query<{ id: string }>(
+      `INSERT INTO candidatos (nome, linkedin_url, email, telefone, origem, pretensao_salarial)
+       VALUES ($1, $2, $3, $4, $5::origem_candidato, $6)
+       ON CONFLICT (linkedin_url) WHERE (deleted_at IS NULL)
+       DO UPDATE SET nome = EXCLUDED.nome, updated_at = now()
+       RETURNING id`,
+      [
+        cand.nome,
+        cand.linkedin_url,
+        cand.email ?? null,
+        cand.telefone ?? null,
+        cand.origem ?? null,
+        cand.pretensao_salarial ?? null,
+      ],
+    );
+    const candidatoId = candResult.rows[0].id;
+
+    // 3b. Processo seletivo — liga candidato + vaga (unique vaga_id, candidato_id).
+    const procResult = await pool.query<{ id: string }>(
+      `INSERT INTO processos_seletivos (vaga_id, candidato_id, status_atual, score_fit_cultural)
+       VALUES ($1, $2, $3::processo_status, $4)
+       ON CONFLICT (vaga_id, candidato_id)
+       DO UPDATE SET status_atual = EXCLUDED.status_atual,
+                     score_fit_cultural = EXCLUDED.score_fit_cultural,
+                     updated_at = now()
+       RETURNING id`,
+      [vagaId, candidatoId, statusFromEtapa(cand.etapa), cand.score ?? null],
+    );
+    const processoId = procResult.rows[0].id;
+
+    // 3c. Etapa atual no board — regrava para manter exatamente uma por re-run.
+    const etapaId = etapaMap.get(cand.etapa);
+    if (!etapaId) {
+      console.warn(`⚠️  Etapa "${cand.etapa}" não está no catálogo — pulando histórico.`);
+    } else {
+      await pool.query(`DELETE FROM historico_etapas WHERE processo_id = $1`, [
+        processoId,
+      ]);
+      await pool.query(
+        `INSERT INTO historico_etapas (processo_id, etapa_catalogo_id)
+         VALUES ($1, $2)`,
+        [processoId, etapaId],
+      );
+    }
+    processados += 1;
+  }
+
+  console.log(
+    `✅ Seed vaga exemplo: vaga "${vaga.titulo}" + ${processados} candidatos posicionados no board.`,
+  );
+}
+
 async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -239,6 +370,7 @@ async function main() {
     await seedProjects(pool);
     await seedAssessments(pool);
     await seedEtapas(pool);
+    await seedVagaExemplo(pool);
   } finally {
     await pool.end();
   }

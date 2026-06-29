@@ -49,5 +49,8 @@ export const settingsSchema = z.object({
   recommendationPrompt: z.string().trim().min(1).max(20_000),
   summaryPrompt: z.string().trim().min(1).max(20_000),
   rejectionTemplatePrompt: z.string().trim().min(1).max(20_000),
+  // Credenciais write-only: omitido = mantém; "" = limpa; valor = grava.
+  setupToken: z.string().trim().max(500).optional(),
+  apiKey: z.string().trim().max(200).optional(),
 });
 export type SettingsInput = z.infer<typeof settingsSchema>;

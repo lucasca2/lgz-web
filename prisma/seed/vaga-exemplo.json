@@ -1,0 +1,112 @@
+{
+  "vaga": {
+    "titulo": "Desenvolvedor(a) Frontend React",
+    "projeto": "App Algar",
+    "descricao": "Vaga de exemplo gerada via seed para demonstração do board de recrutamento. Procuramos uma pessoa desenvolvedora frontend com sólida experiência em React, TypeScript e Next.js para atuar no time do App Algar.",
+    "status": "Aberta",
+    "prioridade": 1,
+    "palavras_chave": ["React", "TypeScript", "Next.js", "Frontend"]
+  },
+  "candidatos": [
+    {
+      "nome": "Ana Souza",
+      "linkedin_url": "https://linkedin.com/in/ana-souza-seed",
+      "email": "ana.souza.seed@example.com",
+      "telefone": "+55 11 98000-0001",
+      "origem": "LinkedIn",
+      "pretensao_salarial": 8000,
+      "etapa": "Triagem",
+      "score": null
+    },
+    {
+      "nome": "Bruno Carvalho",
+      "linkedin_url": "https://linkedin.com/in/bruno-carvalho-seed",
+      "email": "bruno.carvalho.seed@example.com",
+      "telefone": "+55 11 98000-0002",
+      "origem": "Gupy",
+      "pretensao_salarial": 7500,
+      "etapa": "Triagem",
+      "score": null
+    },
+    {
+      "nome": "Carla Mendes",
+      "linkedin_url": "https://linkedin.com/in/carla-mendes-seed",
+      "email": "carla.mendes.seed@example.com",
+      "telefone": "+55 21 98000-0003",
+      "origem": "Indicacao",
+      "pretensao_salarial": 9000,
+      "etapa": "Fit Cultural",
+      "score": 78
+    },
+    {
+      "nome": "Diego Almeida",
+      "linkedin_url": "https://linkedin.com/in/diego-almeida-seed",
+      "email": "diego.almeida.seed@example.com",
+      "telefone": "+55 31 98000-0004",
+      "origem": "Hunting",
+      "pretensao_salarial": 9500,
+      "etapa": "People",
+      "score": 81
+    },
+    {
+      "nome": "Eduarda Lima",
+      "linkedin_url": "https://linkedin.com/in/eduarda-lima-seed",
+      "email": "eduarda.lima.seed@example.com",
+      "telefone": "+55 11 98000-0005",
+      "origem": "LinkedIn",
+      "pretensao_salarial": 8800,
+      "etapa": "Teste Técnico",
+      "score": 84
+    },
+    {
+      "nome": "Felipe Rocha",
+      "linkedin_url": "https://linkedin.com/in/felipe-rocha-seed",
+      "email": "felipe.rocha.seed@example.com",
+      "telefone": "+55 41 98000-0006",
+      "origem": "Gupy",
+      "pretensao_salarial": 10000,
+      "etapa": "Entrevistas",
+      "score": 87
+    },
+    {
+      "nome": "Gabriela Nunes",
+      "linkedin_url": "https://linkedin.com/in/gabriela-nunes-seed",
+      "email": "gabriela.nunes.seed@example.com",
+      "telefone": "+55 51 98000-0007",
+      "origem": "Indicacao",
+      "pretensao_salarial": 9800,
+      "etapa": "Entrevistas",
+      "score": 89
+    },
+    {
+      "nome": "Henrique Dias",
+      "linkedin_url": "https://linkedin.com/in/henrique-dias-seed",
+      "email": "henrique.dias.seed@example.com",
+      "telefone": "+55 11 98000-0008",
+      "origem": "Hunting",
+      "pretensao_salarial": 11000,
+      "etapa": "Proposta",
+      "score": 92
+    },
+    {
+      "nome": "Isabela Castro",
+      "linkedin_url": "https://linkedin.com/in/isabela-castro-seed",
+      "email": "isabela.castro.seed@example.com",
+      "telefone": "+55 11 98000-0009",
+      "origem": "LinkedIn",
+      "pretensao_salarial": 10500,
+      "etapa": "Aprovado",
+      "score": 94
+    },
+    {
+      "nome": "João Pereira",
+      "linkedin_url": "https://linkedin.com/in/joao-pereira-seed",
+      "email": "joao.pereira.seed@example.com",
+      "telefone": "+55 11 98000-0010",
+      "origem": "Outro",
+      "pretensao_salarial": 7000,
+      "etapa": "Recusado",
+      "score": 41
+    }
+  ]
+}

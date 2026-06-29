@@ -18,8 +18,10 @@ export function useCreateJobCandidate(vagaId: string) {
         body: JSON.stringify(input),
       });
       if (!res.ok) {
+        const data = await res.json().catch(() => null);
         throw Object.assign(new Error("Failed to create candidate"), {
           status: res.status,
+          code: data?.error as string | undefined,
         });
       }
       return res.json();

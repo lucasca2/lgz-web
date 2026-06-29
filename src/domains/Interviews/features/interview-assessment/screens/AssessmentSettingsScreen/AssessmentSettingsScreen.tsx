@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { Select } from "@/shared/ui/Select";
+import { TextField } from "@/shared/ui/TextField";
 import { Textarea } from "@/shared/ui/Textarea";
 import { useAssessmentSettings, useUpdateSettings } from "../../hooks";
+import { SetupTokenHelp } from "../../ui/SetupTokenHelp";
 import type { AiSettingsDTO } from "../../types";
 import styles from "./AssessmentSettingsScreen.module.css";
 
@@ -16,16 +18,30 @@ const PROMPT_FIELDS = [
   { key: "rejectionTemplatePrompt", labelKey: "prompts.rejection" },
 ] as const;
 
+// Sentinela exibida quando já há credencial salva (o valor real nunca volta do
+// servidor — é write-only). Igual a MASK no save = "não alterar".
+const MASK = "••••••••••••";
+
 export function AssessmentSettingsScreen() {
   const t = useTranslations("Settings");
   const { data, isPending, isError } = useAssessmentSettings();
   const update = useUpdateSettings();
 
   const [form, setForm] = useState<AiSettingsDTO | null>(null);
+  // Credenciais write-only: pré-preenchidas com MASK quando já configuradas.
+  const [setupToken, setSetupToken] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  // Método de credencial selecionado no toggle (setup token OU API key).
+  const [method, setMethod] = useState<"setup" | "apikey">("setup");
 
-  // Hidrata o formulário quando os dados chegam (uma vez).
+  // Hidrata (uma vez): form, método inicial e máscaras conforme o que já existe.
   useEffect(() => {
-    if (data && !form) setForm(data.settings);
+    if (data && !form) {
+      setForm(data.settings);
+      setMethod(data.hasApiKey && !data.hasSetupToken ? "apikey" : "setup");
+      setSetupToken(data.hasSetupToken ? MASK : "");
+      setApiKey(data.hasApiKey ? MASK : "");
+    }
   }, [data, form]);
 
   if (isPending || !form) {
@@ -61,6 +77,17 @@ export function AssessmentSettingsScreen() {
     setForm((current) => (current ? { ...current, [key]: value } : current));
   }
 
+  // Reaplica as máscaras conforme a resposta (após salvar/remover credencial).
+  function remask(res: { hasSetupToken: boolean; hasApiKey: boolean }) {
+    setSetupToken(res.hasSetupToken ? MASK : "");
+    setApiKey(res.hasApiKey ? MASK : "");
+  }
+
+  const isSetup = method === "setup";
+  const credValue = isSetup ? setupToken : apiKey;
+  const setCredValue = isSetup ? setSetupToken : setApiKey;
+  const credConfigured = isSetup ? data.hasSetupToken : data.hasApiKey;
+
   return (
     <div className={styles.page}>
       <Header t={t} />
@@ -74,6 +101,82 @@ export function AssessmentSettingsScreen() {
           options={modelOptions}
         />
         <p className={styles.hint}>{t("model.hint")}</p>
+
+        <div className={styles.divider} />
+
+        <div className={styles.cardHeader}>
+          <div className={styles.labelRow}>
+            <label className={styles.cardLabel}>{t("credential.label")}</label>
+            {isSetup ? <SetupTokenHelp /> : null}
+          </div>
+          <span className={styles.defaultTag}>
+            {data.hasSetupToken
+              ? t("credential.statusSetup")
+              : data.hasApiKey
+                ? t("credential.statusApiKey")
+                : t("credential.statusNone")}
+          </span>
+        </div>
+
+        <div
+          className={styles.segmented}
+          role="group"
+          aria-label={t("credential.methodLabel")}
+        >
+          <button
+            type="button"
+            className={isSetup ? styles.segActive : styles.seg}
+            aria-pressed={isSetup}
+            onClick={() => setMethod("setup")}
+          >
+            {t("credential.setupOption")}
+          </button>
+          <button
+            type="button"
+            className={!isSetup ? styles.segActive : styles.seg}
+            aria-pressed={!isSetup}
+            onClick={() => setMethod("apikey")}
+          >
+            {t("credential.apiKeyOption")}
+          </button>
+        </div>
+
+        <TextField
+          label={isSetup ? t("setupToken.label") : t("apiKey.label")}
+          hideLabel
+          name={isSetup ? "setupToken" : "apiKey"}
+          type="password"
+          autoComplete="off"
+          placeholder={
+            isSetup ? t("setupToken.placeholder") : t("apiKey.placeholder")
+          }
+          value={credValue}
+          onChange={(event) => setCredValue(event.target.value)}
+          onFocus={() => {
+            if (credValue === MASK) setCredValue("");
+          }}
+          onBlur={() => {
+            if (credValue === "" && credConfigured) setCredValue(MASK);
+          }}
+        />
+        {!isSetup ? <p className={styles.hint}>{t("apiKey.hint")}</p> : null}
+
+        {data.hasSetupToken || data.hasApiKey ? (
+          <button
+            type="button"
+            className={styles.restore}
+            disabled={update.isPending}
+            onClick={() => {
+              if (!form) return;
+              update.mutate(
+                { ...form, setupToken: "", apiKey: "" },
+                { onSuccess: remask },
+              );
+            }}
+          >
+            {t("credential.remove")}
+          </button>
+        ) : null}
       </div>
 
       {PROMPT_FIELDS.map((field) => {
@@ -120,7 +223,19 @@ export function AssessmentSettingsScreen() {
           type="button"
           size="md"
           loading={update.isPending}
-          onClick={() => form && update.mutate(form)}
+          onClick={() => {
+            if (!form) return;
+            const raw = isSetup ? setupToken : apiKey;
+            // MASK = inalterado → não envia. Credencial única: ao gravar um
+            // método, limpa o outro.
+            const cred = raw === MASK ? "" : raw.trim();
+            const payload = cred
+              ? isSetup
+                ? { ...form, setupToken: cred, apiKey: "" }
+                : { ...form, apiKey: cred, setupToken: "" }
+              : form;
+            update.mutate(payload, { onSuccess: remask });
+          }}
         >
           {t("save")}
         </Button>

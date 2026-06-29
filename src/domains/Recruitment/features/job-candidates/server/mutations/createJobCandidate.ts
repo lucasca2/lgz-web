@@ -17,37 +17,31 @@ export class CandidatoAlreadyInJobError extends Error {
   }
 }
 
-// Cadastra um candidato numa vaga: reaproveita o `candidatos` existente pela
-// `linkedin_url` (unique) ou cria um novo; depois abre o `processos_seletivos`
-// ligando candidato + vaga (status inicial = Em andamento).
-export async function createJobCandidate(
+// Já existe um candidato com esse linkedin_url — deve ser vinculado (não recriado).
+export class CandidatoExistsError extends Error {
+  constructor(public readonly candidatoId: string) {
+    super("CANDIDATO_EXISTS");
+    this.name = "CandidatoExistsError";
+  }
+}
+
+// Candidato informado para vínculo não existe (ou foi removido).
+export class CandidatoNotFoundError extends Error {
+  constructor() {
+    super("CANDIDATO_NOT_FOUND");
+    this.name = "CandidatoNotFoundError";
+  }
+}
+
+// Abre o processo seletivo (candidato ↔ vaga) + etapa inicial (Triagem),
+// e devolve o card. Duplicidade na vaga → CandidatoAlreadyInJobError.
+async function openProcesso(
   vagaId: string,
-  input: CreateCandidatoInput,
+  candidatoId: string,
 ): Promise<JobCandidateDTO> {
-  // 1. Candidato: reusa se já existe (não removido), senão cria.
-  const existing = await prisma.candidatos.findFirst({
-    where: { linkedin_url: input.linkedin_url, deleted_at: null },
-    select: { id: true },
-  });
-
-  const candidato = existing
-    ? existing
-    : await prisma.candidatos.create({
-        data: {
-          nome: input.nome,
-          linkedin_url: input.linkedin_url,
-          email: input.email ?? null,
-          telefone: input.telefone ?? null,
-          origem: input.origem ?? null,
-          pretensao_salarial: input.pretensao_salarial ?? null,
-        },
-        select: { id: true },
-      });
-
-  // 2. Processo seletivo: liga candidato + vaga.
   try {
     const processo = await prisma.processos_seletivos.create({
-      data: { vaga_id: vagaId, candidato_id: candidato.id },
+      data: { vaga_id: vagaId, candidato_id: candidatoId },
       select: {
         id: true,
         candidato_id: true,
@@ -60,7 +54,6 @@ export async function createJobCandidate(
       },
     });
 
-    // Etapa inicial do pipeline (Triagem) — coloca o candidato na 1ª coluna do board.
     const etapaMap = await getEtapaCatalogoMap();
     const triagemId = etapaMap.get(INITIAL_STAGE);
     if (triagemId) {
@@ -91,4 +84,49 @@ export async function createJobCandidate(
     }
     throw err;
   }
+}
+
+// Cadastra um candidato NOVO numa vaga. Se já existir um candidato com o mesmo
+// linkedin_url, NÃO recria nem sobrescreve — lança CandidatoExistsError para o
+// usuário vinculá-lo pela busca (evita perda dos dados digitados).
+export async function createJobCandidate(
+  vagaId: string,
+  input: CreateCandidatoInput,
+): Promise<JobCandidateDTO> {
+  const existing = await prisma.candidatos.findFirst({
+    where: { linkedin_url: input.linkedin_url, deleted_at: null },
+    select: { id: true },
+  });
+  if (existing) throw new CandidatoExistsError(existing.id);
+
+  const candidato = await prisma.candidatos.create({
+    data: {
+      nome: input.nome,
+      linkedin_url: input.linkedin_url,
+      email: input.email ?? null,
+      telefone: input.telefone ?? null,
+      origem: input.origem ?? null,
+      pretensao_salarial: input.pretensao_salarial ?? null,
+      dados_extraidos: input.dados_extraidos
+        ? { texto: input.dados_extraidos }
+        : undefined,
+    },
+    select: { id: true },
+  });
+
+  return openProcesso(vagaId, candidato.id);
+}
+
+// Vincula um candidato EXISTENTE (da base) à vaga.
+export async function linkCandidateToJob(
+  vagaId: string,
+  candidatoId: string,
+): Promise<JobCandidateDTO> {
+  const exists = await prisma.candidatos.findFirst({
+    where: { id: candidatoId, deleted_at: null },
+    select: { id: true },
+  });
+  if (!exists) throw new CandidatoNotFoundError();
+
+  return openProcesso(vagaId, candidatoId);
 }

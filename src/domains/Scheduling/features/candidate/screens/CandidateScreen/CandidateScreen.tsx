@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/shared/ui/Button";
 import { TextField } from "@/shared/ui/TextField";
+import { Modal } from "@/shared/ui/Modal";
+import { CalendarIcon, CheckIcon } from "@/shared/ui/icons";
 import type { CandidateSlot } from "@/domains/Scheduling/shared/types";
 import { useBookSlot, useLinkSlots } from "../../hooks";
 import styles from "./CandidateScreen.module.css";
@@ -65,7 +67,12 @@ export function CandidateScreen({ id }: { id: string }) {
     return (
       <div className={styles.shell}>
         <div className={styles.card}>
-          <h1 className={styles.title}>{t("notFound")}</h1>
+          <div className={styles.state}>
+            <span className={`${styles.stateIcon} ${styles.stateIconNeutral}`}>
+              <CalendarIcon className={styles.stateIconSvg} />
+            </span>
+            <h1 className={styles.stateTitle}>{t("notFound")}</h1>
+          </div>
         </div>
       </div>
     );
@@ -87,8 +94,13 @@ export function CandidateScreen({ id }: { id: string }) {
     return (
       <div className={styles.shell}>
         <div className={styles.card}>
-          <h1 className={styles.title}>{t("consumed")}</h1>
-          <p className={styles.subtitle}>{t("consumedHint")}</p>
+          <div className={styles.state}>
+            <span className={`${styles.stateIcon} ${styles.stateIconNeutral}`}>
+              <CalendarIcon className={styles.stateIconSvg} />
+            </span>
+            <h1 className={styles.stateTitle}>{t("consumed")}</h1>
+            <p className={styles.stateHint}>{t("consumedHint")}</p>
+          </div>
         </div>
       </div>
     );
@@ -99,17 +111,22 @@ export function CandidateScreen({ id }: { id: string }) {
     return (
       <div className={styles.shell}>
         <div className={styles.card}>
-          <h1 className={styles.title}>{t("booked")}</h1>
-          {book.data.htmlLink ? (
-            <a
-              className={styles.eventLink}
-              href={book.data.htmlLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t("viewEvent")}
-            </a>
-          ) : null}
+          <div className={styles.state}>
+            <span className={`${styles.stateIcon} ${styles.stateIconSuccess}`}>
+              <CheckIcon className={styles.stateIconSvg} />
+            </span>
+            <h1 className={styles.stateTitle}>{t("booked")}</h1>
+            {book.data.htmlLink ? (
+              <a
+                className={styles.eventLink}
+                href={book.data.htmlLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t("viewEvent")}
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     );
@@ -149,9 +166,9 @@ export function CandidateScreen({ id }: { id: string }) {
           <p className={styles.subtitle}>
             {t("subtitle", { title: data.title, duration: data.duration })}
           </p>
-          <p className={styles.count}>
+          <span className={styles.count}>
             {t("availableCount", { available: data.available })}
-          </p>
+          </span>
           {removed > 0 ? (
             <p className={styles.removed}>
               {t("removedNote", { count: removed })}
@@ -207,36 +224,36 @@ export function CandidateScreen({ id }: { id: string }) {
         )}
       </div>
 
-      {pending ? (
-        <div
-          className={styles.overlay}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("confirmTitle")}
-        >
-          <div className={styles.dialog}>
-            <h2 className={styles.dialogTitle}>{t("confirmTitle")}</h2>
-            <p className={styles.dialogBody}>
-              {t("confirmBody", {
-                datetime: humanDateTime(pending.start),
-                email: email.trim(),
-              })}
-            </p>
-            <div className={styles.dialogActions}>
-              <Button
-                variant="ghost"
-                onClick={() => setPending(null)}
-                disabled={book.isPending}
-              >
-                {t("cancel")}
-              </Button>
-              <Button onClick={onConfirm} loading={book.isPending}>
-                {book.isPending ? t("booking") : t("confirm")}
-              </Button>
-            </div>
+      <Modal
+        open={pending !== null}
+        onClose={() => {
+          if (!book.isPending) setPending(null);
+        }}
+        title={t("confirmTitle")}
+      >
+        <div className={styles.dialogContent}>
+          <p className={styles.dialogBody}>
+            {pending
+              ? t("confirmBody", {
+                  datetime: humanDateTime(pending.start),
+                  email: email.trim(),
+                })
+              : ""}
+          </p>
+          <div className={styles.dialogActions}>
+            <Button
+              variant="ghost"
+              onClick={() => setPending(null)}
+              disabled={book.isPending}
+            >
+              {t("cancel")}
+            </Button>
+            <Button onClick={onConfirm} loading={book.isPending}>
+              {book.isPending ? t("booking") : t("confirm")}
+            </Button>
           </div>
         </div>
-      ) : null}
+      </Modal>
     </div>
   );
 }

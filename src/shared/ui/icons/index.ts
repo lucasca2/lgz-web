@@ -15,3 +15,4 @@ export { ClipboardCheckIcon } from "./ClipboardCheckIcon";
 export { SunIcon } from "./SunIcon";
 export { MoonIcon } from "./MoonIcon";
 export { TrendingUpIcon } from "./TrendingUpIcon";
+export { HelpIcon } from "./HelpIcon";

@@ -21,7 +21,17 @@ import type { BoardCardDTO } from "../../types";
 import { BoardColumn } from "../BoardColumn";
 import { CandidateCardView } from "../CandidateCard";
 import { CandidateModal } from "../CandidateModal";
+import { JustificationModal } from "../JustificationModal";
 import styles from "./CandidateBoard.module.css";
+
+type DragInfo = { id: string; fromStage: BoardStage; snapshot: BoardCardDTO[] };
+type PendingMove = {
+  cardId: string;
+  fromStage: BoardStage;
+  toStage: BoardStage;
+  next: BoardCardDTO[];
+  snapshot: BoardCardDTO[];
+};
 
 function isStage(id: string): id is BoardStage {
   return (BOARD_STAGES as readonly string[]).includes(id);
@@ -48,10 +58,30 @@ export function CandidateBoard({ vagaId }: CandidateBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   // Card aberto no modal de detalhes (null = fechado).
   const [selected, setSelected] = useState<BoardCardDTO | null>(null);
+  // Origem do drag em andamento (para detectar troca de coluna + reverter).
+  const [dragInfo, setDragInfo] = useState<DragInfo | null>(null);
+  // Movimento aguardando justificativa antes de persistir (null = nenhum).
+  const [pendingMove, setPendingMove] = useState<PendingMove | null>(null);
 
+  // Semeia o board a partir do servidor e, quando ocioso (sem drag / move
+  // pendente / salvamento em andamento), reconcilia os campos NÃO-posicionais
+  // (nome, score, etc.) com o servidor — preservando a coluna (stage) e a ordem
+  // locais. Assim, editar um candidato (ou vincular um novo) reflete no board
+  // sem "piscar" pro estado antigo durante o drag.
   useEffect(() => {
-    setItems((prev) => (prev === null && data ? data : prev));
-  }, [data]);
+    if (!data) return;
+    if (activeId || pendingMove || saveOrder.isPending) return;
+    setItems((prev) => {
+      if (prev === null) return data;
+      const byId = new Map(data.map((card) => [card.id, card]));
+      const reconciled = prev
+        .filter((card) => byId.has(card.id))
+        .map((card) => ({ ...byId.get(card.id)!, stage: card.stage }));
+      const seen = new Set(reconciled.map((card) => card.id));
+      const added = data.filter((card) => !seen.has(card.id));
+      return [...reconciled, ...added];
+    });
+  }, [data, activeId, pendingMove, saveOrder.isPending]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -67,7 +97,10 @@ export function CandidateBoard({ vagaId }: CandidateBoardProps) {
     : null;
 
   function handleDragStart(event: DragStartEvent) {
-    setActiveId(String(event.active.id));
+    const id = String(event.active.id);
+    setActiveId(id);
+    const card = cards.find((c) => c.id === id);
+    if (card) setDragInfo({ id, fromStage: card.stage, snapshot: cards });
   }
 
   // Move o card entre colunas em tempo real (reordenar na mesma coluna fica a cargo do SortableContext).
@@ -111,6 +144,8 @@ export function CandidateBoard({ vagaId }: CandidateBoardProps) {
     const activeIdStr = String(active.id);
     const list = items ?? cards;
     const activeItem = list.find((card) => card.id === activeIdStr);
+    const info = dragInfo;
+    setDragInfo(null);
     if (!activeItem) return;
 
     let next = list;
@@ -126,8 +161,37 @@ export function CandidateBoard({ vagaId }: CandidateBoardProps) {
       }
     }
 
-    // Persiste o arranjo final (a mutation otimista já reflete tudo na tela).
-    saveOrder.mutate(next);
+    const movedCard = next.find((card) => card.id === activeIdStr);
+    // Trocou de coluna → exige justificativa antes de persistir (a mutation
+    // só dispara quando o recrutador confirma no JustificationModal).
+    if (info && movedCard && movedCard.stage !== info.fromStage) {
+      setPendingMove({
+        cardId: activeIdStr,
+        fromStage: info.fromStage,
+        toStage: movedCard.stage,
+        next,
+        snapshot: info.snapshot,
+      });
+      return;
+    }
+    // Reordenar dentro da mesma coluna é apenas visual (ordem não é persistida).
+  }
+
+  function confirmMove(justificativa: string) {
+    if (!pendingMove) return;
+    saveOrder.mutate(
+      {
+        cards: pendingMove.next,
+        justifications: { [pendingMove.cardId]: justificativa },
+      },
+      { onSuccess: () => setPendingMove(null) },
+    );
+  }
+
+  function cancelMove() {
+    if (pendingMove) setItems(pendingMove.snapshot);
+    saveOrder.reset();
+    setPendingMove(null);
   }
 
   return (
@@ -155,6 +219,17 @@ export function CandidateBoard({ vagaId }: CandidateBoardProps) {
       </DndContext>
 
       <CandidateModal card={selected} onClose={() => setSelected(null)} />
+
+      {pendingMove ? (
+        <JustificationModal
+          fromStage={pendingMove.fromStage}
+          toStage={pendingMove.toStage}
+          loading={saveOrder.isPending}
+          error={saveOrder.isError}
+          onConfirm={confirmMove}
+          onCancel={cancelMove}
+        />
+      ) : null}
     </>
   );
 }
