@@ -71,6 +71,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     id: session.usuarios.id,
     email: session.usuarios.email,
     name: session.usuarios.nome,
+    picture: session.usuarios.picture,
   };
 });
 

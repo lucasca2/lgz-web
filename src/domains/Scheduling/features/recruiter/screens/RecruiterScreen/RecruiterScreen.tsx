@@ -6,8 +6,10 @@ import { Button } from "@/shared/ui/Button";
 import { TextField } from "@/shared/ui/TextField";
 import { Textarea } from "@/shared/ui/Textarea";
 import { CalendarIcon, CheckIcon, PlusIcon } from "@/shared/ui/icons";
+import { useCurrentUser } from "@/domains/Auth/shared/hooks";
 import {
   useCreateLink,
+  useRecommendations,
   useSchedulingConfig,
   useSlots,
   type SlotsArgs,
@@ -47,6 +49,8 @@ export function RecruiterScreen({
   const t = useTranslations("Scheduling.recruiter");
 
   const configQuery = useSchedulingConfig();
+  const currentUserQuery = useCurrentUser();
+  const recommendationsQuery = useRecommendations(position);
   const createLink = useCreateLink();
 
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -70,14 +74,23 @@ export function RecruiterScreen({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  // Inicializa participantes + duração + título a partir do config (uma vez).
-  if (configQuery.data && !initialized) {
+  // Inicializa duração + título + participante default (uma vez). O participante
+  // default é o próprio usuário logado, marcado como Opcional (ele organiza a
+  // reunião). Espera o /me resolver para não semear a lista vazia numa corrida.
+  if (configQuery.data && !currentUserQuery.isLoading && !initialized) {
+    const me = currentUserQuery.data;
     setParticipants(
-      configQuery.data.employees.map((e) => ({
-        email: e.email,
-        included: true,
-        required: e.required,
-      })),
+      me
+        ? [
+            {
+              email: me.email,
+              included: true,
+              required: false,
+              name: me.name ?? undefined,
+              picture: me.picture,
+            },
+          ]
+        : [],
     );
     setDuration(configQuery.data.defaultDurationMin);
     setTitle(
@@ -134,7 +147,7 @@ export function RecruiterScreen({
       {
         email,
         included: true,
-        required: false,
+        required: person.required ?? false,
         name: person.name,
         picture: person.picture,
       },
@@ -200,6 +213,7 @@ export function RecruiterScreen({
       title: title.trim() || configQuery.data?.eventTitle,
       description: description.trim() || undefined,
       candidateId,
+      position,
     });
     setLinkUrl(res.url);
   }
@@ -218,6 +232,11 @@ export function RecruiterScreen({
   const days = slotsQuery.data?.days ?? [];
   const generateDisabled = selected.size === 0 || included.length === 0;
   const usingCustom = customDuration || !DURATION_PRESETS.includes(duration);
+
+  // Recomendados que ainda não estão na lista (aprendidos do histórico da posição).
+  const recommended = (recommendationsQuery.data ?? []).filter(
+    (r) => !participants.some((p) => p.email === r.email),
+  );
 
   return (
     <div className={styles.page}>
@@ -312,6 +331,30 @@ export function RecruiterScreen({
                 ))
               )}
             </div>
+
+            {recommended.length > 0 ? (
+              <div className={styles.recommend}>
+                <span className={styles.recommendLabel}>
+                  {t("recommended")}
+                </span>
+                <div className={styles.recommendChips}>
+                  {recommended.map((r) => (
+                    <button
+                      key={r.email}
+                      type="button"
+                      className={styles.recommendChip}
+                      title={r.email}
+                      onClick={() =>
+                        addPerson({ email: r.email, required: r.required })
+                      }
+                    >
+                      <PlusIcon className={styles.recommendChipIcon} />
+                      {r.email.split("@")[0]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <Button
               variant="ghost"

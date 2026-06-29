@@ -41,6 +41,17 @@ export type DirectoryPerson = {
 // Resposta de GET /api/scheduling/directory?q=...
 export type DirectorySearchResponse = { people: DirectoryPerson[] };
 
+// Participante recomendado (aprendido do histórico de convites da posição).
+export type RecommendedParticipant = {
+  email: string;
+  required: boolean; // sugere obrigatório quando costuma ser obrigatório
+};
+
+// Resposta de GET /api/scheduling/recommendations?position=...
+export type RecommendationsResponse = {
+  participants: RecommendedParticipant[];
+};
+
 // Resposta de POST /api/scheduling/links.
 export type CreateLinkResponse = {
   id: string;

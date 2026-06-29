@@ -216,6 +216,10 @@ model convites_agendamento {
   // Permite o board mostrar "usuário já tem agendamento" e o link do Meet.
   candidato_ref String? @db.VarChar(64)
 
+  // Posição/cargo (normalizado em minúsculas) do candidato — chave para
+  // recomendar participantes em futuras entrevistas da mesma posição.
+  posicao String? @db.VarChar(255)
+
   // Single-use: ACTIVE até o candidato confirmar; depois CONSUMED.
   status              String    @default("ACTIVE") @db.VarChar(20)
   consumido_em        DateTime? @db.Timestamptz(6)
@@ -230,6 +234,7 @@ model convites_agendamento {
 
   @@index([organizador_id], map: "idx_convites_organizador")
   @@index([candidato_ref], map: "idx_convites_candidato_ref")
+  @@index([posicao], map: "idx_convites_posicao")
 }
 
 model vaga_etapas {

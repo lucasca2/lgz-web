@@ -541,6 +541,7 @@
       "addPeople": "Adicionar participante",
       "removeParticipant": "Remover",
       "participantsEmpty": "Nenhum participante ainda.",
+      "recommended": "Recomendado",
       "participantsModalTitle": "Adicionar participantes",
       "directorySearchLabel": "Buscar pessoa",
       "directorySearchPlaceholder": "Buscar por nome ou e-mail…",
@@ -552,6 +553,7 @@
       "added": "Adicionado",
       "externalGuest": "Convidado externo",
       "emailInvalid": "E-mail inválido.",
+      "emailNotBemobi": "Use um e-mail @bemobi.com.",
       "reloginNeeded": "Sua permissão de Agenda do Google expirou. Saia e entre novamente.",
       "error": "Não foi possível carregar os horários. Tente novamente."
     },

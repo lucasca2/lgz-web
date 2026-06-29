@@ -3,6 +3,15 @@ import { z } from "zod";
 // E-mail normalizado (trim + lowercase) antes de validar o formato.
 const email = z.string().trim().toLowerCase().pipe(z.email());
 
+// Domínio permitido para participantes internos.
+export const BEMOBI_DOMAIN = "@bemobi.com";
+
+// E-mail de participante: precisa ser do domínio @bemobi.com (candidatos, que são
+// externos, usam o `email` cru no bookSchema).
+const bemobiEmail = email.refine((e) => e.endsWith(BEMOBI_DOMAIN), {
+  message: "must be a @bemobi.com address",
+});
+
 const emailList = z
   .string()
   .optional()
@@ -28,8 +37,8 @@ export const slotsQuerySchema = z.object({
 
 // POST /api/scheduling/links — body (recrutador).
 export const createLinkSchema = z.object({
-  included: z.array(email).min(1),
-  required: z.array(email).default([]),
+  included: z.array(bemobiEmail).min(1),
+  required: z.array(bemobiEmail).default([]),
   urgent: z.boolean().default(false),
   duration: z.number().int().min(5).max(480),
   slots: z.array(z.string().min(1)).min(1), // horários ISO ofertados
@@ -38,6 +47,8 @@ export const createLinkSchema = z.object({
   description: z.string().trim().max(2000).optional(),
   // Candidato do board (id do card) a quem o link se destina — opcional.
   candidateId: z.string().trim().min(1).max(64).optional(),
+  // Posição/cargo do candidato — usada para recomendar participantes depois.
+  position: z.string().trim().min(1).max(255).optional(),
 });
 
 // POST /api/scheduling/links/:id/book — body (candidato).

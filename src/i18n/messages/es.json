@@ -541,6 +541,7 @@
       "addPeople": "Agregar participante",
       "removeParticipant": "Quitar",
       "participantsEmpty": "Aún no hay participantes.",
+      "recommended": "Recomendado",
       "participantsModalTitle": "Agregar participantes",
       "directorySearchLabel": "Buscar persona",
       "directorySearchPlaceholder": "Buscar por nombre o correo…",
@@ -552,6 +553,7 @@
       "added": "Agregado",
       "externalGuest": "Invitado externo",
       "emailInvalid": "Correo inválido.",
+      "emailNotBemobi": "Usa un correo @bemobi.com.",
       "reloginNeeded": "Tu permiso de Google Calendar expiró. Sal y vuelve a entrar.",
       "error": "No se pudieron cargar los horarios. Inténtalo de nuevo."
     },

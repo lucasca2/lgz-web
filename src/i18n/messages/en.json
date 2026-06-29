@@ -541,6 +541,7 @@
       "addPeople": "Add participant",
       "removeParticipant": "Remove",
       "participantsEmpty": "No participants yet.",
+      "recommended": "Recommended",
       "participantsModalTitle": "Add participants",
       "directorySearchLabel": "Search a person",
       "directorySearchPlaceholder": "Search by name or email…",
@@ -552,6 +553,7 @@
       "added": "Added",
       "externalGuest": "External guest",
       "emailInvalid": "Invalid email.",
+      "emailNotBemobi": "Use a @bemobi.com email.",
       "reloginNeeded": "Your Google Calendar permission expired. Please sign out and back in.",
       "error": "Couldn't load slots. Please try again."
     },

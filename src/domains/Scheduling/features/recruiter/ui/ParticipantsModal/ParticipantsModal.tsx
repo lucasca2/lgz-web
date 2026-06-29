@@ -19,6 +19,7 @@ export type AddedPerson = {
   email: string;
   name?: string;
   picture?: string | null;
+  required?: boolean;
 };
 
 type ParticipantsModalProps = {
@@ -67,6 +68,10 @@ export function ParticipantsModal({
     const email = manualEmail.trim().toLowerCase();
     if (!EMAIL_RE.test(email)) {
       setManualError(t("emailInvalid"));
+      return;
+    }
+    if (!email.endsWith("@bemobi.com")) {
+      setManualError(t("emailNotBemobi"));
       return;
     }
     onAdd({ email });

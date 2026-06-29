@@ -35,6 +35,8 @@ export async function POST(request: Request) {
       obrigatorios: parsed.data.required,
       slots: parsed.data.slots,
       candidato_ref: parsed.data.candidateId,
+      // Normaliza a posição (minúsculas) p/ casar nas recomendações futuras.
+      posicao: parsed.data.position?.toLowerCase(),
     },
   });
 
